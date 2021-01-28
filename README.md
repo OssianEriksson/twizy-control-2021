@@ -44,10 +44,10 @@ See [documentation](doc).
 The branches in this project are:
 
 * **master** - The stable and only longrunning branch. Code should have been confiremed to work before it is merged into master.
-* **dev-<name>**, where <name> is a name of a feature to be implemented or a bug to be fixed - Create a new dev- branch when you need to change something in the code. After testing the updated code, this branch can get merged into master. The original dev- branch can then be deleted.
-* **playground-<name>**, where <name> is your username or a description - Code in a playground- branch should be completely separate from production code. Playground code should be placed in the [playground](/playground) directory. playground- branches can get merged into master and then deleted once development on the branch is finished.
+* **dev-\<name\>**, where \<name\> is a name of a feature to be implemented or a bug to be fixed - Create a new dev- branch when you need to change something in the code. After testing the updated code, this branch can get merged into master. The original dev- branch can then be deleted.
+* **playground-\<name\>**, where \<name\> is your username or a description - Code in a playground- branch should be completely separate from production code. Playground code should be placed in the [playground](/playground) directory. playground- branches can get merged into master and then deleted once development on the branch is finished.
 
-When creating a branch, name it either dev-<name> or playground-<name> according to the above:
+When creating a branch, name it either dev-\<name\> or playground-\<name\> according to the above:
 ```sh
 git checkout -b dev-my-amazing-new-feature
 ```
