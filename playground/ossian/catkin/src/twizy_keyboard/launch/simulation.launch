@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find twizy_description)/launch/simulation.launch" />
+
+    <node pkg="twizy_keyboard" name="twizy_keyboard" type="controller.py"/>
+</launch>

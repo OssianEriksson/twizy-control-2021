@@ -1,0 +1,7 @@
+<launch>
+    <include file="$(find twizy_gazebo)/launch/gazebo.launch" />
+
+    <include file="$(find twizy_description)/launch/rviz.launch" />
+
+    <node pkg="twizy_ackermann" name="twizy_ackermann_converter" type="ackermann.py"/>
+</launch>
