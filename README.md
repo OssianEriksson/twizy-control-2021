@@ -8,8 +8,8 @@ How to get a local copy of this project on your computer.
 
 ## Prerequisites
 
-* [Ubuntu](https://ubuntu.com/) - ROS 1 is targeted at the Ubuntu 20.04 (Focal) release. If your are using Windows it is recomended to dual boot Ubuntu.
-* [ROS](https://www.ros.org/) - We're currently using ROS 1 (ROS Noetic Ninjemys) which is in LTS.
+* [Ubuntu](https://ubuntu.com/) - Ubuntu 18 is the current operating system on the Twizy. If your are using Windows it is recomended to dual boot Ubuntu.
+* [ROS](https://www.ros.org/) - We're currently using ROS 1 (ROS Melodic Morenia) which is the current ROS version on the Twizy.
 
 ## Installation
 
