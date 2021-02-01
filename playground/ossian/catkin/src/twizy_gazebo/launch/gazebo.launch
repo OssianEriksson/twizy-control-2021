@@ -13,7 +13,7 @@
         <arg name="use_sim_time" value="$(arg use_sim_time)"/>
         <arg name="headless" value="$(arg headless)"/>
 
-        <arg name="world_name" default="$(find twizy_gazebo)/world/random_objects.world"/>
+        <arg name="world_name" default="$(find twizy_gazebo)/worlds/random_objects.world"/>
     </include>
 
     <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />

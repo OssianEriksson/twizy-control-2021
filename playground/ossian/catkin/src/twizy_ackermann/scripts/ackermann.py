@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import rospy
 import xml
 import math
@@ -38,20 +40,20 @@ class AckermannNode:
 def determine_vehicle_params():
     def log_params_warning(msg, params):
         rospy.logwarn(
-            f'{msg}\nUnable to determine model parameters. Using default values: {params}')
+            '{}\nUnable to determine model parameters. Using default values: {}'.format(msg, params))
 
         return params
 
     params = {'wheelbase': 1.5, 'track': 1}
 
     if not rospy.has_param('robot_description'):
-        return default_params('No robot_description parameter set', params)
+        return log_params_warning('No robot_description parameter set', params)
 
     try:
         urdf = xml.etree.ElementTree.fromstring(
             rospy.get_param('robot_description'))
     except xml.etree.ElementTree.ParseError as e:
-        return default_params(f'Unable to parse robot_description xml: {str(e)}', params)
+        return log_params_warning('Unable to parse robot_description xml: {}'.format(str(e)), params)
 
     for ackermann_tag in urdf.findall('twizy_ackermann'):
         for param_tag in ackermann_tag:
@@ -60,10 +62,10 @@ def determine_vehicle_params():
                     params[param_tag.tag] = float(param_tag.text)
                 except ValueError as e:
                     rospy.logwarn(
-                        f'Expected {param_tag.tag} to contain value of type float, ignoring.')
+                        'Expected {} to contain value of type float, ignoring.'.format(param_tag.tag))
             else:
                 rospy.logwarn(
-                    f'Unrecognized element {param_tag.tag}, ignoring')
+                    'Unrecognized element {}, ignoring'.format(param_tag.tag))
 
     return params
 

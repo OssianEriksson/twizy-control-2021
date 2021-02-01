@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import rospy
 
 from pynput import keyboard
