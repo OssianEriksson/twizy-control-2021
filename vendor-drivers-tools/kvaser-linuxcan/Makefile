@@ -74,6 +74,7 @@ DRIVERS   += leaf
 DRIVERS   += mhydra
 DRIVERS   += usbcanII
 DRIVERS   += virtualcan
+DRIVERS   += vlogcan
 # KV_NO_PCI should be set on targets that do not have PCI, such as RaspberryPi.
 ifndef KV_NO_PCI
 DRIVERS   += pcican
@@ -104,7 +105,7 @@ endef
 
 #---------------------------------------------------------------------------
 # RULES
-.PHONY: print_versions_start canlib linlib common leaf mhydra pcican pcican2 usbcanII virtualcan pciefd install uninstall clean check load
+.PHONY: print_versions_start canlib linlib common leaf mhydra pcican pcican2 usbcanII virtualcan vlogcan pciefd install uninstall clean check load
 
 all: print_versions_start $(SUBDIRS)
 	@echo
@@ -143,6 +144,9 @@ mhydra: common
 
 virtualcan: common
 	@cd ./virtualcan; $(MAKE) kv_module
+
+vlogcan: common
+	@cd ./vlogcan; $(MAKE) kv_module
 
 pciefd: common
 	@cd ./pciefd; $(MAKE) kv_module
