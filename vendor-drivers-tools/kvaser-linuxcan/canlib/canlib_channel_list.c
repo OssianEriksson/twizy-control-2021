@@ -77,13 +77,13 @@
 static const char *driver_name[] = {"lapcan", "pcican", "pcicanII",
                                     "usbcanII", "leaf", "mhydra",
                                     "pciefd",
-                                    "kvvirtualcan"}; // Virtual channels should always be last
+                                    "kvvirtualcan", "kvvlogcan"}; // Virtual channels should always be last
 
 
 static const char *off_name[] = {"LAPcan", "PCIcan", "PCIcanII",
                                  "USBcanII", "Leaf", "Minihydra",
                                  "PCIe CAN",
-                                 "VIRTUALcan"}; // Virtual channels should always be last
+                                 "VIRTUALcan", "Virtual Logging CAN"}; // Virtual channels should always be last
 
 
 int cmpfunc_ean (const void * a, const void * b) {
