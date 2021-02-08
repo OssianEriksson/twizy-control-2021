@@ -2,7 +2,7 @@
 
 # This node recives values from "mapping", calculates the angle and publishes this to the topic "controls". It is used to manually drive the car.
 import rospy
-from twizy.msg import car_control
+from twizy_parking_2020.msg import car_control
 import math
 import time
 from std_msgs.msg import Float64MultiArray

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>twizy</name>
+  <name>twizy_parking_2020</name>
   <version>0.0.0</version>
-  <description>The Twizy package</description>
+  <description>The twizy_parking_2020 package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->

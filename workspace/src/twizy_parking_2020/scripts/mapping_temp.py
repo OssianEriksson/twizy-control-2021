@@ -10,7 +10,7 @@ from std_msgs.msg import Float64
 from std_msgs.msg import String
 from std_msgs.msg import Float64MultiArray
 # from std_msgs.msg import Float32MultiArray  # Unsure if the gps_calc uses 32 or 64. Edit: NOT used
-from twizy.msg import car_control
+from twizy_parking_2020.msg import car_control
 import time
 
 global GPS_history  # Probably horrible use of global variables, but I can't be asked anymore

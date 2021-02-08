@@ -2,7 +2,7 @@
 import pure_pursuit
 import rospy
 from std_msgs.msg import Float32MultiArray
-from twizy.msg import car_control
+from twizy_parking_2020.msg import car_control
 from matplotlib import pyplot as plt
 import numpy as np
 import math

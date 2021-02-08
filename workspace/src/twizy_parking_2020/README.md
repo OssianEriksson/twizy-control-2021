@@ -10,8 +10,8 @@ throttle will need to be disconnected, otherwise it will store last value and dr
 To run with wasd
 0 Connect laptop to CAN
 1 Run roscore
-2 Run rosrun twizy control_node
-3 Run rosrun twizy testreader.py
+2 Run rosrun twizy_parking_2020 control_node
+3 Run rosrun twizy_parking_2020 testreader.py
 
 
 ### För att ladda ner denna github till egen dator ###

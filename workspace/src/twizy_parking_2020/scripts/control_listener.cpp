@@ -2,14 +2,14 @@
 
 #include "ros/ros.h"
 #include "CANComunication.h"
-#include "twizy/car_control.h"
+#include "twizy_parking_2020/car_control.h"
  
 CANComunication can;
 
 // steer is an angle between -40 and 40 where negative numbers turn the wheel to the left
 // Speed is in km/h with a span of -5 to 5 km/h. This uses the custom message car_control
 // which is made of two int32 called speed and angle. 
-void callback_send(const twizy::car_control::ConstPtr& msg)
+void callback_send(const twizy_parking_2020::car_control::ConstPtr& msg)
 {	
 	can.speed = msg->speed;
 	can.steer = msg->angle;

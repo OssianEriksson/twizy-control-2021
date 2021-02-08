@@ -3,7 +3,7 @@ import rospy
 import math
 from std_msgs.msg import String
 from std_msgs.msg import Float64MultiArray
-from twizy.msg import car_control
+from twizy_parking_2020.msg import car_control
 
 
 def callback_ultrasonicsensor(data):

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(twizy)
+project(twizy_parking_2020)
 
 ## Find catkin and any catkin packages
 find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs message_generation)
@@ -48,4 +48,9 @@ sbp
 target_link_libraries(control_node
 ${catkin_LIBRARIES}
 canlib
+)
+
+add_dependencies(control_node
+${${PROJECT_NAME}_EXPORTED_TARGETS}
+${catkin_EXPORTED_TARGETS}
 )
