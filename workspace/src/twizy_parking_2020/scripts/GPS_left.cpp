@@ -138,16 +138,21 @@ int main(int argc, char **argv)
     ros::init(argc, argv,"gps_left");
 // CHANGED ABOVE
 
-    ros::NodeHandle n;
+    ros::NodeHandle n("~");
     ros::Publisher GPS_pub = n.advertise<std_msgs::String>("GPS_left", 2);
     ros::Rate loop_rate(1000000);
-    
+
     int opt;
     int result = 0;
     sbp_state_t s;
     
-    tcp_ip_port = "55555"; 
-    tcp_ip_addr = "192.168.0.223";
+    int _tcp_ip_port, _tcp_ip_port_default = 55555;
+    n.param("ip", _tcp_ip_port, _tcp_ip_port_default);
+    tcp_ip_port = strdup(std::to_string(_tcp_ip_port).c_str());
+
+    std::string _tcp_ip_addr, _tcp_ip_addr_default("192.168.0.223");
+    n.param("addr", _tcp_ip_addr, _tcp_ip_addr_default);
+    tcp_ip_addr = strdup(_tcp_ip_addr.c_str());
 
 //    if (argc <= 2) {
 //  usage(argv[0]);
