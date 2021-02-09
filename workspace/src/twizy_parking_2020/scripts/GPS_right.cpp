@@ -145,9 +145,15 @@ int main(int argc, char **argv)
     int opt;
     int result = 0;
     sbp_state_t s;
-    
-    tcp_ip_port = "55555"; 
-    tcp_ip_addr = "192.168.0.222";
+
+    int _tcp_ip_port, _tcp_ip_port_default = 55555;
+    n.param("ip", _tcp_ip_port, _tcp_ip_port_default);
+    tcp_ip_port = strdup(std::to_string(_tcp_ip_port).c_str());
+
+    std::string _tcp_ip_addr, _tcp_ip_addr_default("192.168.0.222");
+    n.param("addr", _tcp_ip_addr, _tcp_ip_addr_default);
+    tcp_ip_addr = strdup(_tcp_ip_addr.c_str());
+
 //    std::cout << "argc <= 2" << std::endl;
 //    if (argc <= 2) {
 //    usage(argv[0]);
