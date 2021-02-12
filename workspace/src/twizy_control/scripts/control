@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import twizy_control.main
+
+if __name__ == '__main__':
+    twizy_control.main.main()
