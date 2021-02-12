@@ -147,7 +147,7 @@ int main(int argc, char **argv)
     sbp_state_t s;
     
     int _tcp_ip_port, _tcp_ip_port_default = 55555;
-    n.param("ip", _tcp_ip_port, _tcp_ip_port_default);
+    n.param("port", _tcp_ip_port, _tcp_ip_port_default);
     tcp_ip_port = strdup(std::to_string(_tcp_ip_port).c_str());
 
     std::string _tcp_ip_addr, _tcp_ip_addr_default("192.168.0.223");
