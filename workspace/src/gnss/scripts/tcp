@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
+import gnss.main
 import gnss.tcp
 
 if __name__ == '__main__':
-    gnss.tcp.main()
+    gnss.main.main(gnss.tcp.TCPSource())
