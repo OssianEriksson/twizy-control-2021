@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<robot name="twizy"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="box_inertial" params="mass xdim ydim zdim">
+        <mass value="${mass}" />
+        <inertia ixx="${mass*(ydim**2 + zdim**2)/12}" ixy="0.0" ixz="0.0" iyy="${mass*(xdim**2 + zdim**2)/12}" iyz="0.0" izz="${mass*(xdim**2 + ydim**2)/12}" />
+    </xacro:macro>
+
+    <xacro:macro name="cylinder_inertial" params="mass radius length">
+        <mass value="${mass}" />
+        <inertia ixx="${mass*(3*radius**2+length**2)/12}" ixy="0" ixz="0" iyy="${mass*(3*radius**2+length**2)/12}" iyz="0" izz="${mass*radius**2/2}" />
+    </xacro:macro>
+
+    <xacro:macro name="sphere_inertial" params="mass radius">
+        <mass value="${mass}" />
+        <inertia ixx="${2*mass*radius**2/5}" ixy="0" ixz="0" iyy="${2*mass*radius**2/5}" iyz="0" izz="${2*mass*radius**2/5}" />
+    </xacro:macro>
+</robot>

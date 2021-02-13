@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+
+<robot name="twizy"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:property name="chassis_mass" value="10" />
+    <xacro:property name="chassis_width" value="1" />
+    <xacro:property name="chassis_height" value="1.5" />
+    <xacro:property name="chassis_length" value="1.8" />
+
+    <xacro:property name="wheel_mass" value="1" />
+    <xacro:property name="wheel_diameter" value="0.5" />
+    <xacro:property name="wheel_width" value="0.15" />
+    <xacro:property name="wheelbase" value="${0.8*chassis_length}" />
+    <xacro:property name="track" value="${0.8*chassis_width}" />
+
+    <xacro:property name="front_friction_koeff" value="0.1" />
+    <xacro:property name="rear_friction_koeff" value="0.1" />
+
+    <xacro:property name="hinge_mass" value="1" />
+    <xacro:property name="hinge_diameter" value="0.0001" />
+
+    <xacro:property name="axle_mass" value="1" />
+    <xacro:property name="axle_diameter" value="0.0001" />
+
+
+    <xacro:include filename="$(find twizy_description)/urdf/inertials.xacro" />
+    <xacro:include filename="$(find twizy_description)/urdf/materials.xacro" />
+
+
+    <link name="base_link" />
+
+    <link name="chassis">
+        <visual>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height}" />
+            </geometry>
+            <material name="yellow" />
+        </visual>
+        <collision>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height}" />
+            </geometry>
+        </collision>
+        <inertial>
+            <xacro:box_inertial mass="${chassis_mass}" xdim="${chassis_length}" ydim="${chassis_width}" zdim="${chassis_height}" />
+        </inertial>
+    </link>
+
+    <gazebo reference="chassis">
+        <material>Gazebo/Yellow</material>
+    </gazebo>
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="chassis" />
+    </joint>
+
+    <link name="rear_axle">
+        <inertial>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+            <xacro:cylinder_inertial mass="${axle_mass}" radius="${axle_diameter/2}" length="${track}" />
+        </inertial>
+    </link>
+
+    <joint name="rear_axle_joint" type="continuous">
+        <parent link="chassis" />
+        <child link="rear_axle" />
+        <axis xyz="0 1 0" rpy="0 0 0" />
+        <origin xyz="${-wheelbase/2} 0 ${-chassis_height/2}" rpy="0 0 0" />
+    </joint>
+
+    <xacro:macro name="simple_transmission" params="interface prefix">
+        <transmission name="${prefix}_transmission" type="SimpleTransmission">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${prefix}_joint">
+                <hardwareInterface>hardware_interface/${interface}</hardwareInterface>
+            </joint>
+            <actuator name="${prefix}_motor">
+                <hardwareInterface>hardware_interface/${interface}</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <xacro:simple_transmission prefix="rear_axle" interface="VelocityJointInterface" />
+
+    <xacro:macro name="wheel_geometry">
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+        <geometry>
+            <cylinder length="${wheel_width}" radius="${wheel_diameter/2}"/>
+        </geometry>
+    </xacro:macro>
+
+    <xacro:macro name="wheel" params="prefix">
+        <link name="${prefix}_wheel">
+            <visual>
+                <xacro:wheel_geometry/>
+                <material name="black"/>
+            </visual>
+            <collision>
+                <xacro:wheel_geometry/>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+                <xacro:cylinder_inertial mass="${wheel_mass}" radius="${wheel_diameter/2}" length="${wheel_width}" />
+            </inertial>
+        </link>
+    </xacro:macro>
+
+    <xacro:macro name="rear_wheel" params="side mirror">
+        <xacro:wheel prefix="rear_${side}" />
+
+        <joint name="rear_${side}_wheel_joint" type="fixed">
+            <parent link="rear_axle" />
+            <child link="rear_${side}_wheel" />
+            <axis xyz="0 1 0" rpy="0 0 0" />
+            <origin xyz="0 ${track*mirror/2} 0" rpy="0 0 0" />
+        </joint>
+
+        <gazebo reference="rear_${side}_wheel">
+            <mu1 value="${rear_friction_koeff}" />
+            <mu2 value="${rear_friction_koeff}" />
+            <kp value="10000000.0" />
+            <kd value="1.0" />
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:rear_wheel side="left" mirror="1" />
+    <xacro:rear_wheel side="right" mirror="-1" />
+
+    <xacro:macro name="steering_hinge" params="side mirror">
+        <link name="${side}_steering_hinge">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <xacro:sphere_inertial mass="${hinge_mass}" radius="${hinge_diameter/2}" />
+            </inertial>
+        </link>
+
+        <joint name="${side}_steering_hinge_joint" type="continuous">
+            <parent link="chassis" />
+            <child link="${side}_steering_hinge" />
+            <axis xyz="0 0 1" rpy="0 0 0" />
+            <origin xyz="${wheelbase/2} ${track*mirror/2} ${-chassis_height/2}" rpy="0 0 0" />
+            <limit lower="${-pi/4}" upper="${pi/4}" velocity="10000" effort="10000" />
+        </joint>
+
+        <xacro:simple_transmission prefix="${side}_steering_hinge" interface="PositionJointInterface" />
+    </xacro:macro>
+
+    <xacro:steering_hinge side="left" mirror="1" />
+    <xacro:steering_hinge side="right" mirror="-1" />
+
+    <xacro:macro name="front_wheel" params="side mirror">
+        <xacro:wheel prefix="front_${side}" />
+
+        <joint name="front_${side}_wheel_joint" type="continuous">
+            <parent link="${side}_steering_hinge" />
+            <child link="front_${side}_wheel" />
+            <axis xyz="0 1 0" rpy="0 0 0" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+        </joint>
+
+        <gazebo reference="front_${side}_wheel">
+            <mu1 value="${front_friction_koeff}" />
+            <mu2 value="${front_friction_koeff}" />
+            <kp value="10000000.0" />
+            <kd value="1.0" />
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+        <xacro:simple_transmission prefix="front_${side}_wheel" interface="VelocityJointInterface" />
+    </xacro:macro>
+
+    <xacro:front_wheel side="left" mirror="1" />
+    <xacro:front_wheel side="right" mirror="-1" />
+
+    <xacro:include filename="$(find twizy_description)/urdf/realsense.xacro" />
+
+    <xacro:d435 offset_x="${chassis_length/2}" offset_y="0" offset_z="${chassis_height/2}" />
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/twizy</robotNamespace>
+        </plugin>
+    </gazebo>
+
+
+    <twizy_ackermann>
+        <wheelbase>${wheelbase}</wheelbase>
+        <track>${track}</track>
+    </twizy_ackermann>
+</robot>

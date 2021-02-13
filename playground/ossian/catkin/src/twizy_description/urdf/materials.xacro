@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<robot name="twizy"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <material name="black">
+        <color rgba="0 0 0 1" />
+    </material>
+
+    <material name="yellow">
+        <color rgba="1 1 0 1" />
+    </material>
+</robot>

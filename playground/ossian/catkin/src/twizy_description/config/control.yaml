@@ -1,0 +1,25 @@
+twizy:
+  gazebo_ros_control:
+    pid_gains:
+      rear_axle_joint: { p: 0.5, i: 0.0, d: 0.0, i_clamp: 0.0 }
+      left_steering_hinge_joint: { p: 2, i: 5, d: 2, i_clamp: 5.0 }
+      right_steering_hinge_joint: { p: 2, i: 5, d: 2, i_clamp: 5.0 }
+      
+      front_left_wheel_joint: { p: 0.0, i: 0.0, d: 0.0, i_clamp: 0.0 }
+      front_right_wheel_joint: { p: 0.0, i: 0.0, d: 0.0, i_clamp: 0.0 }
+
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 30
+
+  rear_axle_controller:
+    type: "velocity_controllers/JointVelocityController"
+    joint: rear_axle_joint
+
+  left_wheel_angle_controller:
+    type: "position_controllers/JointPositionController"
+    joint: left_steering_hinge_joint
+
+  right_wheel_angle_controller:
+    type: "position_controllers/JointPositionController"
+    joint: right_steering_hinge_joint
