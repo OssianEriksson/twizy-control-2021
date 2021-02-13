@@ -5,18 +5,14 @@ ROS-package for reading and publishing GNSS positioning data.
 # Dependicies
 
 This package requires some python packages that are not indexed by rospkg, meaning you have to install them manually.
-(There is a process to get new dependicies indexed by rosdep, see [rosdep docs](https://docs.ros.org/en/independent/api/rosdep/html/contributing_rules.html), but I cant be bothered)
+(There is a process to get new dependicies indexed by rosdep, see [rosdep docs](https://docs.ros.org/en/independent/api/rosdep/html/contributing_rules.html), but I cant be bothered.)
 
-Firstly you need to install `pip` (or `pip3` if you are using python3) with
+Firstly you need to install `pip` (or `pip3` if you are using python3: replace `pip` with `pip3` in all the following):
 ```sh
 sudo apt install python-pip
 ```
-or
-```sh
-sudo apt install python3-pip
-```
 
-Finally, install neccesary python packages (replace `pip` with `pip3` if you are using python3):
+Finally, install neccesary python packages:
 ```sh
 pip install sbp
 ```
@@ -38,9 +34,9 @@ To use the SBP protocol over a TCP socket as a GNSS data source, start the node 
 rosrun gnss tcp
 ```
 
-Accepted arguments are
-* *host* (str): Host to recieve data from, e.g. "127.0.0.1" or "www.example.com"
-* *port* (int): Port to recieve data on, e.g. 12345
+Accepted parameters are
+* *~host* (str): Host to recieve data from, e.g. "127.0.0.1" or "www.example.com"
+* *~port* (int): Port to recieve data on, e.g. 12345
 
 ### Published Topics
 

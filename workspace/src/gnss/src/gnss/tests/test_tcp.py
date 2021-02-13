@@ -29,11 +29,6 @@ SUBSCRIBER_QUEUE_SIZE = 100
 
 SYNC_LAT = 100000
 
-port = 55555
-connect_timeout = 10
-subscriber_timeout = 10
-delay = 0.1
-
 
 SimplePosition = namedtuple('SimplePosition', ['lon', 'lat'])
 
@@ -373,7 +368,7 @@ class TestTCP(unittest.TestCase):
         # and running since it has been able to respond
         if not self._wait_for_condition(subscribers_ready, connect_timeout):
             self.fail(('Nodes did not connect to server in time. Set timeout '
-                       'with the --connect-timeout option.  The current '
+                       'with the --connect-timeout option. The current '
                        'value is {}').format(connect_timeout))
 
         return subscribers
@@ -436,7 +431,7 @@ class TestTCP(unittest.TestCase):
         # Generate some random messages and send them out to the TCP clients
         t = rospy.get_time()
         for i in range(0, messages_to_send):
-            tow = round((rospy.get_time() - t) * 1000)
+            tow = int(round((rospy.get_time() - t) * 1000))
             lat = (180.0 * i) / messages_to_send - 90  # At least of lon or lat
                                                        # needs to be unique so
                                                        # we can safely filter
@@ -526,18 +521,20 @@ class TestTCP(unittest.TestCase):
 
 
 def main():
+    global port, connect_timeout, subscriber_timeout, delay
+
     parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument('--port', type=int, default=port,
+    parser.add_argument('--port', type=int, default=55555,
                         help='Port to run tests on')
     parser.add_argument('--connect-timeout', type=float,
-                        default=connect_timeout,
+                        default=10,
                         help='Time limit for nodes to connect to server '
                         'before failing tests')
     parser.add_argument('--subscriber-timeout', type=float,
-                        default=subscriber_timeout,
+                        default=10,
                         help='Time limit for subscribers to collect messages '
                         'before failing tests')
-    parser.add_argument('--delay', type=float, default=delay,
+    parser.add_argument('--delay', type=float, default=0.1,
                         help='Delay between consecutive releases of data from '
                         'simulated GNSS reciever')
     args, unknown = parser.parse_known_args()
