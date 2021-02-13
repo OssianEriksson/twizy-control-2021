@@ -423,7 +423,6 @@ class TestTCP(unittest.TestCase):
             PKG, 'tcp', name='gps_r', namespace='new'))
 
     # Unittests only runs class functions starting with test_
-
     def test_functions_same_as_2020(self):
         """
         Compare the output of new and old code given the same input
