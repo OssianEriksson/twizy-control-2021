@@ -16,20 +16,13 @@ To run a version of the simulation on your local computer you need to
    cd twizy-control-2021
    ```
 
-3. Check out a branch conatining the code you want to run (this project). 
-   As of writing (early 2021) this can be done with
-   ```sh
-   git fetch
-   git checkout playground-ossian
-   ```
-
-4. Follow setup instructions from README:s of all packages contained in the [catkin workspace](catkin) (if there is a README included).
+3. Follow setup instructions from README:s of all packages contained in the [catkin workspace](catkin) (if there is a README included).
    At the time of writing the following sections are the relevant ones:
    * [twizy_description](catkin/src/twizy_description/README.md#getting-started)
    * [twizy_keyboard](catkin/src/twizy_keyboard/README.md#getting-started).
      Note that you may have to install pip with `sudo apt install python-pip` (or `sudo apt install python3-pip` if you are using newer versions of ROS/Ubuntu, in which case commands like `pip install ...` should be replaced by `pip3 install ...`) if you haven't already.
 
-5. Re-enter the directory of the cloned git repository created in step 2 if you are not already inside it (`cd path/to/where/I/executed/git/clone/twizy-control-2021`).
+4. Re-enter the directory of the cloned git repository created in step 2 if you are not already inside it (`cd path/to/where/I/executed/git/clone/twizy-control-2021`).
    Start your ROS environement if you haven't already (the following commands are for a Linux install of ROS 1):
    ```sh
    source /opt/ros/<distro>/setup.bash
@@ -38,14 +31,14 @@ To run a version of the simulation on your local computer you need to
    Replace '\<distro\>' (including the '\<\>') with the name of your [ROS distribution](http://wiki.ros.org/Distributions) (e.g. melodic).
    Note that these commands need to be executed in the same shell (terminal) that you will run further commands from.
 
-6. Change directory to the catkin workspace containing the projects source files, build the project and prepare for launching with
+5. Change directory to the catkin workspace containing the projects source files, build the project and prepare for launching with
    ```sh
    cd playground/ossian/catkin
    catkin_make
    source devel/setup.bash
    ```
 
-7. The entire stack, including gazebo simulaiton, rviz visualisaion and keyboard control can now be started with
+6. The entire stack, including gazebo simulaiton, rviz visualisaion and keyboard control can now be started with
    ```sh
    roslaunch twizy_keyboard simulation.launch
    ```
