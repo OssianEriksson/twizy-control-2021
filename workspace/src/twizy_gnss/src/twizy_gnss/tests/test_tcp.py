@@ -15,15 +15,15 @@ import roslaunch
 import rospkg
 
 from std_msgs.msg import String
-from gnss.msg import GNSSLatLongHeight
+from twizy_gnss.msg import GNSSLatLongHeight
 
 from sbp.navigation import MsgPosLLH
 
 from collections import namedtuple
 
-PKG = 'gnss'
+PKG = 'twizy_gnss'
 NAME = 'test_tcp'
-DESCRIPTION = 'Test TCP publisher against 2020\'s gnss data publisher'
+DESCRIPTION = 'Test TCP publisher against 2020\'s GNSS data publisher'
 
 SUBSCRIBER_QUEUE_SIZE = 100
 

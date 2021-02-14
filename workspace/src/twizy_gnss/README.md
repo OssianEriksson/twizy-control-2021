@@ -1,4 +1,4 @@
-# gnss
+# twizy_gnss
 
 ROS-package for reading and publishing GNSS positioning data.
 
@@ -31,7 +31,7 @@ Depending on the native connection to your GNSS reciever, you will want to choos
 
 To use the SBP protocol over a TCP socket as a GNSS data source, start the node using
 ```
-rosrun gnss tcp
+rosrun twizy_gnss tcp
 ```
 
 Accepted parameters are
@@ -45,7 +45,7 @@ Accepted parameters are
 Positioning data from GNSS reciever.
 LLH stands for Latitude Longitude Height.
 
-* Data type: [gnss.msg.GNSSLatLongHeight](msg/GNSSLatLongHeight.msg)
+* Data type: [twizy_gnss.msg.GNSSLatLongHeight](msg/GNSSLatLongHeight.msg)
 
 ## GPS_left & GPS_right (old)
 
@@ -58,7 +58,7 @@ The nodes are made available under the names "gps_l" and "gps_r" respectively, b
 
 Start the nodes with
 ```sh
-roslaunch gnss old.launch
+roslaunch twizy_gnss old.launch
 ```
 
 Accepted arguments are

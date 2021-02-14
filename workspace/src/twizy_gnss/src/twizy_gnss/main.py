@@ -1,6 +1,6 @@
 import rospy
 
-from gnss.msg import GNSSLatLongHeight
+from twizy_gnss.msg import GNSSLatLongHeight
 
 
 def main(source):
