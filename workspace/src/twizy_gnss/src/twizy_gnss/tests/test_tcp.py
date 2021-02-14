@@ -23,7 +23,7 @@ from collections import namedtuple
 
 PKG = 'twizy_gnss'
 NAME = 'test_tcp'
-DESCRIPTION = 'Test TCP publisher against 2020\'s GNSS data publisher'
+DESCRIPTION = 'Test GNSS publisher against 2020\'s GNSS publisher'
 
 SUBSCRIBER_QUEUE_SIZE = 100
 
@@ -405,17 +405,17 @@ class TestTCP(unittest.TestCase):
             uuid, [(launch_path, args)])
         self.launch.start()
 
-        # Launch new TCP GNSS node, once for left...
+        # Launch new Piksi GNSS node, once for left...
         rospy.set_param('/new/gps_l/host', '127.0.0.1')
         rospy.set_param('/new/gps_l/port', port)
         self.launch.launch(roslaunch.core.Node(
-            PKG, 'tcp', name='gps_l', namespace='new'))
+            PKG, 'piksi', name='gps_l', namespace='new'))
 
         # ...and once for right
         rospy.set_param('/new/gps_r/host', '127.0.0.1')
         rospy.set_param('/new/gps_r/port', port)
         self.launch.launch(roslaunch.core.Node(
-            PKG, 'tcp', name='gps_r', namespace='new'))
+            PKG, 'piksi', name='gps_r', namespace='new'))
 
     # Unittests only runs class functions starting with test_
     def test_functions_same_as_2020(self):

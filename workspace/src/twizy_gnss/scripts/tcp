@@ -1,7 +1,0 @@
-#!/usr/bin/env python
-
-import twizy_gnss.main
-import twizy_gnss.tcp
-
-if __name__ == '__main__':
-    twizy_gnss.main.main(twizy_gnss.tcp.TCPSource())

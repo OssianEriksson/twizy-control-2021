@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import twizy_gnss.piksi
+
+if __name__ == '__main__':
+    twizy_gnss.piksi.main()
