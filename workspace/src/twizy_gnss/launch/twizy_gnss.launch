@@ -1,0 +1,19 @@
+<launch>
+    <arg name="port_l" default="55555" />
+    <arg name="host_l" default="192.168.0.223" />
+
+    <arg name="port_r" default="55555" />
+    <arg name="host_r" default="192.168.0.222" />
+
+    <node name="left" pkg="twizy_gnss" type="piksi" ns="gnss">
+        <param name="port" value="$(arg port_l)" />
+        <param name="addr" value="$(arg host_l)" />
+    </node>
+
+    <node name="right" pkg="twizy_gnss" type="piksi" ns="gnss">
+        <param name="port" value="$(arg port_r)" />
+        <param name="addr" value="$(arg host_r)" />
+    </node>
+
+    <node name="twizy_gnss" pkg="twizy_gnss" type="twizy_gnss" ns="gnss" />
+</launch>
