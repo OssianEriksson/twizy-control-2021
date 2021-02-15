@@ -208,6 +208,7 @@ catkin_install_python(PROGRAMS
 if(CATKIN_ENABLE_TESTING)
   find_package(catkin REQUIRED COMPONENTS rostest)
   add_rostest(tests/tcp.test)
+  add_rostest(tests/random_llh.test)
 endif()
 
 
