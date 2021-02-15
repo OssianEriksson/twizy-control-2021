@@ -114,7 +114,7 @@ class Server:
         # client socket this element would have specified an ip to connect to)
         self.socket.bind(('', port))
 
-        # Make the socket ready to accept connections. Five clients
+        # Make the socket ready to accept connections
         self.socket.listen(queue_size)
 
     def perform_io(self):
