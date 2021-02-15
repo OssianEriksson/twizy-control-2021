@@ -54,11 +54,14 @@ git checkout -b dev-my-amazing-new-feature
 
 ## Playground
 
-
+The [playground](playground) is for trying out and as the name suggest playing with code.
+Code in playground should be kept completely separate from production code.
+This directory is associated with playground-<name> branches, see [Branches](#branches).
 
 # License
 
-Distributed under the MIT License. See [LICENSE](/LICENCE) for more information.
+Distributed under the Apache 2.0 License.
+See [LICENSE](/LICENCE) for more information.
 
 # Contributors
 
