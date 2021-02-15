@@ -17,7 +17,7 @@ sudo apt install python-pip
 
 Finally, install neccesary python packages:
 ```sh
-pip install sbp
+pip install sbp utm numpy
 ```
 
 # Nodes
