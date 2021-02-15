@@ -59,4 +59,4 @@ Accepted parameters are
 
 Reference control (steering angle and speed) values for the Twizy.
 
-* Data type: [twizy_control.msg.TwizyControl](msg/TwizyControl.msg)
+* Data type: [twizy_control/TwizyControl](msg/TwizyControl.msg)
