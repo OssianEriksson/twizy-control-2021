@@ -15,7 +15,7 @@ import roslaunch
 import rospkg
 
 from std_msgs.msg import String
-from twizy_gnss.msg import GNSSLatLongHeight
+from sensor_msgs.msg import NavSatFix
 
 from sbp.navigation import MsgPosLLH
 
@@ -329,8 +329,8 @@ class TestTCP(unittest.TestCase):
             'old_l': BufferSubscriberOld('/old/gps_l/GPS_left', String),
             'old_r': BufferSubscriberOld('/old/gps_r/GPS_right', String),
 
-            'new_l': BufferSubscriberNew('/new/gps_l/gnss_llh', GNSSLatLongHeight),
-            'new_r': BufferSubscriberNew('/new/gps_r/gnss_llh', GNSSLatLongHeight),
+            'new_l': BufferSubscriberNew('/new/gps_l/navsatfix_best_fix', NavSatFix),
+            'new_r': BufferSubscriberNew('/new/gps_r/navsatfix_best_fix', NavSatFix),
         }
 
         def subscribers_ready():
@@ -406,14 +406,14 @@ class TestTCP(unittest.TestCase):
         self.launch.start()
 
         # Launch new Piksi GNSS node, once for left...
-        rospy.set_param('/new/gps_l/host', '127.0.0.1')
-        rospy.set_param('/new/gps_l/port', port)
+        rospy.set_param('/new/gps_l/tcp_addr', '127.0.0.1')
+        rospy.set_param('/new/gps_l/tcp_port', port)
         self.launch.launch(roslaunch.core.Node(
             PKG, 'piksi', name='gps_l', namespace='new'))
 
         # ...and once for right
-        rospy.set_param('/new/gps_r/host', '127.0.0.1')
-        rospy.set_param('/new/gps_r/port', port)
+        rospy.set_param('/new/gps_r/tcp_addr', '127.0.0.1')
+        rospy.set_param('/new/gps_r/tcp_port', port)
         self.launch.launch(roslaunch.core.Node(
             PKG, 'piksi', name='gps_r', namespace='new'))
 

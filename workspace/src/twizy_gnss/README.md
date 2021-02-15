@@ -1,6 +1,9 @@
 # twizy_gnss
 
 ROS-package for reading and publishing GNSS positioning data.
+This package borrows a lot code, topic anc parameter names from [ethz_piksi_ros](https://github.com/ethz-asl/ethz_piksi_ros/tree/master/piksi_multi_rtk_ros).
+We are writing our own code heare instead of just using that existing package because we are looking to upgrade to ROS 2 soon and that package isn't available for ROS 2 yet.
+However if it does become available at a later date it should not be too hard to tear out the current piksi code and replace it with that package, since e.g. topics and parameters are using the same names.
 
 # Dependicies
 
@@ -19,33 +22,30 @@ pip install sbp
 
 # Nodes
 
-## gnss
+## piksi
 
 Reads native data from a GNSS reciever and publishes it.
+Very similar to piksi node from [ethz_piksi_ros](https://github.com/ethz-asl/ethz_piksi_ros/tree/master/piksi_multi_rtk_ros) (should hopefully be a drop in replacement).
 
 ### Starting
 
-Depending on the native connection to your GNSS reciever, you will want to choose the corresponding script to start the node.
-
-#### TCP-SBP
-
 To use the SBP protocol over a TCP socket as a GNSS data source, start the node using
 ```
-rosrun twizy_gnss tcp
+rosrun twizy_gnss piksi
 ```
 
 Accepted parameters are
-* *~host* (str): Host to recieve data from, e.g. "127.0.0.1" or "www.example.com"
-* *~port* (int): Port to recieve data on, e.g. 12345
+* *~tcp_addr* (str): Host to recieve data from, e.g. "127.0.0.1" or "www.example.com"
+* *~tcp_port* (int): Port to recieve data on, e.g. 12345
 
 ### Published Topics
 
-#### ~gnss_llh
+#### ~navsatfix_best_fix
 
 Positioning data from GNSS reciever.
 LLH stands for Latitude Longitude Height.
 
-* Data type: [twizy_gnss.msg.GNSSLatLongHeight](msg/GNSSLatLongHeight.msg)
+* Data type: [sensor_msgs/NavSatFix](https://docs.ros.org/en/api/sensor_msgs/html/msg/NavSatFix.html)
 
 ## GPS_left & GPS_right (old)
 
@@ -72,4 +72,4 @@ Accepted arguments are
 Using the default namespaces and node names and namespaces, the topics will be available under /old/gps_l/GPS_left and /old/gps_r/GPS_right respectively.
 Contains positioning data from GNSS reciever.
 
-* Data type: std_msgs.msg.String (data formatted as "\<longitude\>,\<latitude\>" with both values in degrees)
+* Data type: [std_msgs/String](http://docs.ros.org/en/melodic/api/std_msgs/html/msg/String.html) (data formatted as "\<longitude\>,\<latitude\>" with both values in degrees)
