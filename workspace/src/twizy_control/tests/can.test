@@ -1,8 +1,8 @@
 <launch>
-  <node name="control" pkg="twizy_parking_2020" type="control_node" ns="old" />
-  <node name="control" pkg="twizy_control" type="control" ns="new">
-    <param name="channel" type="int" value="1" />
-  </node>
+    <node name="control" pkg="twizy_parking_2020" type="control_node" ns="old" />
+    <node name="control" pkg="twizy_control" type="control" ns="new">
+        <param name="channel" type="int" value="1" />
+    </node>
 
-  <test test-name="test_can" pkg="twizy_control" type="test_can.py" />
+    <test test-name="test_can" pkg="twizy_control" type="test_can.py" />
 </launch>
