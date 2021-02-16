@@ -28,18 +28,10 @@ See [documentation](doc).
 2. Create your [branch](#branches) (`git checkout -b dev-my-amazing-new-feature`).
 3. Make some changes.
 4. Test those changes inside the newly created branch.
-5. Merge your new branch into master:
-   ```sh
-   git pull origin master
-   git checkout master
-   git merge dev-my-amazing-new-feature
-   ```
-   Resolve merge conflics if they appear.
-6. Push your changes to Github with `git push`.
+5. Push your new branch to the remote repo (github) with `git push -u origin dev-my-amazing-new-feature`
+6. Open and merge a pull request through the [Pull requiests](https://github.com/OssianEriksson/twizy-control-2021/pulls) tab
 
 ## Branches
-
-(If you dont like these conventions, now is your time to [change them](#contributing) - before everyone starts using the original ones!)
 
 The branches in this project are:
 
