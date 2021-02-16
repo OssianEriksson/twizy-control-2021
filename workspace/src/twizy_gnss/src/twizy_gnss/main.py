@@ -49,14 +49,25 @@ def _reciever_positions_to_pose(pos, delta, origin, initial_delta, stamp=None,
     cosinus = np.dot(initial_delta, delta)
 
     # Angle of rotation
-    angle = np.arctan2(cosinus, sinus)
+    angle = np.arctan2(sinus, cosinus)
 
-    # Normalize the axis, but dont bother if the vector is close to singular,
-    # then the normalization wont really matter anyway
+    # Normalize the axis, but dont bother if the vector is close to singular.
+    # If it is close to singular that means we rotated either close to 0 or 180
+    # degreens. In these cases it doesn't matter what axis we use as long as it
+    # is ortogonal to initial_delta (or delta as initial_delta and delta will)
+    # be almost parallel
     if not np.isclose(sinus, 0):
         # The sinus value is simultaneously sin(angle) and the length of the
         # axis vector
         axis = np.divide(axis, sinus)
+    else:
+        axis = np.cross(initial_delta, [1, 0, 0])
+        length = np.sqrt(np.sum(axis**2))
+
+        if not np.isclose(sinus, 0):
+            axis = np.divide(axis, length)
+        else:
+            axis = _normalize(np.cross(initial_delta, [0, 1, 0]))
 
     # Needed for calculating quaternion from axle of rotation and angle
     s2 = np.sin(angle / 2)
