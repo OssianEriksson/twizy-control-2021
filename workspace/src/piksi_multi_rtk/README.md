@@ -5,7 +5,9 @@ This package borrows a lot code, topic anc parameter names from [ethz_piksi_ros]
 We are writing our own code heare instead of just using that existing package because we are looking to upgrade to ROS 2 soon and that package isn't available for ROS 2 yet.
 However if it does become available at a later date it should not be too hard to tear out the current piksi code and replace it with that package, since e.g. topics and parameters are using the same names.
 
-# Dependicies
+# Installation
+
+## Installation Prerequisites
 
 This package requires some python packages that are not indexed by rospkg, meaning you have to install them manually.
 (There is a process to get new dependicies indexed by rosdep, see [rosdep docs](https://docs.ros.org/en/independent/api/rosdep/html/contributing_rules.html), but I cant be bothered.)

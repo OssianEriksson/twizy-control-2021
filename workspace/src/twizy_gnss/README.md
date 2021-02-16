@@ -2,7 +2,9 @@
 
 ROS-package for interpreting and tranfsforming the Twizy's GNSS data.
 
-# Dependicies
+# Installation
+
+## Installation Prerequisites
 
 ## pip
 

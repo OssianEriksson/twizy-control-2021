@@ -4,7 +4,9 @@ ROS-package for sending car control messages to the Twizy's CAN bus.
 
 **IMPORTANT**: Read through [Tests](#tests) before running tests!
 
-# Dependicies
+# Installation
+
+## Installation Prerequisites
 
 This package requires some python packages that are not indexed by rospkg, meaning you have to install them manually.
 (There is a process to get new dependicies indexed by rosdep, see [rosdep docs](https://docs.ros.org/en/independent/api/rosdep/html/contributing_rules.html), but I cant be bothered.)
@@ -36,11 +38,27 @@ You also need to follow instructions on installing [Kvaser linux drivers and SDK
    ```
    provided you have [installed the Kvaser linux SDK](#dependicies).
 
-# Nodes
+# ROS API
 
 ## control
 
 Reads Twizy control reference values from ROS topic and publishes them to the Twizy's CAN bus.
+
+### Subscribed Topics
+
+`twizy_control` ([twizy_msgs/CarControl](../twizy_msgs/msg/CarControl.msg))
+
+&emsp;Reference control (steering angle and speed) values for the Twizy.
+
+### Parameters
+
+`~channel` (`int`, default: 0)
+
+&emsp;Kvaser CAN channel to write CAN frames to
+
+`~timeout` (`int`, default: 150)
+
+&emsp;Timeout (in ms) to wait for messages to be sent to the can bus before continuing
 
 ### Starting
 
@@ -48,15 +66,3 @@ Start the node with
 ```sh
 rosrun twizy_control control
 ```
-
-Accepted parameters are
-* *~channel* (int): Kvaser CAN channel to write CAN frames to, e.g. 0
-* *~timeout* (int): Timeout (in ms) to wait for messages to be sent to the can bus before continuing, e.g. 150
-
-### Subscribed Topics
-
-#### twizy_control
-
-Reference control (steering angle and speed) values for the Twizy.
-
-* Data type: [twizy_msgs/CarControl](../twizy_msgs/msg/CarControl.msg)
