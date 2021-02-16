@@ -57,6 +57,10 @@
   <build_depend>rostest</build_depend>
   <exec_depend>python-utm-pip</exec_depend>
   <exec_depend>python-numpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+
+  <exec_depend>piksi_multi_rtk</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
