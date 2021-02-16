@@ -409,13 +409,13 @@ class TestTCP(unittest.TestCase):
         rospy.set_param('/new/gps_l/tcp_addr', '127.0.0.1')
         rospy.set_param('/new/gps_l/tcp_port', port)
         self.launch.launch(roslaunch.core.Node(
-            PKG, 'piksi', name='gps_l', namespace='new'))
+            'piksi_multi_rtk', 'piksi', name='gps_l', namespace='new'))
 
         # ...and once for right
         rospy.set_param('/new/gps_r/tcp_addr', '127.0.0.1')
         rospy.set_param('/new/gps_r/tcp_port', port)
         self.launch.launch(roslaunch.core.Node(
-            PKG, 'piksi', name='gps_r', namespace='new'))
+            'piksi_multi_rtk', 'piksi', name='gps_r', namespace='new'))
 
     # Unittests only runs class functions starting with test_
     def test_functions_same_as_2020(self):

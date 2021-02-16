@@ -8,7 +8,7 @@ import unittest
 import rostest
 import rospy
 
-from twizy_control.msg import TwizyControl
+from twizy_msgs.msg import CarControl
 from twizy_parking_2020.msg import car_control
 
 from canlib import canlib, Frame
@@ -66,7 +66,7 @@ class TestCAN(unittest.TestCase):
         # one for messages to the current node
         self.pub_old = rospy.Publisher('/old/controls', car_control,
                                        queue_size=queue_size, latch=True)
-        self.pub_new = rospy.Publisher('/new/twizy_control', TwizyControl,
+        self.pub_new = rospy.Publisher('/new/twizy_control', CarControl,
                                        queue_size=queue_size, latch=True)
 
         # Wait for subscribers to appear on each of the published topics
@@ -152,7 +152,7 @@ class TestCAN(unittest.TestCase):
 
         # Publish requests for nodes to publish frames to CAN
         self.pub_old.publish(car_control(angle, speed))
-        self.pub_new.publish(TwizyControl(angle, speed))
+        self.pub_new.publish(CarControl(angle, speed))
 
         # Read the frames from CAN
         angle_old, speed_old = self._read_can(self.channel_old)
@@ -189,7 +189,7 @@ class TestCAN(unittest.TestCase):
         """
 
         # Publish a request for frames frame to be put on the CAN bus
-        self.pub_new.publish(TwizyControl(angle, speed))
+        self.pub_new.publish(CarControl(angle, speed))
 
         # Read the frames
         frame_angle, frame_speed = self._read_can(self.channel_new)

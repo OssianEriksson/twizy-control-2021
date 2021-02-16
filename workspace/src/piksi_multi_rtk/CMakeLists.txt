@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(twizy_gnss)
+project(piksi_multi_rtk)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -103,7 +103,7 @@ catkin_python_setup()
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES twizy_gnss
+#  LIBRARIES piksi_multi_rtk
 #  CATKIN_DEPENDS rospy message_runtime
 #  DEPENDS system_lib
 )
@@ -121,7 +121,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/twizy_gnss.cpp
+#   src/${PROJECT_NAME}/piksi_multi_rtk.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -159,7 +159,7 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/twizy_gnss
+  scripts/piksi
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -196,18 +196,12 @@ catkin_install_python(PROGRAMS
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_twizy_gnss.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_piksi_multi_rtk.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
-catkin_add_nosetests(src/twizy_gnss/tests/test_main.py)
-
-if(CATKIN_ENABLE_TESTING)
-  find_package(catkin REQUIRED COMPONENTS rostest)
-  add_rostest(tests/tcp.test)
-  add_rostest(tests/random_llh.test)
-endif()
+# catkin_add_nosetests(test)
 
 
