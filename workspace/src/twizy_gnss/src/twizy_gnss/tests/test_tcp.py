@@ -15,15 +15,15 @@ import roslaunch
 import rospkg
 
 from std_msgs.msg import String
-from gnss.msg import GNSSLatLongHeight
+from sensor_msgs.msg import NavSatFix
 
 from sbp.navigation import MsgPosLLH
 
 from collections import namedtuple
 
-PKG = 'gnss'
+PKG = 'twizy_gnss'
 NAME = 'test_tcp'
-DESCRIPTION = 'Test TCP publisher against 2020\'s gnss data publisher'
+DESCRIPTION = 'Test GNSS publisher against 2020\'s GNSS publisher'
 
 SUBSCRIBER_QUEUE_SIZE = 100
 
@@ -114,7 +114,7 @@ class Server:
         # client socket this element would have specified an ip to connect to)
         self.socket.bind(('', port))
 
-        # Make the socket ready to accept connections. Five clients
+        # Make the socket ready to accept connections
         self.socket.listen(queue_size)
 
     def perform_io(self):
@@ -329,8 +329,8 @@ class TestTCP(unittest.TestCase):
             'old_l': BufferSubscriberOld('/old/gps_l/GPS_left', String),
             'old_r': BufferSubscriberOld('/old/gps_r/GPS_right', String),
 
-            'new_l': BufferSubscriberNew('/new/gps_l/gnss_llh', GNSSLatLongHeight),
-            'new_r': BufferSubscriberNew('/new/gps_r/gnss_llh', GNSSLatLongHeight),
+            'new_l': BufferSubscriberNew('/new/gps_l/navsatfix_best_fix', NavSatFix),
+            'new_r': BufferSubscriberNew('/new/gps_r/navsatfix_best_fix', NavSatFix),
         }
 
         def subscribers_ready():
@@ -405,17 +405,17 @@ class TestTCP(unittest.TestCase):
             uuid, [(launch_path, args)])
         self.launch.start()
 
-        # Launch new TCP GNSS node, once for left...
-        rospy.set_param('/new/gps_l/host', '127.0.0.1')
-        rospy.set_param('/new/gps_l/port', port)
+        # Launch new Piksi GNSS node, once for left...
+        rospy.set_param('/new/gps_l/tcp_addr', '127.0.0.1')
+        rospy.set_param('/new/gps_l/tcp_port', port)
         self.launch.launch(roslaunch.core.Node(
-            PKG, 'tcp', name='gps_l', namespace='new'))
+            PKG, 'piksi', name='gps_l', namespace='new'))
 
         # ...and once for right
-        rospy.set_param('/new/gps_r/host', '127.0.0.1')
-        rospy.set_param('/new/gps_r/port', port)
+        rospy.set_param('/new/gps_r/tcp_addr', '127.0.0.1')
+        rospy.set_param('/new/gps_r/tcp_port', port)
         self.launch.launch(roslaunch.core.Node(
-            PKG, 'tcp', name='gps_r', namespace='new'))
+            PKG, 'piksi', name='gps_r', namespace='new'))
 
     # Unittests only runs class functions starting with test_
     def test_functions_same_as_2020(self):

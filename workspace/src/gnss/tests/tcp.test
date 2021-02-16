@@ -1,3 +1,0 @@
-<launch>
-  <test test-name="compare_to_2020" pkg="gnss" type="test_tcp.py"/>
-</launch>

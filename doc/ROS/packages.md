@@ -7,7 +7,7 @@
 
 # Python
 
-See the [gnss package](/workspace/src/gnss) for an example of how to structure a python based ROS package.
+See the [twizy_gnss package](/workspace/src/twizy_gnss) for an example of how to structure a python based ROS package.
 
 ## Suggested Reading
 
