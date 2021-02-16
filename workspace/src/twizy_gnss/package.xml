@@ -53,6 +53,7 @@
   <build_depend>rospy</build_depend>
   <build_export_depend>rospy</build_export_depend>
   <exec_depend>rospy</exec_depend>
+  <test_depend>rosunit</test_depend>
   <build_depend>rostest</build_depend>
   <exec_depend>python-sbp-pip</exec_depend> <!-- This one I just made up, it doesn't exist... (yet?) -->
   <exec_depend>python-utm-pip</exec_depend>

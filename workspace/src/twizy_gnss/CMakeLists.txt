@@ -203,7 +203,7 @@ catkin_install_python(PROGRAMS
 # endif()
 
 ## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+catkin_add_nosetests(src/twizy_gnss/tests/test_main.py)
 
 if(CATKIN_ENABLE_TESTING)
   find_package(catkin REQUIRED COMPONENTS rostest)
