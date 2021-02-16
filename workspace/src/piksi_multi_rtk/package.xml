@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>twizy_control</name>
+  <name>piksi_multi_rtk</name>
   <version>0.0.0</version>
-  <description>The twizy_control package</description>
+  <description>The piksi_multi_rtk package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/twizy_control</url> -->
+  <!-- <url type="website">http://wiki.ros.org/piksi_multi_rtk</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -37,7 +37,7 @@
   <!--   <build_depend>roscpp</build_depend> -->
   <!--   <exec_depend>roscpp</exec_depend> -->
   <!-- Use build_depend for packages you need at compile time: -->
-  <!--    <build_depend>message_generation</build_depend> -->
+  <!--   <build_depend>message_generation</build_depend> -->
   <!-- Use build_export_depend for packages you need in order to build against this package: -->
   <!--   <build_export_depend>message_generation</build_export_depend> -->
   <!-- Use buildtool_depend for build tool packages: -->
@@ -48,17 +48,13 @@
   <!--   <test_depend>gtest</test_depend> -->
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
-  
+
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>rospy</build_depend>
   <build_export_depend>rospy</build_export_depend>
   <exec_depend>rospy</exec_depend>
-  <build_depend>rostest</build_depend>
-  <exec_depend>python-canlib-pip</exec_depend>
-
-  <exec_depend>twizy_parking_2020</exec_depend>
-  <exec_depend>twizy_msgs</exec_depend>
-
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>python-sbp-pip</exec_depend> <!-- This one I just made up, it doesn't exist... (yet?) -->
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

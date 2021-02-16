@@ -2,7 +2,7 @@ import rospy
 
 from canlib import canlib, Frame
 
-from twizy_control.msg import TwizyControl
+from twizy_msgs.msg import CarControl
 
 
 def main():
@@ -35,7 +35,7 @@ def main():
         channel.writeWait_raw(id_=154, msg=speed_data, dlc=8, timeout=tout)
 
     # Subscribe to topic where reference control values will be published
-    rospy.Subscriber('twizy_control', TwizyControl, callback)
+    rospy.Subscriber('twizy_control', CarControl, callback)
 
     # Wait for shutdown
     rospy.spin()

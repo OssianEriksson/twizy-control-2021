@@ -5,12 +5,12 @@
     <arg name="port_r" default="55555" />
     <arg name="host_r" default="192.168.0.222" />
 
-    <node name="left" pkg="twizy_gnss" type="piksi" ns="gnss">
+    <node name="left" pkg="piksi_multi_rtk" type="piksi" ns="gnss">
         <param name="tcp_port" value="$(arg port_l)" />
         <param name="tcp_addr" value="$(arg host_l)" />
     </node>
 
-    <node name="right" pkg="twizy_gnss" type="piksi" ns="gnss">
+    <node name="right" pkg="piksi_multi_rtk" type="piksi" ns="gnss">
         <param name="tcp_port" value="$(arg port_r)" />
         <param name="tcp_addr" value="$(arg host_r)" />
     </node>
