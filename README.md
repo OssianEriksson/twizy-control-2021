@@ -29,7 +29,7 @@ See [documentation](doc).
 3. Make some changes.
 4. Test those changes inside the newly created branch.
 5. Push your new branch to the remote repo (github) with `git push -u origin dev-my-amazing-new-feature`
-6. Open and merge a pull request through the [Pull requiests](https://github.com/OssianEriksson/twizy-control-2021/pulls) tab
+6. Open and merge a pull request through the [Pull requests](https://github.com/OssianEriksson/twizy-control-2021/pulls) tab
 
 ## Branches
 
