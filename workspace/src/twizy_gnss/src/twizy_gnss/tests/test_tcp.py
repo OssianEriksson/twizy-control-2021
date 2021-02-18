@@ -326,8 +326,8 @@ class TestTCP(unittest.TestCase):
         """
 
         subscribers = {
-            'old_l': BufferSubscriberOld('/old/gps_l/GPS_left', String),
-            'old_r': BufferSubscriberOld('/old/gps_r/GPS_right', String),
+            'old_l': BufferSubscriberOld('/old/GPS_left', String),
+            'old_r': BufferSubscriberOld('/old/GPS_right', String),
 
             'new_l': BufferSubscriberNew('/new/gps_l/navsatfix_best_fix', NavSatFix),
             'new_r': BufferSubscriberNew('/new/gps_r/navsatfix_best_fix', NavSatFix),

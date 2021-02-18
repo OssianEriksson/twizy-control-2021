@@ -37,10 +37,9 @@ The nodes are made available under the names "gps_l" and "gps_r" respectively, b
 
 ### Published Topics
 
-`~GPS_left` & `~GPS_right` ([std_msgs/String](http://docs.ros.org/en/melodic/api/std_msgs/html/msg/String.html), data formatted as "\<longitude\>,\<latitude\>" with both values in degrees)
+`GPS_left` & `GPS_right` ([std_msgs/String](http://docs.ros.org/en/melodic/api/std_msgs/html/msg/String.html), data formatted as "\<longitude\>,\<latitude\>" with both values in degrees)
 
-&emsp;Using the default namespaces and node names and namespaces, the topics will be available under `/old/gps_l/GPS_left` and `/old/gps_r/GPS_right` respectively.
-      Contains positioning data from GNSS reciever.
+&emsp;Contains positioning data from the respective GNSS reciever.
 
 ### Parameters
 
