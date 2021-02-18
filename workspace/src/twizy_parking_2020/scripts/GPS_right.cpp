@@ -138,7 +138,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv,"gps_right");
 // CHANGED ABOVE
 
-    ros::NodeHandle n("~");
+    ros::NodeHandle n, pnh("~");
     ros::Publisher GPS_pub = n.advertise<std_msgs::String>("GPS_right", 2);
     ros::Rate loop_rate(1000000);
     std::cout << "After ros init " << std::endl;
@@ -147,11 +147,11 @@ int main(int argc, char **argv)
     sbp_state_t s;
 
     int _tcp_ip_port, _tcp_ip_port_default = 55555;
-    n.param("port", _tcp_ip_port, _tcp_ip_port_default);
+    pnh.param("port", _tcp_ip_port, _tcp_ip_port_default);
     tcp_ip_port = strdup(std::to_string(_tcp_ip_port).c_str());
 
     std::string _tcp_ip_addr, _tcp_ip_addr_default("192.168.0.222");
-    n.param("addr", _tcp_ip_addr, _tcp_ip_addr_default);
+    pnh.param("addr", _tcp_ip_addr, _tcp_ip_addr_default);
     tcp_ip_addr = strdup(_tcp_ip_addr.c_str());
 
 //    std::cout << "argc <= 2" << std::endl;
