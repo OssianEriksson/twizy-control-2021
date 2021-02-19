@@ -189,6 +189,7 @@ PROTO Twizy [
         ]
       } 
     ]
+    synchronization FALSE
     name IS name
     model "twizy"
     controller IS controller
