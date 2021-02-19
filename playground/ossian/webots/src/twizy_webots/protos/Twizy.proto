@@ -1,0 +1,202 @@
+#VRML_SIM R2021a utf8
+
+PROTO Twizy [
+  field SFVec3f    translation                    0 1 0
+  field SFRotation rotation                       0 1 0 0.0
+  field SFFloat    maxSteeringTorque              10000
+  field SFFloat    maxSteeringAngle               1
+  field SFFloat    track                          1
+  field SFFloat    wheelbase                      1.4
+  field SFFloat    wheelWidth                     0.12
+  field SFFloat    wheelRadius                    0.25
+  field SFVec3f    bodySize                       1 1.5 1.8
+  field SFString   name                           "Twizy"
+  field SFString   controller                     ""
+  field MFString   controllerArgs                 [ ]
+]
+{
+  %{
+    -- track check
+    local track = fields.track.value
+    if track <= 0.0 then
+      track = fields.track.defaultValue
+      io.stderr:write("'track' should be strictly positive.\n")
+      io.stderr:write("'track' was reset to '" .. track .. "'.\n")
+    end
+
+    -- wheelbase check
+    local wheelbase = fields.wheelbase.value
+    if wheelbase <= 0.0 then
+      wheelbase = fields.wheelbase.defaultValue
+      io.stderr:write("'wheelbase' should be strictly positive.\n")
+      io.stderr:write("'wheelbase' was reset to '" .. wheelbase .. "'.\n")
+    end
+
+    -- maxSteeringAngle check
+    local maxSteeringAngle = fields.maxSteeringAngle.value
+    if maxSteeringAngle <= 0.0 or maxSteeringAngle >= 1.5708 then
+      maxSteeringAngle = fields.maxSteeringAngle.defaultValue
+      io.stderr:write("'maxSteeringAngle' should be in the interval (0, 1.5708).\n")
+      io.stderr:write("'maxSteeringAngle' was reset to '" .. maxSteeringAngle .. "'.\n")
+    end
+
+    -- bodySize check
+    local bodySize = fields.bodySize.value
+    if bodySize['x'] <= 0 or bodySize['y'] <= 0 or bodySize['z'] <= 0 then
+      bodySize = fields.bodySize.defaultValue
+      io.stderr:write("All components of 'bodySize' should be strictly positive.\n")
+      io.stderr:write("'bodySize' was reset to '" .. bodySize .. "'.\n")
+    end
+  }%
+
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    children [
+      DEF BODY Shape {
+        appearance PBRAppearance {
+          baseColor 0.917647 0.145098 0.145098
+          roughness 1
+          metalness 0
+        }
+        geometry Box {
+          size IS bodySize
+        }
+      }
+      Transform {
+        translation %{= track/2 }% %{= -bodySize['y']/2 }% %{= wheelbase/2 }%
+        rotation 0 0 1 -1.5708
+        children [
+          DEF LEFT_STEER_HINGE2 Hinge2Joint {
+            jointParameters HingeJointParameters {
+              axis 1 0 0
+            }
+            jointParameters2 JointParameters {
+              axis 0 1 0
+            }
+            device [
+              RotationalMotor {
+                name "left_steer"
+                minPosition %{= -maxSteeringAngle}%
+                maxPosition IS maxSteeringAngle
+                maxTorque IS maxSteeringTorque
+                sound ""
+              }
+              PositionSensor {
+                name "left_steer_sensor"
+              }
+            ]
+            endPoint Solid {
+              name "left_front_wheel"
+              children [
+                DEF WHEEL Transform {
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.305882 0.898039 0.25098
+                        roughness 1
+                        metalness 0
+                      }
+                      geometry Cylinder {
+                        height IS wheelWidth
+                        radius IS wheelRadius
+                        subdivision 24
+                      }
+                    }
+                  ]
+                }
+              ]
+              boundingObject USE WHEEL
+              physics Physics {
+              }
+            }
+          }
+        ]
+      }
+      Transform {
+        translation %{= -track/2 }% %{= -bodySize['y']/2 }% %{= wheelbase/2 }%
+        rotation 0 0 1 1.5708
+        children [
+          DEF RIGHT_STEER_HINGE2 Hinge2Joint {
+            jointParameters HingeJointParameters {
+              axis -1 0 0
+            }
+            jointParameters2 JointParameters {
+              axis 0 -1 0
+            }
+            device [
+              RotationalMotor {
+                name "right_steer"
+                minPosition %{= -maxSteeringAngle}%
+                maxPosition IS maxSteeringAngle
+                maxTorque IS maxSteeringTorque
+                sound ""
+              }
+              PositionSensor {
+                name "right_steer_sensor"
+              }
+            ]
+            endPoint Solid {
+              name "right_front_wheel"
+              children [
+                USE WHEEL
+              ]
+              boundingObject USE WHEEL
+              physics Physics {
+              }
+            }
+          }
+        ]
+      }
+      Transform {
+        translation %{= track/2 }% %{= -bodySize['y']/2 }% %{= -wheelbase/2 }%
+        rotation 0 0 1 -1.5708
+        children [
+          DEF LEFT_REAR_WHEEL_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+            }
+            endPoint Solid {
+              name "left_rear_wheel"
+              children [
+                USE WHEEL
+              ]
+              boundingObject USE WHEEL
+              physics Physics {
+              }
+            }
+          }
+        ]
+      }
+      Transform {
+        translation %{= -track/2 }% %{= -bodySize['y']/2 }% %{= -wheelbase/2 }%
+        rotation 0 0 1 1.5708
+        children [
+          DEF RIGHT_REAR_WHEEL_HINGE HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 -1 0
+            }
+            endPoint Solid {
+              name "right_rear_wheel"
+              children [
+                USE WHEEL
+              ]
+              boundingObject USE WHEEL
+              physics Physics {
+              }
+            }
+          }
+        ]
+      } 
+    ]
+    name IS name
+    model "twizy"
+    controller IS controller
+    controllerArgs IS controllerArgs
+    boundingObject USE BODY
+    physics Physics {
+      density -1
+      mass 10
+    }
+  }
+}
