@@ -1,0 +1,14 @@
+<launch>
+    <!-- start Webots -->
+    <arg name="no-gui" default="false," doc="Start Webots with minimal GUI" />
+    <arg name="world" default="$(find twizy_webots)/worlds/arena.wbt" />
+    <include file="$(find webots_ros)/launch/webots.launch">
+        <arg name="mode" value="realtime" />
+        <arg name="no-gui" value="$(arg no-gui)" />
+        <arg name="world" value="$(arg world)" />
+    </include>
+
+    <env name="LD_LIBRARY_PATH" value="$(env LD_LIBRARY_PATH):$(env WEBOTS_HOME)/lib/controller" />
+    <env name="PYTHONPATH" value="$(env PYTHONPATH):$(env WEBOTS_HOME)/lib/controller/python27" />
+    <node name="twizy_webots" pkg="twizy_webots" type="webots_ros" />
+</launch>
