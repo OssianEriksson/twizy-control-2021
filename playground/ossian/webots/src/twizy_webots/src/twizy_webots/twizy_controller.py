@@ -2,6 +2,8 @@ import math
 
 import rospy
 
+from std_msgs.msg import Float64MultiArray
+from geometry_msgs.msg import Point
 from sensor_msgs import point_cloud2
 from sensor_msgs.msg import PointCloud2, PointField
 from std_msgs.msg import Header
@@ -29,10 +31,8 @@ class PointCloud2Camera:
     def create_point_cloud2(self, frame_id):
         t = math.tan(self.fov / 2)
 
-        ax = 2.0 * t / self.width
+        a = 2.0 * t / self.width
         bx = -(self.width - 1) / 2.0
-
-        ay = -2.0 * t / self.height
         by = -(self.height - 1) / 2.0
 
         depth = self.depth.getRangeImageArray()
@@ -47,8 +47,8 @@ class PointCloud2Camera:
                 if z == self.max_range:
                     continue
 
-                x = z * ax * (xi + bx)
-                y = z * ay * (yi + by)
+                x = z * a * (xi + bx)
+                y = -z * a * (yi + by)
 
                 rgb = color[xi][yi]
                 bgr = (rgb[2] << 16) + (rgb[1] << 8) + rgb[0]
@@ -83,11 +83,39 @@ class PeriodicAction:
 def main():
     rospy.init_node('twizy_webots', anonymous=True)
 
+    controls = {
+        'speed': 0,
+        'steer_left': 0,
+        'steer_right': 0,
+    }
+
+    def cb_control(msg):
+        wheel_radius = 0.25
+        wheelbase = 1.4
+        track = 1
+
+        controls['speed'] = msg.data[0] / wheel_radius
+
+        angle = min(max(-msg.data[1], -89.99), 89.99) * math.pi / 180
+
+        centerline_to_intersection = wheelbase / \
+            math.tan(angle) if abs(angle) > 1e-10 else float('inf')
+
+        controls['steer_left'] = math.atan(
+            wheelbase / (centerline_to_intersection - track / 2))
+        controls['steer_right'] = math.atan(
+            wheelbase / (centerline_to_intersection + track / 2))
+
+        
+
     rospy.loginfo('REMOVE OUTPUT="SCREEN"')
 
     clock = rospy.Publisher('/clock', Clock, queue_size=1)
-    points = rospy.Publisher(
+    pub_points = rospy.Publisher(
         '/camera/depth/color/points', PointCloud2, queue_size=1)
+    pub_point = rospy.Publisher('twizy_pose', Point, queue_size=1)
+    
+    rospy.Subscriber('/car_control', Float64MultiArray, callback=cb_control)
 
     robot = Robot()
 
@@ -103,6 +131,9 @@ def main():
     left_drive.setVelocity(0)
     right_drive.setVelocity(0)
 
+    center_gnss = robot.getDevice('center_gnss')
+    center_gnss.enable(time_step)
+
     front_depth = robot.getDevice('front_depth')
     front_aligned_color = robot.getDevice('front_aligned_depth_to_color')
     front_depth.enable(time_step)
@@ -115,12 +146,16 @@ def main():
     while robot.step(time_step) != -1 and not rospy.is_shutdown():
         clock.publish(Clock(rospy.Time(robot.getTime())))
 
-        left_steer.setPosition(0.5)
-        right_steer.setPosition(0.2)
+        left_steer.setPosition(controls['steer_left'])
+        right_steer.setPosition(controls['steer_right'])
 
-        # left_drive.setVelocity(1)
-        # right_drive.setVelocity(1)
+        left_drive.setVelocity(controls['speed'])
+        right_drive.setVelocity(controls['speed'])
+
+        p = center_gnss.getValues()
+
+        pub_point.publish(Point(p[0], p[2], p[1]))
 
         if publish_cameras.update():
-            pc2 = front_realsense.create_point_cloud2("/map")
-            points.publish(pc2)
+            pc2 = front_realsense.create_point_cloud2("/front_realsense")
+            pub_points.publish(pc2)

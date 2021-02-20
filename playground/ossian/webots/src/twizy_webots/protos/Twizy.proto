@@ -215,7 +215,15 @@ PROTO Twizy [
             height      480
           }
         ]
-      } 
+      }
+      Transform {
+        translation 0 %{= bodySize['y']/2 }% 0
+        children [
+          GPS {
+            name "center_gnss"
+          }
+        ]
+      }
     ]
     synchronization FALSE
     name IS name

@@ -1,0 +1,15 @@
+<launch>
+    <arg name="rvizconfig" default="$(find twizy_rviz)/rviz/twizy.rviz" />
+    <arg name="model" default="$(find twizy_rviz)/urdf/twizy.urdf"/>
+   
+    <param name="robot_description" textfile="$(arg model)" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+
+    <node name="twizy_state" pkg="twizy_rviz" type="state" />
+    
+    <rosparam param="source_list">[/twizy_states]</rosparam> 
+    <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /> -->
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+</launch>
