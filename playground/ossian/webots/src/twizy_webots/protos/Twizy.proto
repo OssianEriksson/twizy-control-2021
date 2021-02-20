@@ -4,6 +4,7 @@ PROTO Twizy [
   field SFVec3f    translation                    0 1 0
   field SFRotation rotation                       0 1 0 0.0
   field SFFloat    maxSteeringTorque              10000
+  field SFFloat    maxDriveTorque                 10000
   field SFFloat    maxSteeringAngle               1
   field SFFloat    track                          1
   field SFFloat    wheelbase                      1.4
@@ -11,7 +12,7 @@ PROTO Twizy [
   field SFFloat    wheelRadius                    0.25
   field SFVec3f    bodySize                       1 1.5 1.8
   field SFString   name                           "Twizy"
-  field SFString   controller                     ""
+  field SFString   controller                     "<extern>"
   field MFString   controllerArgs                 [ ]
 ]
 {
@@ -82,9 +83,6 @@ PROTO Twizy [
                 maxTorque IS maxSteeringTorque
                 sound ""
               }
-              PositionSensor {
-                name "left_steer_sensor"
-              }
             ]
             endPoint Solid {
               name "left_front_wheel"
@@ -132,9 +130,6 @@ PROTO Twizy [
                 maxTorque IS maxSteeringTorque
                 sound ""
               }
-              PositionSensor {
-                name "right_steer_sensor"
-              }
             ]
             endPoint Solid {
               name "right_front_wheel"
@@ -156,6 +151,13 @@ PROTO Twizy [
             jointParameters HingeJointParameters {
               axis 0 1 0
             }
+            device [
+              RotationalMotor {
+                name "left_drive"
+                maxTorque IS maxDriveTorque
+                sound ""
+              }
+            ]
             endPoint Solid {
               name "left_rear_wheel"
               children [
@@ -176,6 +178,13 @@ PROTO Twizy [
             jointParameters HingeJointParameters {
               axis 0 -1 0
             }
+            device [
+              RotationalMotor {
+                name "right_drive"
+                maxTorque IS maxDriveTorque
+                sound ""
+              }
+            ]
             endPoint Solid {
               name "right_rear_wheel"
               children [
@@ -185,6 +194,25 @@ PROTO Twizy [
               physics Physics {
               }
             }
+          }
+        ]
+      }
+      Transform {
+        translation 0 %{= bodySize['y']/2 }% %{= wheelbase/2 }%
+        rotation 0 1 0 3.1416
+        children [
+          RangeFinder {
+            name        "front_depth"
+            fieldOfView 1.59174
+            width       640
+            height      480
+            maxRange    10
+          }
+          Camera {
+            name        "front_aligned_depth_to_color"
+            fieldOfView 1.59174
+            width       640
+            height      480
           }
         ]
       } 

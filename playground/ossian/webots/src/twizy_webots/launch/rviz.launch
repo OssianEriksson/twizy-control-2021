@@ -1,0 +1,5 @@
+<launch>
+    <arg name="rvizconfig" default="$(find twizy_webots)/rviz/twizy.rviz" />
+   
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+</launch>
