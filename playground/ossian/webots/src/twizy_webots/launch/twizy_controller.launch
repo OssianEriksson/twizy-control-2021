@@ -3,5 +3,5 @@
 
     <env name="LD_LIBRARY_PATH" value="$(env LD_LIBRARY_PATH):$(env WEBOTS_HOME)/lib/controller" />
     <env name="PYTHONPATH" value="$(env PYTHONPATH):$(env WEBOTS_HOME)/lib/controller/python27" />
-    <node name="twizy_webots" pkg="twizy_webots" type="webots_ros" output="screen" />
+    <node name="twizy_webots" pkg="twizy_webots" type="twizy_controller" output="screen" />
 </launch>

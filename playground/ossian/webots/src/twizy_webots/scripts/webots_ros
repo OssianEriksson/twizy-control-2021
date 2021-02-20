@@ -1,6 +1,0 @@
-#!/usr/bin/env python
-
-import twizy_webots.webots_ros
-
-if __name__ == '__main__':
-    twizy_webots.webots_ros.main()

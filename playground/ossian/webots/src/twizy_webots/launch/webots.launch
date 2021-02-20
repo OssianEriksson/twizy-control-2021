@@ -8,5 +8,5 @@
         <arg name="world" value="$(arg world)" />
     </include>
 
-    <include file="$(find twizy_webots)/launch/webots_ros.launch" />
+    <include file="$(find twizy_webots)/launch/twizy_controller.launch" />
 </launch>
