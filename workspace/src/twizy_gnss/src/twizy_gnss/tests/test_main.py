@@ -13,6 +13,18 @@ NAME = 'test_main'
 
 
 def _pos_to_pose(pos, delta, origin, initial_delta):
+    """
+    Convert center position between GNSS recievers (pos) and relative position
+    between recievers (delta) to geometry_msgs/PoseWithCovarianceStamped using
+    _reciever_positions_to_pose from twizy_gnss.main
+    """
+
+    # Convert from lists to numpy arrays
+    pos = np.array(pos)
+    delta = np.array(delta)
+    origin = np.array(origin)
+    initial_delta = np.array(initial_delta)
+
     return _reciever_positions_to_pose(pos, delta, origin, initial_delta,
                                        rospy.Time(0))
 
@@ -76,14 +88,14 @@ class TestMain(unittest.TestCase):
         orientation is such that it transforms the vector [1, 0, 0] to rot
         """
 
-        p = pose.pose.position
+        p = pose.pose.pose.position
         p = [p.x, p.y, p.z]
 
         # Check if positions are equal
         self.assertTrue(all(np.isclose(p, pos)), 'Pos {} != {}'.format(p, pos))
 
         # Convert quaternion to rotation matrix
-        R = self._quaternion_to_matrix(pose.pose.orientation)
+        R = self._quaternion_to_matrix(pose.pose.pose.orientation)
         # Apply orientation transformation to the vector [1, 0, 0]
         r = np.dot(R, [1, 0, 0])
 
