@@ -65,3 +65,21 @@ Start the nodes with
 ```sh
 roslaunch twizy_gnss old.launch
 ```
+
+## twizy_gnss
+
+This node reads GNSS data from the Twizy's left and right GNSS reciever and publishes a pose for use with localization.
+The node listens for GNSS data of type [sensor_msgs/NavSatFix](https://docs.ros.org/en/api/sensor_msgs/html/msg/NavSatFix.html) on `/gnss/left/navsatfix_best_fix` and `/gnss/right/navsatfix_best_fix`.
+
+### Published Topics
+
+`gnss/pose` ([geometry_msgs/PoseWithCovarianceStamped ](http://docs.ros.org/en/melodic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html))
+
+&emsp;Twizy's pose in the `gnss_center` reference frame.
+
+### Starting
+
+Start the nodes with
+```sh
+rosrun twizy_gnss twizy_gnss
+```

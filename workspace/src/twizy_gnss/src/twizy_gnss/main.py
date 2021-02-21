@@ -4,7 +4,7 @@ import numpy as np
 import utm
 
 from sensor_msgs.msg import NavSatFix
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseWithCovarianceStamped
 
 
 def _to_enu(msg):
@@ -26,10 +26,16 @@ def _normalize(v):
 
 
 def _reciever_positions_to_pose(pos, delta, origin, initial_delta, stamp=None,
-                                frame_id='/world'):
+                                variance=[0, 0, 0], frame_id='odom'):
     """
     Convert the center and relative position of two GNSS recievers into a
-    PoseStamped message with timestamp stamp
+    PoseWithCovarianceStamped message with timestamp stamp
+
+    variance is the variance of coodrinates x, y, z in the vector delta. We
+    discard other covariance values for now, because the math is hard. On top
+    of that the other covariance values are always zero with the GNSS recievers
+    we are currently using, so right now that extra math would be completely
+    useless as well...
     """
 
     # Default timestamp to current time
@@ -73,19 +79,51 @@ def _reciever_positions_to_pose(pos, delta, origin, initial_delta, stamp=None,
     s2 = np.sin(angle / 2)
     c2 = np.cos(angle / 2)
 
-    # Create PoseStamped message
-    pose = PoseStamped()
+
+    # Most elements in the covariance matrix is zeoro since we discarded all
+    # but the diagonal GNSS covariance values
+    covariance = [0.0] * 36
+
+    # Set position covariance. We're dividing by 4 since the position is the
+    # mean of two measurements and 2^2=4, basic probability theory people...
+    covariance[0] = variance[0] / 4.0
+    covariance[7] = variance[1] / 4.0
+    covariance[14] = variance[2] / 4.0
+
+    # So this next bit is basically an educated guess at what the variances
+    # might be. There is some reasoning behind them which I can't be bothered
+    # to explain (ha), but if you don't know what you're doing I say leave the
+    # following as it is and don't worry about it. I'm estimating the chance of
+    # this working close to intended at around 50%. If you DO know what you're
+    # doing, please check these calculations, since as I said, I made most of
+    # it up... (Also you can try integrating non-diagonal covariance elements
+    # into the calculations if you are REALLY desparate for a probability
+    # theory fix)
+    cov_coeff = np.divide(np.abs(delta), np.sqrt(np.sum(delta**2)))
+    covariance[21] = variance[1] * cov_coeff[2] + variance[2] * cov_coeff[1]
+    covariance[28] = variance[2] * cov_coeff[0] + variance[0] * cov_coeff[2]
+    covariance[35] = variance[0] * cov_coeff[1] + variance[1] * cov_coeff[0]
+
+    # Create PoseWithCovarianceStamped message
+    pose = PoseWithCovarianceStamped()
     pose.header.stamp = stamp
     pose.header.frame_id = frame_id
-    pose.pose.orientation.x = axis[0] * s2
-    pose.pose.orientation.y = axis[1] * s2
-    pose.pose.orientation.z = axis[2] * s2
-    pose.pose.orientation.w = c2
-    pose.pose.position.x = pos[0]
-    pose.pose.position.y = pos[1]
-    pose.pose.position.z = pos[2]
+    pose.pose.covariance = covariance
+    pose.pose.pose.orientation.x = axis[0] * s2
+    pose.pose.pose.orientation.y = axis[1] * s2
+    pose.pose.pose.orientation.z = axis[2] * s2
+    pose.pose.pose.orientation.w = c2
+    pose.pose.pose.position.x = pos[0]
+    pose.pose.pose.position.y = pos[1]
+    pose.pose.pose.position.z = pos[2]
 
     return pose
+
+
+class GNSSData:
+    def __init__(self):
+        self.position = None
+        self.variance = None
 
 
 class _DifferentialGNSS:
@@ -93,8 +131,8 @@ class _DifferentialGNSS:
         # Initialize ROS node
         rospy.init_node('twizy_gnss')
 
-        self.positions = {'left': None, 'right': None}  # Positions of left and
-        # right GNSS reciever
+        # Initialize storage for recieved GNSS data
+        self.data = {'left': GNSSData(), 'right': GNSSData()}
 
         self.origin = None  # Origin of coordinate system
 
@@ -106,7 +144,7 @@ class _DifferentialGNSS:
 
         # Create publishers
         self.pub_pose = rospy.Publisher(
-            'twizy_pose', PoseStamped, queue_size=10)
+            'gnss/pose', PoseWithCovarianceStamped, queue_size=10)
 
         # Wait until shutdown
         rospy.spin()
@@ -116,11 +154,14 @@ class _DifferentialGNSS:
         Callback for ROS subscribers to Piksi GNSS data
         """
 
-        # Convert to ENU coordinates
-        self.positions[side] = _to_enu(msg)
+        # Store conversion to ENU coordinates
+        self.data[side].position = _to_enu(msg)
 
-        l = self.positions['left']   # Position of left GNSS reciever
-        r = self.positions['right']  # Position of right GNSS reciever
+        # Store variance (discard other covariances for now...)
+        self.data[side].variance = msg.position_covariance[::4]
+
+        l = self.data['left'].position   # Position of left GNSS reciever
+        r = self.data['right'].position  # Position of right GNSS reciever
 
         # Only continue if we have recieved messages from both GNSS antennas
         if l is None or r is None:
@@ -134,9 +175,14 @@ class _DifferentialGNSS:
             self.origin = pos
             self.initial_delta = delta
 
+        # Calculate delta variance
+        variance = np.add(self.data['left'].variance,
+                          self.data['right'].variance)
+
         # Calculate pose from position and relative position of GNSS recievers
-        pose = _reciever_positions_to_pose(
-            pos, delta, self.origin, self.initial_delta, msg.header.stamp)
+        pose = _reciever_positions_to_pose(pos, delta, self.origin,
+                                           self.initial_delta,
+                                           msg.header.stamp, variance)
 
         # Publish the pose
         self.pub_pose.publish(pose)
