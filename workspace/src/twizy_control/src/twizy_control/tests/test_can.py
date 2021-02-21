@@ -3,6 +3,7 @@
 import argparse
 import random
 import socket
+import math
 
 import unittest
 import rostest
@@ -150,9 +151,12 @@ class TestCAN(unittest.TestCase):
         Compares output of new and old code for a given angle and speed
         """
 
+        angle_rad = angle * math.pi / 180  # degrees to radians
+        speed_m_s = speed / 3.6            # km/h to m/s
+
         # Publish requests for nodes to publish frames to CAN
         self.pub_old.publish(car_control(angle, speed))
-        self.pub_new.publish(CarControl(angle, speed))
+        self.pub_new.publish(CarControl(angle_rad, speed_m_s))
 
         # Read the frames from CAN
         angle_old, speed_old = self._read_can(self.channel_old)
