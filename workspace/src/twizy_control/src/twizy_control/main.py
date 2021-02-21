@@ -1,3 +1,5 @@
+import math
+
 import rospy
 
 from canlib import canlib, Frame
@@ -24,14 +26,17 @@ def main():
         Publishes control signals to CAN bus
         """
 
+        angle = msg.angle * 180 / math.pi  # rad to degrees
+        speed = msg.speed * 3.6            # m/s to km/h
+
         # Prepare and write reference steering angle data
-        angle_data = [int(min(round(abs(msg.angle) * 255.0 / 40), 255)),
-                         0 if msg.angle < 0 else 255]
+        angle_data = [int(min(round(abs(angle) * 255.0 / 40), 255)),
+                      0 if angle < 0 else 255]
         channel.writeWait_raw(id_=150, msg=angle_data, dlc=8, timeout=tout)
 
         # Prepare and write reference speed
-        speed_data = [int(min(round(abs(msg.speed) * 255.0 / 5), 255)),
-                         0 if msg.speed > 0 else 255]
+        speed_data = [int(min(round(abs(speed) * 255.0 / 5), 255)),
+                      0 if speed > 0 else 255]
         channel.writeWait_raw(id_=154, msg=speed_data, dlc=8, timeout=tout)
 
     # Subscribe to topic where reference control values will be published
