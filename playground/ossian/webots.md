@@ -9,3 +9,8 @@
    echo export WEBOTS_HOME=/usr/local/webots >> ~/.bashrc
    source ~/.bashrc
    ```
+
+3. Istall robot_localization:
+   ```
+   apt install ros-$ROS_DISTRO-robot-localization
+   ```
