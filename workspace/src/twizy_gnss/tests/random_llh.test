@@ -2,13 +2,17 @@
     <node name="random_llh_l" pkg="twizy_gnss" type="random_llh.py" args="--port 55556" />
     <node name="random_llh_r" pkg="twizy_gnss" type="random_llh.py" args="--port 55557" />
 
-    <include file="$(find twizy_gnss)/launch/twizy_gnss.launch">
-        <arg name="host_l" value="127.0.0.1" />
-        <arg name="port_l" value="55556" />
+    <node name="left" pkg="piksi_multi_rtk" type="piksi" ns="gnss">
+        <param name="tcp_addr" value="127.0.0.1" />
+        <param name="tcp_port" value="55556" />
+    </node>
 
-        <arg name="host_r" value="127.0.0.1" />
-        <arg name="port_r" value="55557" />
-    </include>
+    <node name="right" pkg="piksi_multi_rtk" type="piksi" ns="gnss">
+        <param name="tcp_addr" value="127.0.0.1" />
+        <param name="tcp_port" value="55557" />
+    </node>
+
+    <node name="twizy_gnss" pkg="twizy_gnss" type="twizy_gnss" />
 
     <test test-name="hztest_test" name="hztest1" pkg="rostest" type="hztest">
         <param name="topic" value="/gnss/pose" />
