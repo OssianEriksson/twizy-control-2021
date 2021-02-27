@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import twizy_rviz.state
+
+if __name__ == '__main__':
+    twizy_rviz.state.main()

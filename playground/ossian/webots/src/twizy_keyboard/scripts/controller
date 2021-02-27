@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import twizy_keyboard.controller
+
+if __name__ == '__main__':
+    twizy_keyboard.controller.main()

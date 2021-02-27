@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import twizy_webots.twizy_controller
+
+if __name__ == '__main__':
+    twizy_webots.twizy_controller.main()
