@@ -1,0 +1,7 @@
+<launch>
+    <param name="/use_sim_time" type="bool" value="true" />
+
+    <env name="LD_LIBRARY_PATH" value="$(env LD_LIBRARY_PATH):$(env WEBOTS_HOME)/lib/controller" />
+    <env name="PYTHONPATH" value="$(env PYTHONPATH):$(env WEBOTS_HOME)/lib/controller/python27" />
+    <node name="twizy_webots" pkg="twizy_webots" type="twizy_controller" output="screen" />
+</launch>
