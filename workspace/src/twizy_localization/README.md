@@ -41,21 +41,21 @@ The nodes are made available under the names "gps_l" and "gps_r" respectively, b
 
 &emsp;Contains positioning data from the respective GNSS reciever.
 
-### Parameters
+### Arguments
 
-`~host_l` (`str`, default: "192.168.0.222")
+`host_l` (`str`, default: "192.168.0.222")
 
 &emsp;Host to recieve data from for left GNSS reciever
 
-`~host_l` (`str`, default: "192.168.0.223")
+`host_l` (`str`, default: "192.168.0.223")
 
 &emsp;Host to recieve data from for right GNSS reciever
 
-`~port_l` (`int`, default: 55555)
+`port_l` (`int`, default: 55555)
 
 &emsp;Port to recieve data on for left GNSS reciever
 
-`~port_r` (`int`, default: 55555)
+`port_r` (`int`, default: 55555)
 
 &emsp;Port to recieve data on for right GNSS reciever
 
