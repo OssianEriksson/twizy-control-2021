@@ -1,4 +1,4 @@
-# twizy_gnss
+# twizy_localization
 
 ROS-package for interpreting and tranfsforming the Twizy's GNSS data.
 
@@ -23,7 +23,7 @@ pip install utm numpy
 **Warning**: Untested
 
 ```sh
-rosdep install twizy_gnss
+rosdep install twizy_localization
 ```
 
 # ROS API
@@ -41,21 +41,21 @@ The nodes are made available under the names "gps_l" and "gps_r" respectively, b
 
 &emsp;Contains positioning data from the respective GNSS reciever.
 
-### Parameters
+### Arguments
 
-`~host_l` (`str`, default: "192.168.0.222")
+`host_l` (`str`, default: "192.168.0.222")
 
 &emsp;Host to recieve data from for left GNSS reciever
 
-`~host_l` (`str`, default: "192.168.0.223")
+`host_l` (`str`, default: "192.168.0.223")
 
 &emsp;Host to recieve data from for right GNSS reciever
 
-`~port_l` (`int`, default: 55555)
+`port_l` (`int`, default: 55555)
 
 &emsp;Port to recieve data on for left GNSS reciever
 
-`~port_r` (`int`, default: 55555)
+`port_r` (`int`, default: 55555)
 
 &emsp;Port to recieve data on for right GNSS reciever
 
@@ -63,17 +63,17 @@ The nodes are made available under the names "gps_l" and "gps_r" respectively, b
 
 Start the nodes with
 ```sh
-roslaunch twizy_gnss old.launch
+roslaunch twizy_localization old_gnss.launch
 ```
 
-## twizy_gnss
+## dual_gnss
 
 This node reads GNSS data from the Twizy's left and right GNSS reciever and publishes a pose for use with localization.
 The node listens for GNSS data of type [sensor_msgs/NavSatFix](https://docs.ros.org/en/api/sensor_msgs/html/msg/NavSatFix.html) on `/gnss/left/navsatfix_best_fix` and `/gnss/right/navsatfix_best_fix`.
 
 ### Published Topics
 
-`gnss/pose` ([geometry_msgs/PoseWithCovarianceStamped ](http://docs.ros.org/en/melodic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html))
+`gnss/pose` ([geometry_msgs/PoseWithCovarianceStamped](http://docs.ros.org/en/melodic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html))
 
 &emsp;Twizy's pose in the `gnss_center` reference frame.
 
@@ -81,5 +81,5 @@ The node listens for GNSS data of type [sensor_msgs/NavSatFix](https://docs.ros.
 
 Start the nodes with
 ```sh
-rosrun twizy_gnss twizy_gnss
+rosrun twizy_localization dual_gnss
 ```

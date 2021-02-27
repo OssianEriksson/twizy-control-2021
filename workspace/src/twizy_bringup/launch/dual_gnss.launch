@@ -15,5 +15,5 @@
         <param name="tcp_addr" value="$(arg host_r)" />
     </node>
 
-    <node name="twizy_gnss" pkg="twizy_gnss" type="twizy_gnss" />
+    <node name="dual_gnss" pkg="twizy_localization" type="dual_gnss" />
 </launch>
