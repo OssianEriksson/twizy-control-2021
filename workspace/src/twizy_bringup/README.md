@@ -30,5 +30,5 @@ Publishes pose data from the Twizy's dual RTK-GNSS recievers
 ### Starting
 
 ```sh
-roslaunch twizy_bringup dual_gnss
+roslaunch twizy_bringup dual_gnss.launch
 ```
