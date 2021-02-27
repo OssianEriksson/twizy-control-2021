@@ -1,0 +1,23 @@
+<launch>
+    <node name="random_llh_l" pkg="twizy_localization" type="random_llh.py" args="--port 55556" />
+    <node name="random_llh_r" pkg="twizy_localization" type="random_llh.py" args="--port 55557" />
+
+    <node name="left" pkg="piksi_multi_rtk" type="piksi" ns="gnss">
+        <param name="tcp_addr" value="127.0.0.1" />
+        <param name="tcp_port" value="55556" />
+    </node>
+
+    <node name="right" pkg="piksi_multi_rtk" type="piksi" ns="gnss">
+        <param name="tcp_addr" value="127.0.0.1" />
+        <param name="tcp_port" value="55557" />
+    </node>
+
+    <node name="twizy_localization" pkg="twizy_localization" type="dual_gnss" />
+
+    <test test-name="hztest_test" name="hztest1" pkg="rostest" type="hztest">
+        <param name="topic" value="/gnss/pose" />
+        <param name="hz" value="20.0" />
+        <param name="hzerror" value="1.0" />
+        <param name="test_duration" value="5.0" />
+    </test>
+</launch>

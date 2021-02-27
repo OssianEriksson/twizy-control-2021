@@ -129,7 +129,7 @@ class GNSSData:
 class _DifferentialGNSS:
     def __init__(self):
         # Initialize ROS node
-        rospy.init_node('twizy_gnss')
+        rospy.init_node('dual_gnss')
 
         # Initialize storage for recieved GNSS data
         self.data = {'left': GNSSData(), 'right': GNSSData()}

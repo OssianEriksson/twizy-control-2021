@@ -6,17 +6,17 @@ import numpy as np
 
 import rospy
 
-from twizy_gnss.main import _reciever_positions_to_pose
+from twizy_localization.dual_gnss import _reciever_positions_to_pose
 
-PKG = 'twizy_gnss'
-NAME = 'test_main'
+PKG = 'twizy_localization'
+NAME = 'test_dual_gnss'
 
 
 def _pos_to_pose(pos, delta, origin, initial_delta):
     """
     Convert center position between GNSS recievers (pos) and relative position
     between recievers (delta) to geometry_msgs/PoseWithCovarianceStamped using
-    _reciever_positions_to_pose from twizy_gnss.main
+    _reciever_positions_to_pose from twizy_localization.main
     """
 
     # Convert from lists to numpy arrays

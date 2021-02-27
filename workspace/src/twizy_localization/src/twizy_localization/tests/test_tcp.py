@@ -21,7 +21,7 @@ from sbp.navigation import MsgPosLLH
 
 from collections import namedtuple
 
-PKG = 'twizy_gnss'
+PKG = 'twizy_localization'
 NAME = 'test_tcp'
 DESCRIPTION = 'Test GNSS publisher against 2020\'s GNSS publisher'
 
@@ -395,7 +395,7 @@ class TestTCP(unittest.TestCase):
                                 'the catkin workspace?').format(PKG))
 
         # Launch GPS code from 2020's parallel parking
-        launch_path = os.path.join(pkg_path, 'launch', 'old.launch')
+        launch_path = os.path.join(pkg_path, 'launch', 'old_gnss.launch')
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         args = ['host_l:=127.0.0.1', 'port_l:={}'.format(port),
