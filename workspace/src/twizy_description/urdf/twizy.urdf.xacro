@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 
+<!--
+    This file is used to generate a urdf representation of the Twizy for use
+    with rviz and tf
+-->
+
 <robot name="twizy"
     xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:property name="yaml_file" value="$(find twizy_description)/config/robot_properties.yaml" />

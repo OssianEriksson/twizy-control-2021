@@ -1,26 +1,45 @@
 #!/usr/bin/env python
 
+# This file is used to generate a proto representation of the Twizy for use
+# with webots
+
 import yaml
 import re
 import rospkg
 import os
 from math import pi
 
+# Get path to twizy_description package
 rospack = rospkg.RosPack()
 package_path = rospack.get_path('twizy_description')
 
+# Get path to robot properties file
 yaml_filename = 'robot_properties.yaml'
 yaml_file = os.path.join(package_path, 'config', yaml_filename)
 
+# Parese YAML file
 with open(yaml_file, 'r') as f:
     props = yaml.safe_load(f)
 
 
 def matrix_row2str(v, *indices):
+    """
+    Returns a space separated string of elements of the dict or list v at
+    positions specified by indices
+    """
+
     return ' '.join(['{}']*len(indices)).format(*(v[i] for i in indices))
 
 
 def vec2str(v):
+    """
+    Converts a vector in the form of a dict to a string for use as e.g. a
+    SFVec3 in a proto file
+
+    v is assumed to be in the ENU coodinate system, and as webots (reader of
+    proto files) works in the NUE coordinate system by default, a conversion is
+    needed
+    """
     return matrix_row2str(v, 'y', 'z', 'x')
 
 
@@ -232,25 +251,9 @@ PROTO Twizy [
 }
 """
 
+# Evaluate all expressions between {{ and }} in the proto string. This is a
+# poor man's verion of python3's f-strings
 regex = re.compile('\{\{.*?\}\}', re.S)
 parsed = re.sub(regex, lambda m: str(eval(m.group()[2:][:-2].strip())), proto)
 
-lines = parsed.split('\n')
-formatted = ''
-tab = 0
-for line in lines:
-    line = line.strip()
-
-    if not line:
-        formatted += '\n'
-        continue
-
-    if line[0] in ['}', ']']:
-        tab -= 1
-
-    formatted += '  '*tab + line + '\n'
-
-    if line[-1] in ['{', '[']:
-        tab += 1
-
-print(formatted)
+print(parsed)

@@ -1,33 +1,40 @@
+# Properties used for generating urdf and proto models of the Twizy
+
+# All units in standard SI when possible. Radians are used for angles
+
 chassis:
-  wheelbase: 1.8
-  track: 1
-  height: 1.5
+  wheelbase: 1.8  # Distance between centers of front and back wheels
+  track: 1  # Distance between centers of left and right wheels
+  height: 1.5  # Vertical distance from center of wheels to top of roof
   mass: 10
-  center_of_mass: { x: 0, y: 0, z: 0 }
-  inertia: { xx: 1, yy: 1, zz: 1, xy: 0, xz: 0, yz: 0 }
+  center_of_mass: { x: 0, y: 0, z: 0 }  # In ground_centered frame
+  inertia: { xx: 1, yy: 1, zz: 1, xy: 0, xz: 0, yz: 0 }  # Relative to
+                                                         # ground_centered
 
 front_realsense:
-  translation: { x: 0.9, y: 0, z: 1.75 }
+  translation: { x: 0.9, y: 0, z: 1.75 } # In ground_centered frame
   rotation: { pitch: 0.2 }
 
   depth:
-    width: 640
-    height: 480
+    width: 640  # (Pixels)
+    height: 480  # (Pixels)
     fov: 1.5707963267948966
-    max_range: 10
+    max_range: 10  # Max distance camera can see
 
 gnss:
-  x: 0
-  z: 1.75
-  reciever_distance: 1
+  x: 0  # In ground_centered frame
+  z: 1.75  # In ground_centered frame
+  reciever_distance: 1  # GNSS recievers are expected to be mounted across from
+                        # each other, centered on the car. This is the shortest
+                        # and the horizontal distance between the recievers
 
 wheel:
   max_steering_angle: 0.6981317007977318
-  max_velocity: 1.3888888888888888
-  max_steering_effort: 10000
-  max_drive_effort: 10000
+  max_velocity: 1.3888888888888888  # (m/s)
+  max_steering_effort: 10000  # (Nm)
+  max_drive_effort: 10000  # (Nm)
   radius: 0.25
   width: 0.12
   mass: 1
-  center_of_mass: { x: 0, y: 0, z: 0 }
+  center_of_mass: { x: 0, y: 0, z: 0 }  # Relative to the center of the wheel
   inertia: { xx: 1, yy: 1, zz: 1, xy: 0, xz: 0, yz: 0 }
