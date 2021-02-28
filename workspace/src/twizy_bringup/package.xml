@@ -52,6 +52,7 @@
 
   <exec_depend>piksi_multi_rtk</exec_depend>
   <exec_depend>twizy_control</exec_depend>
+  <exec_depend>twizy_description</exec_depend>
   <exec_depend>twizy_localization</exec_depend>
   <exec_depend>twizy_msgs</exec_depend>
   <exec_depend>twizy_parking_2020</exec_depend>
