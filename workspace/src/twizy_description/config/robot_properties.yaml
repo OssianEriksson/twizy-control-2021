@@ -1,0 +1,33 @@
+chassis:
+  wheelbase: 1.8
+  track: 1
+  height: 1.5
+  mass: 10
+  center_of_mass: { x: 0, y: 0, z: 0 }
+  inertia: { xx: 1, yy: 1, zz: 1, xy: 0, xz: 0, yz: 0 }
+
+front_realsense:
+  translation: { x: 0.9, y: 0, z: 1.75 }
+  rotation: { pitch: 0.2 }
+
+  depth:
+    width: 640
+    height: 480
+    fov: 1.5707963267948966
+    max_range: 10
+
+gnss:
+  x: 0
+  z: 1.75
+  reciever_distance: 1
+
+wheel:
+  max_steering_angle: 0.6981317007977318
+  max_velocity: 1.3888888888888888
+  max_steering_effort: 10000
+  max_drive_effort: 10000
+  radius: 0.25
+  width: 0.12
+  mass: 1
+  center_of_mass: { x: 0, y: 0, z: 0 }
+  inertia: { xx: 1, yy: 1, zz: 1, xy: 0, xz: 0, yz: 0 }
