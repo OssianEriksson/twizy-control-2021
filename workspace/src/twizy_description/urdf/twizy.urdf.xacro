@@ -58,7 +58,10 @@
 
     <xacro:fixed_link link="ground_centered" parent="base_link" xyz="${-props['gnss']['x']} 0 ${-props['gnss']['z']}" />
 
-    <xacro:fixed_link link="${props['simulation_name']}/front_realsense_depth_camera" xyz="${vec2str(props['front_realsense']['translation'])}" rpy="${-pi/2 + props['front_realsense']['rotation']['pitch']} 0  ${-pi/2}" />
+    <xacro:fixed_link link="${props['frame_prefix']}/front_realsense_depth_camera" xyz="${vec2str(props['front_realsense']['translation'])}" rpy="${-pi/2 + props['front_realsense']['rotation']['pitch']} 0  ${-pi/2}" />
+
+    <xacro:fixed_link link="${props['frame_prefix']}/left_gnss" xyz="${props['gnss']['x']} ${props['gnss']['reciever_distance']/2.0} ${props['gnss']['z']}" />
+    <xacro:fixed_link link="${props['frame_prefix']}/right_gnss" xyz="${props['gnss']['x']} ${-props['gnss']['reciever_distance']/2.0} ${props['gnss']['z']}" />
 
     <link name="chassis">
         <visual>

@@ -58,9 +58,11 @@ PROTO Twizy [
   field MFString controllerArgs [
     "--clock"
     "--use-sim-time"
-    "--name={{props['simulation_name']}}"
-    "{{props['simulation_name']}}/front_realsense_depth_camera/range_image:=/front/camera/depth/image_rect_raw"
-    "{{props['simulation_name']}}/front_realsense_aligned_depth_to_color_camera/image:=/front/camera/aligned_depth_to_color/image_raw"
+    "--name={{props['frame_prefix']}}"
+    "{{props['frame_prefix']}}/front_realsense_depth_camera/range_image:=/front/camera/depth/image_rect_raw"
+    "{{props['frame_prefix']}}/front_realsense_aligned_depth_to_color_camera/image:=/front/camera/aligned_depth_to_color/image_raw"
+    "{{props['frame_prefix']}}/left_gnss/values:=/gnss/left/navsatfix_best_fix"
+    "{{props['frame_prefix']}}/right_gnss/values:=/gnss/right/navsatfix_best_fix"
   ]
 ]
 {

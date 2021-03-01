@@ -73,7 +73,7 @@ The node listens for GNSS data of type [sensor_msgs/NavSatFix](https://docs.ros.
 
 ### Published Topics
 
-`gnss/pose` ([geometry_msgs/PoseWithCovarianceStamped](http://docs.ros.org/en/melodic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html))
+`pose` ([geometry_msgs/PoseWithCovarianceStamped](http://docs.ros.org/en/melodic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html))
 
 &emsp;Twizy's pose in the `gnss_center` reference frame.
 

@@ -144,7 +144,7 @@ class _DifferentialGNSS:
 
         # Create publishers
         self.pub_pose = rospy.Publisher(
-            'gnss/pose', PoseWithCovarianceStamped, queue_size=10)
+            'pose', PoseWithCovarianceStamped, queue_size=10)
 
         # Wait until shutdown
         rospy.spin()

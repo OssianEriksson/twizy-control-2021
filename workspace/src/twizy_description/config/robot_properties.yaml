@@ -2,7 +2,7 @@
 
 # All units in standard SI when possible. Radians are used for angles
 
-simulation_name: twizy_simulation
+frame_prefix: twizy
 
 chassis:
   wheelbase: 1.8  # Distance between centers of front and back wheels
