@@ -2,6 +2,8 @@
 
 # All units in standard SI when possible. Radians are used for angles
 
+simulation_name: twizy_simulation
+
 chassis:
   wheelbase: 1.8  # Distance between centers of front and back wheels
   track: 1  # Distance between centers of left and right wheels
@@ -13,7 +15,7 @@ chassis:
 
 front_realsense:
   translation: { x: 0.9, y: 0, z: 1.75 } # In ground_centered frame
-  rotation: { pitch: 0.2 }
+  rotation: { pitch: -0.2 }
 
   depth:
     width: 640  # (Pixels)

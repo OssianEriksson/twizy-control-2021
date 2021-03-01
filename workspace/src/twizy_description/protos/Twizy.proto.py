@@ -52,10 +52,16 @@ proto = """#VRML_SIM R2021a utf8
 # ========================================================
 
 PROTO Twizy [
-  field SFVec3f    translation    0 0 0
-  field SFRotation rotation       0 1 0 0
-  field SFString   controller     "ros"
-  field MFString   controllerArgs "--clock --use-sim-time --name=twizy_webots"
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 1 0 0
+  field SFString   controller  "ros"
+  field MFString controllerArgs [
+    "--clock"
+    "--use-sim-time"
+    "--name={{props['simulation_name']}}"
+    "{{props['simulation_name']}}/front_realsense_depth_camera/range_image:=/front/camera/depth/image_rect_raw"
+    "{{props['simulation_name']}}/front_realsense_aligned_depth_to_color_camera/image:=/front/camera/aligned_depth_to_color/image_raw"
+  ]
 ]
 {
   Robot {
@@ -213,20 +219,25 @@ PROTO Twizy [
       }
       Transform {
         translation {{vec2str(props['front_realsense']['translation'])}}
-        rotation    1 0 0 {{props['front_realsense']['rotation']['pitch']}}
+        rotation    0 1 0 {{pi}}
         children [
-          RangeFinder {
-            name        "front_depth_camera"
-            fieldOfView {{props['front_realsense']['depth']['fov']}}
-            width       {{props['front_realsense']['depth']['width']}}
-            height      {{props['front_realsense']['depth']['height']}}
-            maxRange    {{props['front_realsense']['depth']['max_range']}}
-          }
-          Camera {
-            name        "front_aligned_depth_to_color_camera"
-            fieldOfView {{props['front_realsense']['depth']['fov']}}
-            width       {{props['front_realsense']['depth']['width']}}
-            height      {{props['front_realsense']['depth']['height']}}
+          Transform {
+            rotation 1 0 0 {{props['front_realsense']['rotation']['pitch']}}
+            children [
+              RangeFinder {
+                name        "front_realsense_depth_camera"
+                fieldOfView {{props['front_realsense']['depth']['fov']}}
+                width       {{props['front_realsense']['depth']['width']}}
+                height      {{props['front_realsense']['depth']['height']}}
+                maxRange    {{props['front_realsense']['depth']['max_range']}}
+              }
+              Camera {
+                name        "front_realsense_aligned_depth_to_color_camera"
+                fieldOfView {{props['front_realsense']['depth']['fov']}}
+                width       {{props['front_realsense']['depth']['width']}}
+                height      {{props['front_realsense']['depth']['height']}}
+              }
+            ]
           }
         ]
       }
