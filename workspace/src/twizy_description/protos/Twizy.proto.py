@@ -3,10 +3,12 @@
 # This file is used to generate a proto representation of the Twizy for use
 # with webots
 
+import rospkg
+
 import yaml
 import re
-import rospkg
 import os
+
 from math import pi
 
 # Get path to twizy_description package
@@ -14,7 +16,7 @@ rospack = rospkg.RosPack()
 package_path = rospack.get_path('twizy_description')
 
 # Get path to robot properties file
-yaml_filename = 'robot_properties.yaml'
+yaml_filename = 'twizy_properties.yaml'
 yaml_file = os.path.join(package_path, 'config', yaml_filename)
 
 # Parese YAML file
@@ -95,7 +97,7 @@ PROTO Twizy [
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 1 0
+              axis 0 -1 0
             }
             device [
               RotationalMotor {
@@ -163,7 +165,7 @@ PROTO Twizy [
         children [
           Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis 1 0 0
+              axis -1 0 0
             }
             jointParameters2 JointParameters {
               axis 0 1 0
@@ -194,7 +196,7 @@ PROTO Twizy [
         children [
           Hinge2Joint {
             jointParameters HingeJointParameters {
-              axis -1 0 0
+              axis 1 0 0
             }
             jointParameters2 JointParameters {
               axis 0 1 0

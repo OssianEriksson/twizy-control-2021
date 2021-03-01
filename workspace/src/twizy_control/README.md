@@ -23,6 +23,20 @@ pip install canlib
 
 You also need to follow instructions on installing [Kvaser linux drivers and SDK](https://www.kvaser.com/linux-drivers-and-sdk-2/).
 
+## local_keyboard
+
+To run the `local_keyboard` node you also need to install pynput:
+```sh
+pip install pynput
+```
+
+If you are using linux, you may have to give yourself access to the `/dev/input` device files for the script to be able to access your keyboard.
+On Debian and Ubuntu this can be done by adding yourself to the `input` group:
+```sh
+sudo usermod -a -G input $USER
+```
+Note that you have to log out and back in again for your addition to the group to take effect.
+
 # Tests
 
 **IMPORTANT**: Two things to note:
@@ -65,4 +79,21 @@ Reads Twizy control reference values from ROS topic and publishes them to the Tw
 Start the node with
 ```sh
 rosrun twizy_control control
+```
+
+## local_keyboard
+
+Reads key presses from the local keyboard (does not work over ssh) and publishes [twizy_msgs/CarControl](../twizy_msgs/msg/CarControl.msg) messages to drive the car.
+
+### Published Topics
+
+`twizy_control` ([twizy_msgs/CarControl](../twizy_msgs/msg/CarControl.msg))
+
+&emsp;Reference control (steering angle and speed) values for the Twizy from keyboard input.
+
+### Starting
+
+Start the node with
+```sh
+rosrun twizy_control local_keyboard
 ```

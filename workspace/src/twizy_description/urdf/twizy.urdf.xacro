@@ -7,7 +7,7 @@
 
 <robot name="twizy"
     xmlns:xacro="http://ros.org/wiki/xacro">
-    <xacro:property name="yaml_file" value="$(find twizy_description)/config/robot_properties.yaml" />
+    <xacro:property name="yaml_file" value="$(find twizy_description)/config/twizy_properties.yaml" />
     <xacro:property name="props" value="${load_yaml(yaml_file)}"/>
 
     <xacro:macro name="fixed_joint" params="parent:=ground_centered child xyz:='0 0 0' rpy:='0 0 0'">
@@ -23,7 +23,7 @@
         <xacro:fixed_joint parent="${parent}" child="${link}" xyz="${xyz}" rpy="${rpy}" />
     </xacro:macro>
 
-    <xacro:macro name="wheel" params="prefix xyz rpy parent">
+    <xacro:macro name="wheel" params="prefix xyz rpy axis parent">
         <link name="${prefix}_wheel">
             <visual>
                 <geometry>
@@ -35,20 +35,20 @@
             <origin xyz="${xyz}" rpy="${rpy}" />
             <parent link="${parent}" />
             <child link="${prefix}_wheel" />
-            <axis xyz="0 0 1" />
+            <axis xyz="${axis}" />
         </joint>
     </xacro:macro>
 
-    <xacro:macro name="steerable_wheel" params="prefix xyz steering_rpy wheel_rpy parent">
+    <xacro:macro name="steerable_wheel" params="prefix xyz steering_rpy wheel_rpy axis parent">
         <link name="${prefix}_hinge" />
         <joint name="${prefix}_hinge_joint" type="revolute">
             <origin xyz="${xyz}" rpy="${steering_rpy}" />
             <parent link="${parent}" />
             <child link="${prefix}_hinge" />
-            <axis xyz="0 0 1" />
-            <limit lower="${-props['wheel']['max_steering_angle']}" upper="${props['wheel']['max_steering_angle']}" effort="${props['wheel']['max_steering_effort']}" velocity="${props['wheel']['max_velocity']/props['wheel']['radius']}" />
+            <axis xyz="0 0 -1" />
+            <limit lower="${-props['wheel']['max_steering_angle']}" upper="${props['wheel']['max_steering_angle']}" effort="${props['wheel']['max_steering_effort']}" velocity="${props['wheel']['max_speed']/props['wheel']['radius']}" />
         </joint>
-        <xacro:wheel prefix="${prefix}" xyz="0 0 0" rpy="${wheel_rpy}" parent="${prefix}_hinge" />
+        <xacro:wheel prefix="${prefix}" xyz="0 0 0" rpy="${wheel_rpy}" axis="${axis}" parent="${prefix}_hinge" />
     </xacro:macro>
 
     <link name="base_link" />
@@ -72,9 +72,9 @@
     </link>
     <xacro:fixed_joint child="chassis" xyz="0 0 ${props['wheel']['radius'] + props['chassis']['height'] / 2}" />
 
-    <xacro:steerable_wheel prefix="front_left" xyz="${props['chassis']['wheelbase']/2.0} ${props['chassis']['track']/2.0} ${props['wheel']['radius']}" steering_rpy="0 0 0" wheel_rpy="${pi/2.0} 0 0" parent="ground_centered" />
-    <xacro:steerable_wheel prefix="front_right" xyz="${props['chassis']['wheelbase']/2.0} ${-props['chassis']['track']/2.0} ${props['wheel']['radius']}" steering_rpy="0 0 0" wheel_rpy="${-pi/2.0} 0 0" parent="ground_centered" />
-    <xacro:wheel prefix="rear_left" xyz="${-props['chassis']['wheelbase']/2.0} ${props['chassis']['track']/2.0} ${props['wheel']['radius']}" rpy="${pi/2.0} 0 0" parent="ground_centered" />
-    <xacro:wheel prefix="rear_right" xyz="${-props['chassis']['wheelbase']/2.0} ${-props['chassis']['track']/2.0} ${props['wheel']['radius']}" rpy="${-pi/2.0} 0 0" parent="ground_centered" />
+    <xacro:steerable_wheel prefix="front_left" xyz="${props['chassis']['wheelbase']/2.0} ${props['chassis']['track']/2.0} ${props['wheel']['radius']}" steering_rpy="0 0 0" wheel_rpy="${pi/2.0} 0 0" axis="0 0 -1" parent="ground_centered" />
+    <xacro:steerable_wheel prefix="front_right" xyz="${props['chassis']['wheelbase']/2.0} ${-props['chassis']['track']/2.0} ${props['wheel']['radius']}" steering_rpy="0 0 0" wheel_rpy="${-pi/2.0} 0 0" axis="0 0 1" parent="ground_centered" />
+    <xacro:wheel prefix="rear_left" xyz="${-props['chassis']['wheelbase']/2.0} ${props['chassis']['track']/2.0} ${props['wheel']['radius']}" rpy="${pi/2.0} 0 0" axis="0 0 -1" parent="ground_centered" />
+    <xacro:wheel prefix="rear_right" xyz="${-props['chassis']['wheelbase']/2.0} ${-props['chassis']['track']/2.0} ${props['wheel']['radius']}" rpy="${-pi/2.0} 0 0" axis="0 0 1" parent="ground_centered" />
 
 </robot>

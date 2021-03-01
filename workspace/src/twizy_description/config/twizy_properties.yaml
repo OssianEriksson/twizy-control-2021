@@ -32,7 +32,7 @@ gnss:
 
 wheel:
   max_steering_angle: 0.6981317007977318
-  max_velocity: 1.3888888888888888  # (m/s)
+  max_speed: 1.3888888888888888  # (m/s)
   max_steering_effort: 10000  # (Nm)
   max_drive_effort: 10000  # (Nm)
   radius: 0.25

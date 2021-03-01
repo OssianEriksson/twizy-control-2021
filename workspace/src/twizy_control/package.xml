@@ -55,6 +55,7 @@
   <exec_depend>rospy</exec_depend>
   <build_depend>rostest</build_depend>
   <exec_depend>python-canlib-pip</exec_depend>
+  <exec_depend>pynput-pip</exec_depend>
 
   <exec_depend>twizy_parking_2020</exec_depend>
   <exec_depend>twizy_msgs</exec_depend>

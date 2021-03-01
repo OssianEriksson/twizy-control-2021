@@ -138,9 +138,11 @@ class _DifferentialGNSS:
 
         # Create subscribers
         rospy.Subscriber('/gnss/left/navsatfix_best_fix', NavSatFix,
-                         callback=self.cb_piksi, callback_args='left')
+                         callback=self.cb_piksi, callback_args='left',
+                         queue_size=1)
         rospy.Subscriber('/gnss/right/navsatfix_best_fix', NavSatFix,
-                         callback=self.cb_piksi, callback_args='right')
+                         callback=self.cb_piksi, callback_args='right',
+                         queue_size=1)
 
         # Create publishers
         self.pub_pose = rospy.Publisher(
