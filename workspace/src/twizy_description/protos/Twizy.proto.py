@@ -55,7 +55,7 @@ PROTO Twizy [
   field SFVec3f    translation    0 0 0
   field SFRotation rotation       0 1 0 0
   field SFString   controller     "ros"
-  field MFString   controllerArgs "--name=twizy_webots --clock --use-sim-time"
+  field MFString   controllerArgs "--clock --use-sim-time --name=twizy_webots"
 ]
 {
   Robot {
