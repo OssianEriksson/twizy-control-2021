@@ -52,10 +52,10 @@ proto = """#VRML_SIM R2021a utf8
 # ========================================================
 
 PROTO Twizy [
-  field SFVec3f    translation       0 0 0
-  field SFRotation rotation          0 1 0 0
-  field SFString   controller        "<extern>"
-  field MFString   controllerArgs    [ ]
+  field SFVec3f    translation    0 0 0
+  field SFRotation rotation       0 1 0 0
+  field SFString   controller     "ros"
+  field MFString   controllerArgs "--name=twizy_webots --clock --use-sim-time"
 ]
 {
   Robot {
