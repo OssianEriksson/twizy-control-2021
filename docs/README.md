@@ -1,12 +1,10 @@
-# twizy-control-2021 Documentation
+# twizy-control-2021 Documentation <!-- omit in toc -->
 
 These pages contain information regarding ROS related development on the autonomous Renault Twizy at Chalmers University of Technology, Gothenburg.
 This includes documentation of software as well as hardware.
 
-# Table of Contents
+# Table of Contents <!-- omit in toc -->
 
-- [twizy-control-2021 Documentation](#twizy-control-2021-documentation)
-- [Table of Contents](#table-of-contents)
 - [Getting Started](#getting-started)
 - [Usage Instructions](#usage-instructions)
 - [Hardware](#hardware)
