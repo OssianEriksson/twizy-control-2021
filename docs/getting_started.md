@@ -85,6 +85,6 @@ git clone https://github.com/OssianEriksson/twizy-control-2021.git
 Below is a list of some directories of interest.
 You can browse the repo on [Github](https://github.com/OssianEriksson/twizy-control-2021) or on your local file system if you have first [cloned the repo](#cloning-the-repo).
 
-- Documentation can be found in [doc](/docs)
+- Documentation can be found in [docs](/docs)
 - ROS-packages can be found in the [src](/workspace/src) sub-directory of the [catkin workspace](/workspace). This includes all of the production code but also packages used for testing production code, e.g. [2020's parallel parking](/workspace/src/twizy_parking_2020). 
 - Radom, personal, poorly documented experiments for learning the tools used in projects here can be found in [playground](/playground).

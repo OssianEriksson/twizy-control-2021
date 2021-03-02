@@ -8,7 +8,7 @@ This includes documentation of software as well as hardware.
 - [Getting Started](#getting-started)
 - [Usage Instructions](#usage-instructions)
 - [Hardware](#hardware)
-- [System Details](#system-details)
+- [Starting and System Details](#starting-and-system-details)
 - [Development Guidelines and Norms](#development-guidelines-and-norms)
 
 # Getting Started
@@ -19,9 +19,11 @@ To get to know the projects and this repo you should start by looking at
 
 # Usage Instructions
 
-For information on usage you can read
+For general information on usage you can read
 
 - [Usage Instructions](usage.md) – information on how to run the various systems and subsystems
+
+For specific usage instructions please see [System Details](#system-details).
 
 # Hardware
 
@@ -29,7 +31,7 @@ For information on harware, practical instructions and similar, see
 
 - [Hardware](hardware) – practical information related to the Twizy
 
-# System Details
+# Starting and System Details
 
 Information on how the different parts of the machinery fits together – for package specific information please see the packages individual readme:s located in the corresponding child directory of [/workspace/src](/workspace/src).
 We also try to keep the source code short and densly commented, so if you are interested in package implementation details, the source code can be your friend as a last resort.

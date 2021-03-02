@@ -4,12 +4,23 @@
 
 - [Building](#building)
 - [Tests](#tests)
-  - [Run all catkin tests](#run-all-catkin-tests)
-  - [Run specific ROS test](#run-specific-ros-test)
+  - [Run All Catkin Tests](#run-all-catkin-tests)
+  - [Run Specific ROS test](#run-specific-ros-test)
+  - [Recommended Reading](#recommended-reading)
+- [Running](#running)
+  - [Running Individual ROS nodes](#running-individual-ros-nodes)
+  - [Running Project Stacks or Subsystems](#running-project-stacks-or-subsystems)
 
 # Building
 
-Run
+Before you can run any code you need to compile or build it.
+Currently the code in this repo is based on ROS 1, so the workspace is handeled by catkin.
+
+To build the code in the workspace, first change directory to the catkin workspace:
+```sh
+cd workspace
+```
+Then run
 ```sh
 catkin_make
 source devel/setup.bash
@@ -18,9 +29,13 @@ on linux or equivalent on windows.
 
 # Tests
 
-## Run all catkin tests
+Tests help avoid errors in code.
+There are both unit tests and integration tests available in this repo.
+Before merging branches to master you should make sure all tests are able to complete.
 
-To run tests of all ROS-packages which have registred tests in catkin first make sure you have [built the project](#Building) once before and sourced `setup.bash`, then use
+## Run All Catkin Tests
+
+To run tests of all ROS-packages which have registred tests in catkin first make sure you have [built the project](#building) once before and sourced `setup.bash`, then use
 ```sh
 catkin_make run_tests
 ```
@@ -30,9 +45,26 @@ To review the latest tests results, you can use
 catkin_test_results [--verbose]
 ```
 
-## Run specific ROS test
+## Run Specific ROS test
 
 To run a specific ROS test, use
 ```sh
 rostest <package_name> <test_name> [--text]
 ```
+
+## Recommended Reading
+
+- [Running unit tests with catkin](http://docs.ros.org/en/indigo/api/catkin/html/howto/format2/run_tests.html)
+- [rostest](http://wiki.ros.org/rostest)
+- [Automatic Testing with ROS](http://wiki.ros.org/Quality/Tutorials/UnitTesting)
+
+# Running
+
+## Running Individual ROS nodes
+
+To view running instructions for inidividual ROS nodes please see the package specific README:s located in [/workspace/src](/workspace/src).
+
+## Running Project Stacks or Subsystems
+
+Please refer to [Starting and System Details](README.md#starting-and-system-details).
+
