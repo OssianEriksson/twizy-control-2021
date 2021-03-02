@@ -4,8 +4,6 @@ ROS-package for interpreting and tranfsforming the Twizy's GNSS data.
 
 # Installation
 
-## Installation Prerequisites
-
 ## pip
 
 Firstly you need to install `pip` (or `pip3` if you are using python3: replace `pip` with `pip3` in all the following):

@@ -84,12 +84,27 @@ rosrun twizy_control control
 ## local_keyboard
 
 Reads key presses from the local keyboard (does not work over ssh) and publishes [twizy_msgs/CarControl](../twizy_msgs/msg/CarControl.msg) messages to drive the car.
+This node uses the arrow keys to decide what messages to publish.
 
 ### Published Topics
 
 `twizy_control` ([twizy_msgs/CarControl](../twizy_msgs/msg/CarControl.msg))
 
-&emsp;Reference control (steering angle and speed) values for the Twizy from keyboard input.
+&emsp;Reference control (steering angle and speed) values for the Twizy from keyboard input
+
+### Parameters
+
+`~max_forward_speed` (`float`, default: 1.38)
+
+&emsp;Reference forward speed to publish when up arrow is pressed (m/s)
+
+`~max_backward_speed` (`float`, default: 1.38)
+
+&emsp;Reference backward speed to publish when down arrow is pressed (m/s)
+
+`~max_steering_angle` (`float`, default: 0.52)
+
+&emsp;Reference steering angle to publish when either the left or right arrow key is pressed (radians)
 
 ### Starting
 

@@ -8,7 +8,7 @@ from twizy_msgs.msg import CarControl
 
 
 def main():
-    # Initialize ROS nodes
+    # Initialize ROS node
     rospy.init_node('control')
 
     # Read parameters from ROS parameter server

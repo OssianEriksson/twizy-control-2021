@@ -61,6 +61,12 @@ PROTO Twizy [
     "--clock"
     "--use-sim-time"
     "--name={{props['frame_prefix']}}"
+
+    # The following lines will cause errors in the webots console, but do not
+    # break anything. They are here to tell ROS to remap the default webots ROS
+    # controller topics to the corresponding "real" topic names used in
+    # production. If you know a better way to do this, please redo this
+    # slightly hacky solution
     "{{props['frame_prefix']}}/front_realsense_depth_camera/range_image:=/front/camera/depth/image_rect_raw"
     "{{props['frame_prefix']}}/front_realsense_aligned_depth_to_color_camera/image:=/front/camera/aligned_depth_to_color/image_raw"
     "{{props['frame_prefix']}}/left_gnss/values:=/gnss/left/navsatfix_best_fix"
@@ -271,4 +277,6 @@ PROTO Twizy [
 regex = re.compile('\{\{.*?\}\}', re.S)
 parsed = re.sub(regex, lambda m: str(eval(m.group()[2:][:-2].strip())), proto)
 
+# Print out the parsed proto. To use this script you are expected to e.g. pipe
+# its output to a file which webots can then load
 print(parsed)
