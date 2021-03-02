@@ -158,8 +158,8 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/publish_camera_info
-  scripts/controller
+  nodes/publish_camera_info
+  nodes/controller
   scripts/proto
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
