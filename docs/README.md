@@ -1,6 +1,7 @@
 # twizy-control-2021 Documentation
 
-Documentation of the code and structure of this repo as well as of Chalmer's customized Renault Twizy.
+These pages contain information regarding ROS related development on the autonomous Renault Twizy at Chalmers University of Technology, Gothenburg.
+This includes documentation of software as well as hardware.
 
 # Table of Contents
 
