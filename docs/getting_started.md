@@ -70,7 +70,7 @@ Follow the instructions on [using ssh keys with Github](https://docs.github.com/
 
 Finally you can clone the repo:
 ```sh
-git clone https://github.com/OssianEriksson/twizy-control-2021.git
+git clone git@github.com:OssianEriksson/twizy-control-2021.git
 ```
 
 ### Using HTTPS

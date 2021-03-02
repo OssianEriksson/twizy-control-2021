@@ -23,7 +23,7 @@ For general information on usage you can read
 
 - [Usage Instructions](usage.md) – information on how to run the various systems and subsystems
 
-For specific usage instructions please see [System Details](#system-details).
+For specific usage instructions please see [Starting and System Details](#starting-and-system-details).
 
 # Hardware
 
