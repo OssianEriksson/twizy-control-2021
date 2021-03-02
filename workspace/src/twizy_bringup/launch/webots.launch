@@ -8,7 +8,7 @@
         Tell ROS to use time from simulation (published by webots ROS
         controller on /clock topic) instead of real time. This also requires
         setting the ‒‒clock and ‒‒use‒sim‒time parameters on the ROS controller
-        which is handeled in the Twizy proto. Som make sure the webots world
+        which is handeled in the Twizy proto. So make sure the webots world
         contains a proto with a ROS controller with those arguments, otherwise
         who knows what will happen? (rospy.get_time() will probably always
         return 0 or give some error I'm guessing)
