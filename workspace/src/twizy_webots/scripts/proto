@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if [ "$1" == "-h" ]; then
+    echo "This script expands and moves proto files from twizy_description's"
+    echo "protos directory to twizy_webots's protos directory. By giving no"
+    echo "arguments to the script, all files are expanded and moved. To only"
+    echo "move specific files, give the file names (witout path) as arguments"
+    echo "to this script."
+    echo ""
+    echo "Warning: This script does not support filenames containing spaces."
+    echo ""
+    echo "Expand and move all proto files from twizy_description:"
+    echo ""
+    echo -e "\trosrun twizy_webots proto"
+    echo ""
+    echo "Expand and move only the Twizy.proto.py file from twizy_description:"
+    echo ""
+    echo -e "\trosrun twizy_webots proto Twizy.proto.py"
+    echo ""
+    exit 0
+fi
+
+src="$(rospack find twizy_description)/protos"
+dst="$(rospack find twizy_webots)/protos"
+
+protos="$@"
+
+if [ "$#" -eq "0" ]; then
+    protos=$(ls "$src")
+fi
+
+for proto in $protos; do
+    "${src}/${proto}" > "${dst}/${proto%%\.proto.*}.proto"
+done

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="model" default="$(find twizy_description)/urdf/twizy.urdf.xacro"/>
+    <arg name="rvizconfig" default="$(find twizy_description)/rviz/twizy.rviz" />
+   
+    <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+</launch>

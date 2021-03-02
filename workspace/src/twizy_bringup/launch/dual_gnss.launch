@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
     <arg name="port_l" default="55555" />
     <arg name="host_l" default="192.168.0.223" />
@@ -15,5 +16,5 @@
         <param name="tcp_addr" value="$(arg host_r)" />
     </node>
 
-    <node name="dual_gnss" pkg="twizy_localization" type="dual_gnss" />
+    <node name="dual_gnss" pkg="twizy_localization" type="dual_gnss" ns="gnss" />
 </launch>

@@ -8,7 +8,7 @@ from twizy_msgs.msg import CarControl
 
 
 def main():
-    # Initialize ROS nodes
+    # Initialize ROS node
     rospy.init_node('control')
 
     # Read parameters from ROS parameter server
@@ -40,7 +40,7 @@ def main():
         channel.writeWait_raw(id_=154, msg=speed_data, dlc=8, timeout=tout)
 
     # Subscribe to topic where reference control values will be published
-    rospy.Subscriber('twizy_control', CarControl, callback)
+    rospy.Subscriber('twizy_control', CarControl, callback, queue_size=1)
 
     # Wait for shutdown
     rospy.spin()

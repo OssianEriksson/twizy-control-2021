@@ -25,8 +25,6 @@ PKG = 'twizy_localization'
 NAME = 'test_tcp'
 DESCRIPTION = 'Test GNSS publisher against 2020\'s GNSS publisher'
 
-SUBSCRIBER_QUEUE_SIZE = 100
-
 SYNC_LAT = 100000
 
 
@@ -202,7 +200,7 @@ class BufferSubscriber:
                 callback(msg)
 
         self.subscriber = rospy.Subscriber(topic, type, callback=cb,
-                                           queue_size=SUBSCRIBER_QUEUE_SIZE)
+                                           queue_size=10)
 
     def _record_message(self, msg):
         """

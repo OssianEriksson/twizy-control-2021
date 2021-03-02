@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import twizy_control.main
+import twizy_control.control
 
 if __name__ == '__main__':
-    twizy_control.main.main()
+    twizy_control.control.main()

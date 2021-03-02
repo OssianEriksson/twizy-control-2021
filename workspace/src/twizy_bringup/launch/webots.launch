@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="world" default="$(find twizy_webots)/worlds/flat.wbt" doc="Path to the world to load" />
+    <arg name="mode" default="realtime" doc="Startup mode" />
+    <arg name="no-gui" default="false" doc="Start Webots with minimal GUI" />
+
+    <!--
+        Tell ROS to use time from simulation (published by webots ROS
+        controller on /clock topic) instead of real time. This also requires
+        setting the ‒‒clock and ‒‒use‒sim‒time parameters on the ROS controller
+        which is handeled in the Twizy proto. Som make sure the webots world
+        contains a proto with a ROS controller with those arguments, otherwise
+        who knows what will happen? (rospy.get_time() will probably always
+        return 0 or give some error I'm guessing)
+    -->
+    <param name="/use_sim_time" type="bool" value="true" />
+
+    <!--
+        Note the launch-prefix attribute which expands and copies protos from
+        twizy_description to twizy_webots so webots can access the protos
+    -->
+    <node name="twizy_webots" pkg="webots_ros" type="webots_launcher.py" args="--world=$(arg world) --mode=$(arg mode) --no-gui=$(arg no-gui)" launch-prefix="bash -c '$(find twizy_webots)/scripts/proto; $0 $@' " required="true" />
+
+    <node name="webots_controller" pkg="twizy_webots" type="controller" />
+
+    <node name="publish_camera_info" pkg="twizy_webots" type="publish_camera_info">
+        <param name="image_topic" value="/front/camera/depth/image_rect_raw" />
+        <param name="fov" type="double" value="1.5707963267948966" />
+    </node>
+</launch>

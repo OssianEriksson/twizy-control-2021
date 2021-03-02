@@ -4,8 +4,6 @@ ROS-package for interpreting and tranfsforming the Twizy's GNSS data.
 
 # Installation
 
-## Installation Prerequisites
-
 ## pip
 
 Firstly you need to install `pip` (or `pip3` if you are using python3: replace `pip` with `pip3` in all the following):
@@ -73,7 +71,7 @@ The node listens for GNSS data of type [sensor_msgs/NavSatFix](https://docs.ros.
 
 ### Published Topics
 
-`gnss/pose` ([geometry_msgs/PoseWithCovarianceStamped](http://docs.ros.org/en/melodic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html))
+`pose` ([geometry_msgs/PoseWithCovarianceStamped](http://docs.ros.org/en/melodic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html))
 
 &emsp;Twizy's pose in the `gnss_center` reference frame.
 
