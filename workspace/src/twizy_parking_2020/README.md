@@ -1,3 +1,8 @@
+# NOTE:
+
+**This package is a clone of [CapstenUnder/twizy](https://github.com/CapstenUnder/twizy/) included in the workspace for testing purposes. This package should not be used in production. It contains code from a 2020 Bachelor's thesis project on the Twizy, before the entire codebase was restructured in 2021.**
+
+
 # TwizyProject
 #### Github repository for bachelor thesis
 
