@@ -14,6 +14,8 @@ This page is intended to help you get an overview of what is contained in this r
     - [Using SSH](#using-ssh)
     - [Using HTTPS](#using-https)
 - [Taking a Look Around the Repo](#taking-a-look-around-the-repo)
+  - [Special Directories](#special-directories)
+  - [Noteworthy ROS Packages](#noteworthy-ros-packages)
 
 # About
 
@@ -58,6 +60,7 @@ The first thing you should do to run some code or make some edits is to copy all
 If you havn't noticed, this repository uses [git](https://git-scm.com/).
 If you don't know what git is, I suggest you to read up on it before going further.
 You can still explore the repo here on github without knowing what git is, but even in order to run code, not even editing it, some tiny knowledge of git is neccessary.
+There are tons of git cheat sheets availabele online for when you have grasped the basic function of git and are ready to start using it.
 
 ## Cloning the Repo
 
@@ -82,9 +85,24 @@ git clone https://github.com/OssianEriksson/twizy-control-2021.git
 
 # Taking a Look Around the Repo
 
+## Special Directories
+
 Below is a list of some directories of interest.
 You can browse the repo on [Github](https://github.com/OssianEriksson/twizy-control-2021) or on your local file system if you have first [cloned the repo](#cloning-the-repo).
 
 - Documentation can be found in [docs](/docs)
 - ROS-packages can be found in the [src](/workspace/src) sub-directory of the [catkin workspace](/workspace). This includes all of the production code but also packages used for testing production code, e.g. [2020's parallel parking](/workspace/src/twizy_parking_2020). 
 - Radom, personal, poorly documented experiments for learning the tools used in projects here can be found in [playground](/playground).
+
+## Noteworthy ROS Packages
+
+There are norms in ROS for some common packages which have conterparts in many different ROS projects.
+Examples of such packages included in this repo are:
+
+- All ROS launch files of importance to the end user are placed in the [twizy_bringup](/workspace/src/twizy_bringup) package.
+  This is important when creating your own launch files or if you want to browse available ones.
+  If the launch files have related documentation, it can probably be found in either [subsytems](subsystems) or [projects](projects).
+- All ROS message files are located in the [twizy_msgs](/workspace/src/twizy_msgs) package.
+  This is so that other packages in the workspace can depend on this package to use the custom message files defined here.
+- Config files and descriptions of the twizy, its components and properties, are located in [twizy_description](/workspace/src/twizy_description).
+  Files here are used for example in real time simulation of the twizy (although the simulation itself is described in other packages).

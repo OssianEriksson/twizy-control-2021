@@ -68,3 +68,5 @@ To view running instructions for inidividual ROS nodes please see the package sp
 
 Please refer to [Starting and System Details](README.md#starting-and-system-details).
 
+All launch files which are relevant to the end user are stored in the [twizy_bringup](/workspace/src/twizy_bringup) package.
+
