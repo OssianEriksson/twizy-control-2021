@@ -23,7 +23,9 @@ So two two three things to keep in mind:
   - [Recommended Reading](#recommended-reading)
 - [Writing Code (Finally...)](#writing-code-finally)
   - [Python](#python)
-- [Are We There Yet?](#are-we-there-yet)
+    - [Code conventions](#code-conventions)
+  - [Visual Studio Code](#visual-studio-code)
+  - [Are We There Yet?](#are-we-there-yet)
 
 # Prerequisites
 
@@ -142,7 +144,23 @@ This beeing said (I'm not a python enthusiast remember), python has a lot of adv
 - Computer programming education is moving away from C and java type languages and more towards scripting languages like python or node.
 - Python is probably easier for beginners in programming to pick up than for example C++
 
-# Are We There Yet?
+### Code conventions
+
+These are more even more like guidlines than rules compared to other thins mentioned on this page, but here goes:
+
+- 80 character lines in python scripts
+- autopep8 python formatter
+- Four spaces as tabs
+
+## Visual Studio Code
+
+If you don't know what program to use for writing code, I recommend [Visual Studio Code](https://code.visualstudio.com/) which is available for all three major operating systems.
+VS Code (or code) has many useful plugis.
+These are some of the plugins and settings used in this project so far:
+
+- "Markdown All in One" plugin for automatically generating ToC in documentation among other things
+
+## Are We There Yet?
 
 Yes we are.
 
