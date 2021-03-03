@@ -110,7 +110,7 @@ Some general tips:
 
 ## Recommended Reading
 
-ROS delcares some of its norms in REP files, which are listed [https://ros.org/reps/rep-0000.html].
+ROS delcares some of its norms in REP files, which are listed (here)[https://ros.org/reps/rep-0000.html].
 Some particular REPs to look through (only to get an idea of what they contain. Come back to them once they become relevant to you) are
 
 - [Style Guide for Python Code](https://www.ros.org/reps/rep-0008.html)
