@@ -36,6 +36,7 @@ For information on harware, practical instructions and similar, see
 Information on how the different parts of the machinery fits together – for package specific information please see the packages individual readme:s located in the corresponding child directory of [/workspace/src](/workspace/src).
 We also try to keep the source code short and densly commented, so if you are interested in package implementation details, the source code can be your friend as a last resort.
 
+There are [many different robotics simulation programs out there](https://en.wikipedia.org/wiki/Robotics_simulator).
 For information on simulation of the Twizy for testing and evaulation purposes see
 
 - [Simulation Using Webots](webots.md) – Real time simulation using [webots](https://cyberbotics.com/)
