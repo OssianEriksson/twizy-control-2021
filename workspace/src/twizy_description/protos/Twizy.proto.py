@@ -60,17 +60,7 @@ PROTO Twizy [
   field MFString controllerArgs [
     "--clock"
     "--use-sim-time"
-    "--name={{props['frame_prefix']}}"
-
-    # The following lines will cause errors in the webots console, but do not
-    # break anything. They are here to tell ROS to remap the default webots ROS
-    # controller topics to the corresponding "real" topic names used in
-    # production. If you know a better way to do this, please redo this
-    # slightly hacky solution
-    "{{props['frame_prefix']}}/front_realsense_depth_camera/range_image:=/front/camera/depth/image_rect_raw"
-    "{{props['frame_prefix']}}/front_realsense_aligned_depth_to_color_camera/image:=/front/camera/aligned_depth_to_color/image_raw"
-    "{{props['frame_prefix']}}/left_gnss/values:=/gnss/left/navsatfix_best_fix"
-    "{{props['frame_prefix']}}/right_gnss/values:=/gnss/right/navsatfix_best_fix"
+    "--name=twizy_webots_ros_controller"
   ]
 ]
 {
@@ -228,24 +218,24 @@ PROTO Twizy [
         ]
       }
       Transform {
-        translation {{vec2str(props['front_realsense']['translation'])}}
+        translation {{vec2str(props['realsense_d435']['front']['translation'])}}
         rotation    0 1 0 {{pi}}
         children [
           Transform {
-            rotation 1 0 0 {{props['front_realsense']['rotation']['pitch']}}
+            rotation 1 0 0 {{props['realsense_d435']['front']['rotation']['pitch']}}
             children [
               RangeFinder {
                 name        "front_realsense_depth_camera"
-                fieldOfView {{props['front_realsense']['depth']['fov']}}
-                width       {{props['front_realsense']['depth']['width']}}
-                height      {{props['front_realsense']['depth']['height']}}
-                maxRange    {{props['front_realsense']['depth']['max_range']}}
+                fieldOfView {{props['realsense_d435']['depth']['fov']}}
+                width       {{props['realsense_d435']['depth']['width']}}
+                height      {{props['realsense_d435']['depth']['height']}}
+                maxRange    {{props['realsense_d435']['depth']['max_range']}}
               }
               Camera {
                 name        "front_realsense_aligned_depth_to_color_camera"
-                fieldOfView {{props['front_realsense']['depth']['fov']}}
-                width       {{props['front_realsense']['depth']['width']}}
-                height      {{props['front_realsense']['depth']['height']}}
+                fieldOfView {{props['realsense_d435']['depth']['fov']}}
+                width       {{props['realsense_d435']['depth']['width']}}
+                height      {{props['realsense_d435']['depth']['height']}}
               }
             ]
           }

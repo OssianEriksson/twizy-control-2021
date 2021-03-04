@@ -2,8 +2,6 @@
 
 # All units in standard SI when possible. Radians are used for angles
 
-frame_prefix: twizy
-
 chassis:
   wheelbase: 1.8  # Distance between centers of front and back wheels
   track: 1  # Distance between centers of left and right wheels
@@ -13,14 +11,15 @@ chassis:
   inertia: { xx: 1, yy: 1, zz: 1, xy: 0, xz: 0, yz: 0 }  # Relative to
                                                          # ground_centered
 
-front_realsense:
-  translation: { x: 0.9, y: 0, z: 1.75 } # In ground_centered frame
-  rotation: { pitch: -0.2 }
+realsense_d435:
+  front: # Front mounted RealSense information
+    translation: { x: 0.9, y: 0, z: 1.75 } # In ground_centered frame
+    rotation: { pitch: -0.2 }
 
   depth:
     width: 640  # (Pixels)
     height: 480  # (Pixels)
-    fov: 1.5707963267948966
+    fov: 1 # 1.5707963267948966
     max_range: 10  # Max distance camera can see
 
 gnss:
@@ -29,6 +28,9 @@ gnss:
   reciever_distance: 1  # GNSS recievers are expected to be mounted across from
                         # each other, centered on the car. This is the shortest
                         # and the horizontal distance between the recievers
+  position_covariance: [0.01, 0,    0,     # GNSS covariance matrix (m^2)
+                        0,    0.01, 0,
+                        0,    0,    0.01]
 
 wheel:
   max_steering_angle: 0.6981317007977318

@@ -65,7 +65,7 @@ Start the webots simulation of the Twizy.
 
 ### Nodes <!-- omit in toc -->
 
-[controller](/workspace/src/twizy_webots#controller)
+[control](/workspace/src/twizy_webots#control)
 
 [publish_camera_info](/workspace/src/twizy_webots#publish_camera_info)
 

@@ -1,31 +1,15 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="world" default="$(find twizy_webots)/worlds/flat.wbt" doc="Path to the world to load" />
-    <arg name="mode" default="realtime" doc="Startup mode" />
-    <arg name="no-gui" default="false" doc="Start Webots with minimal GUI" />
+    <node name="control" pkg="twizy_webots" type="control" required="true" >
+        <remap from="~wheel_radius" to="/twizy_properties/wheel/radius"/>
+        <remap from="~max_speed" to="/twizy_properties/wheel/max_speed"/>
+        <remap from="~max_steering_angle" to="/twizy_properties/wheel/max_steering_angle"/>
+        <remap from="~wheelbase" to="/twizy_properties/chassis/wheelbase"/>
+        <remap from="~track" to="/twizy_properties/chassis/track"/>
+    </node>
 
-    <rosparam ns="twizy_properties" command="load" file="$(find twizy_description)/config/twizy_properties.yaml" />
-
-    <!--
-        Tell ROS to use time from simulation (published by webots ROS
-        controller on /clock topic) instead of real time. This also requires
-        setting the ‒‒clock and ‒‒use‒sim‒time parameters on the ROS controller
-        which is handeled in the Twizy proto. So make sure the webots world
-        contains a proto with a ROS controller with those arguments, otherwise
-        who knows what will happen? (rospy.get_time() will probably always
-        return 0 or give some error I'm guessing)
-    -->
-    <param name="/use_sim_time" type="bool" value="true" />
-
-    <!--
-        Note the launch-prefix attribute which expands and copies protos from
-        twizy_description to twizy_webots so webots can access the protos
-    -->
-    <node name="twizy_webots" pkg="webots_ros" type="webots_launcher.py" args="--world=$(arg world) --mode=$(arg mode) --no-gui=$(arg no-gui)" launch-prefix="bash -c '$(find twizy_webots)/scripts/proto; $0 $@' " required="true" />
-
-    <node name="control" pkg="twizy_webots" type="control" required="true" />
-
-    <remap from="/piksi_multi_rtk/position_covariance" to="/twizy_properties/gnss/position_covariance" />
+    <param name="piksi_multi_rtk/position_covariance" type="int" value="30" />
+    <rosparam param="piksi_multi_rtk/position_covariance">[0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01]</rosparam>
     <param name="piksi_multi_rtk/position_covariance_type" type="int" value="3" />
     <rosparam param="/gps_reference">[57.671667, 11.980833, 0]</rosparam>
     <node ns="piksi_multi_rtk" name="left_gnss" pkg="twizy_webots" type="gps" required="true">
