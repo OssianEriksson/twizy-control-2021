@@ -79,10 +79,7 @@ def main():
         x = p.point.z + noise[0]
         y = p.point.x + noise[1]
         navsatfix.altitude = p.point.y + noise[2]
-
-        # Clamp x and y coordinates to the maximum values allowed by utm
-
-
+        
         # Convert back to latitude, longitude
         try:
             # This function call will throw a OutOfRangeError if (x, y) are
