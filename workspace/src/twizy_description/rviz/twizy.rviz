@@ -4,7 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /DepthCloud1/Auto Size1
+        - /Front Camera1/Auto Size1
       Splitter Ratio: 0.5
     Tree Height: 416
   - Class: rviz/Selection
@@ -70,6 +70,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        front_camera:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         front_left_hinge:
           Alpha: 1
           Show Axes: false
@@ -92,6 +96,10 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        left_gnss:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         rear_left_wheel:
           Alpha: 1
           Show Axes: false
@@ -102,11 +110,11 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        twizy_webots/front_realsense_depth_camera:
+        right_gnss:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-      Name: RobotModel
+      Name: Twizy
       Robot Description: robot_description
       TF Prefix: ""
       Update Interval: 0
@@ -137,7 +145,7 @@ Visualization Manager:
       Max Intensity: 4096
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: DepthCloud
+      Name: Front Camera
       Occlusion Compensation:
         Occlusion Time-Out: 30
         Value: false
@@ -193,10 +201,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: -0.25479650497436523
+      Pitch: 0.4202035367488861
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.6935830116271973
+      Yaw: 3.0035829544067383
     Saved: ~
 Window Geometry:
   Displays:

@@ -10,5 +10,5 @@
         <arg name="world" value="$(arg world)" />
     </include>
 
-    <node name="keyboard_control" pkg="twizy_control" type="local_keyboard" />
+    <node name="keyboard_control" pkg="twizy_control" type="local_keyboard" required="true" />
 </launch>

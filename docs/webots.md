@@ -7,6 +7,8 @@
 - [Introduction](#introduction)
 - [ROS Controller](#ros-controller)
   - [Published Topics](#published-topics)
+- [Interfacing With the Webots ROS Controller](#interfacing-with-the-webots-ros-controller)
+  - [Control Node](#control-node)
 - [Launch Files](#launch-files)
   - [webots](#webots)
   - [webots_keyboard](#webots_keyboard)
@@ -57,6 +59,23 @@ This controller publishes the following topics:
 
 &emsp;GNSS data from left and right simulated GNSS reciever on two separate topics. Covariance will always be zero (unknown) as discussed above
 
+# Interfacing With the Webots ROS Controller
+
+Instead of letting the rest of the system to be simulated communicate directly with the webots ROS controllers, many different nodes are used to form a layer in between the webots ROS controller and the rest of the ROS graph.
+The nodes typically let the user remap their output topics which isn't possible in any nice way that I know of (I have hacked it in the past using `controllerArgs`) and change the `frame_id` of messages.
+These nodes take care of one type of device each, for example there is
+
+- [camera](/workspace/src/twizy_webots#camera) to republish images on better topic names and also publish camera info, which webots doesn't do by default
+- [gps](/workspace/src/twizy_webots#gps) to republish GPS (GNSS) data and simulate noise.
+  **Note that webots has built in support for GPS noise which we dont use** since there is no way to access the standard deviations used through the webots ROS controller. Instead this node adds its own ("known") noice.
+
+## Control Node
+
+The most important node however is the [control](/workspace/src/twizy_webots#control) node.
+Other nodes mentioned previously which interface with the webots ROS controller have been designed to be general and work for any robot.
+This node is instead specific to the Twizy, and uses parameters which you are strongly recommended to set from [twizy_description/config/twizy_properties.yaml](/workspace/src/twizy_description/config/twizy_properties.yaml).
+This node mainly takes care of sending driving control messages to the simulation.
+
 # Launch Files
 
 ## webots
@@ -65,11 +84,19 @@ Start the webots simulation of the Twizy.
 
 ### Nodes <!-- omit in toc -->
 
-[controller](/workspace/src/twizy_webots#controller)
+[control](/workspace/src/twizy_webots#control)
 
-[publish_camera_info](/workspace/src/twizy_webots#publish_camera_info)
+[camera](/workspace/src/twizy_webots#camera)
 
-&emsp;One instance started for front RealSense camera's depth aligned images
+&emsp;One instance started for front RealSense camera (color image)
+
+[range_finder](/workspace/src/twizy_webots#range_finder)
+
+&emsp;One instance started for front RealSense camera (depth image)
+
+[gps](/workspace/src/twizy_webots#gps)
+
+&emsp;One instance started for the Twizy's left GNSS reciever and one for the right
 
 ### Arguments <!-- omit in toc -->
 
@@ -95,13 +122,13 @@ roslaunch twizy_bringup webots.launch
 
 Start the webots simulation with a keyboard controller to drive the Twizy around.
 
-### Nodes <!-- omit in toc -->
-
-[local_keyboard](/workspace/src/twizy_control#local_keyboard)
-
 ### Included Launch Files <!-- omit in toc -->
 
 [webots.launch](#webots)
+
+### Nodes <!-- omit in toc -->
+
+[local_keyboard](/workspace/src/twizy_control#local_keyboard)
 
 ### Arguments <!-- omit in toc -->
 
@@ -131,25 +158,60 @@ This section describes what happens when you start the [webots.launch](#webots) 
 
 The contents of the launch file is as follows:
 ```xml
-    <launch>
+<?xml version="1.0"?>
+<launch>
     <arg name="world" default="$(find twizy_webots)/worlds/flat.wbt" doc="Path to the world to load" />
     <arg name="mode" default="realtime" doc="Startup mode" />
     <arg name="no-gui" default="false" doc="Start Webots with minimal GUI" />
+
+    <rosparam ns="twizy_properties" command="load" file="$(find twizy_description)/config/twizy_properties.yaml" />
 
     <param name="/use_sim_time" type="bool" value="true" />
 
     <node name="twizy_webots" pkg="webots_ros" type="webots_launcher.py" args="--world=$(arg world) --mode=$(arg mode) --no-gui=$(arg no-gui)" launch-prefix="bash -c '$(find twizy_webots)/scripts/proto; $0 $@' " required="true" />
 
-    <node name="webots_controller" pkg="twizy_webots" type="controller" />
+    <node name="control" pkg="twizy_webots" type="control" required="true" />
 
-    <node name="publish_camera_info" pkg="twizy_webots" type="publish_camera_info">
-        <param name="image_topic" value="/front/camera/depth/image_rect_raw" />
-        <param name="fov" type="double" value="1.5707963267948966" />
+    <remap from="/piksi_multi_rtk/position_covariance" to="/twizy_properties/gnss/position_covariance" />
+    <param name="piksi_multi_rtk/position_covariance_type" type="int" value="3" />
+    <rosparam param="/gps_reference">[57.671667, 11.980833, 0]</rosparam>
+    <node ns="piksi_multi_rtk" name="left_gnss" pkg="twizy_webots" type="gps" required="true">
+        <remap from="/navsatfix" to="/gnss/left/navsatfix_best_fix"/>
+
+        <param name="device" value="left_gnss" />
+    </node>
+    <node ns="piksi_multi_rtk" name="right_gnss" pkg="twizy_webots" type="gps" required="true">
+        <remap from="/navsatfix" to="/gnss/right/navsatfix_best_fix"/>
+
+        <param name="device" value="right_gnss" />
+    </node>
+
+    <remap from="/realsense_d435/aligned_depth_to_color/fov" to="/twizy_properties/realsense_d435/depth/fov" />
+    <node ns="realsense_d435/aligned_depth_to_color" name="front_realsense_range_finder" pkg="twizy_webots" type="range_finder" required="true">
+        <remap from="/image_raw" to="/front/camera/depth/image_rect_raw"/>
+        <remap from="/camera_info" to="/front/camera/depth/camera_info"/>
+
+        <param name="device" value="front_realsense_depth_camera" />
+        <param name="frame_id" value="front_camera" />
+    </node>
+    <node ns="realsense_d435/aligned_depth_to_color" name="front_realsense_depth_aliged_color" pkg="twizy_webots" type="camera" required="true">
+        <remap from="/image_raw" to="/front/camera/aligned_depth_to_color/image_raw"/>
+        <remap from="/camera_info" to="/front/camera/aligned_depth_to_color/camera_info"/>
+
+        <param name="device" value="front_realsense_aligned_depth_to_color_camera" />
+        <param name="frame_id" value="front_camera" />
     </node>
 </launch>
 ```
 
 ### The Code Explained
+
+The line
+```xml
+<rosparam ns="twizy_properties" command="load" file="$(find twizy_description)/config/twizy_properties.yaml" />
+```
+loads parameters about the twizys physical dimensions and sensors into the ROS parameter server.
+This data is mainly used by the [control](/workspace/src/twizy_webots#control) node.
 
 The line
 ```xml
@@ -191,21 +253,30 @@ They are used to set parameters or to remap topics, which as far as I know isn't
 If you find a better way to do this, please update the code.
 So if you didn't pick it up, the publishing of sensor message topics is largely handeled by the webots ROS controller and not by any custom node.
 
-While we are at it, another important thing to notice for the simulation to work as described here is to set the `gpsCoordinateSystem "WGS84"` in the WorldInfo node of your webots world (see for example [flat.wbt](/workspace/src/twizy_webots/worlds/flat.wbt)).
-Without this sensor the webots ROS controller will not publish NavSatFix messages for the simulated GNSS recievers but cartesian coordinates instead.
+While we are at it, another important thing to notice for the simulation to work as described here is to set the `gpsCoordinateSystem "local"` in the WorldInfo node of your webots world.
+See [gps](/workspace/src/twizy_webots#gps) for more info.
 
 The line
 ```xml
-<node name="webots_controller" pkg="twizy_webots" type="controller" />
+<node name="control" pkg="twizy_webots" type="control" required="true" />
 ```
-just starts the `controller` node, read more about it in the package documentation.
+just starts the [control](/workspace/src/twizy_webots#control) node, read more about it in the package documentation.
 
-The lines
+The lines past this are used to start nodes which reads from topics published by the ROS controller, possibly transforms or augments the data a bit and then republishes the messages on other topics which can then be remapped.
+These nodes usually require some parameters which are also sometimes fetched from [twizy_description/config/twizy_properties.yaml](/workspace/src/twizy_description/config/twizy_properties.yaml).
+That way the parameters set for the ROS nodes are sure to match the values present in the model files of the Twizy, since these files are generated from that very same YAML file as described above.
+
+For example the line
 ```xml
-<node name="publish_camera_info" pkg="twizy_webots" type="publish_camera_info">
-    <param name="image_topic" value="/front/camera/depth/image_rect_raw" />
-    <param name="fov" type="double" value="1.5707963267948966" />
-</node>
+<remap from="/realsense_d435/aligned_depth_to_color/fov" to="/twizy_properties/realsense_d435/depth/fov" />
 ```
-starts the `publish_camera_info` node for the front depth aligned images.
-Read more about the node in the package documentation.
+sets the `fov` parameter for the [camera](/workspace/src/twizy_webots#camera) and [range_finder](/workspace/src/twizy_webots#range_finder) nodes started further down:
+```xml
+<node ns="realsense_d435/aligned_depth_to_color" name="front_realsense_depth_aliged_color" pkg="twizy_webots" type="camera" required="true">
+    ...
+```
+and
+```xml
+<node ns="realsense_d435/aligned_depth_to_color" name="front_realsense_range_finder" pkg="twizy_webots" type="range_finder" required="true">
+    ...
+```
