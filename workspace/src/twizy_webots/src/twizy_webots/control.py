@@ -34,10 +34,18 @@ def get_velocity_control_service(model_name, device):
     set_position.wait_for_service()
     set_position(float('inf'))  # This is what actually does the disabling
     set_position.close()  # Close isn't really needed here,
-    # included for good measure
+                          # included for good measure
 
-    return rospy.ServiceProxy('/{}/{}/set_velocity'.format(model_name, device),
-                              set_float)
+    srv = rospy.ServiceProxy('/{}/{}/set_velocity'.format(model_name, device),
+                                 set_float)
+
+    srv.wait_for_service()
+
+    # Setting the speed to 0 initially is needed since the Twizy otherwise just
+    # drives away until it recieves it first CarControl message
+    srv(0.0)
+
+    return srv
 
 
 def main():

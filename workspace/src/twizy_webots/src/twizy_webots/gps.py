@@ -19,7 +19,6 @@ def main():
     device = rospy.get_param('~device')
     frame_id = rospy.get_param('~frame_id', None)
     ups = rospy.get_param('ups', 30)
-    values_topic = rospy.get_param('values_topic', 'values')
     status = rospy.get_param('status', NavSatStatus.STATUS_FIX)
     service = rospy.get_param('service', NavSatStatus.SERVICE_GALILEO)
     position_covariance = rospy.get_param('position_covariance', [0, 0, 0,
@@ -104,7 +103,7 @@ def main():
         pub_navsatfix.publish(navsatfix)
 
     # Subscribe to PointStamped topic published by webots ROS controller
-    values_name = '/{}/{}/{}'.format(model_name, device, values_topic)
+    values_name = '/{}/{}/values'.format(model_name, device)
     rospy.Subscriber(values_name, PointStamped,
                      callback=cb_point, queue_size=1)
 
