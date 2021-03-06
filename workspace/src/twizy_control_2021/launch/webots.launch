@@ -41,15 +41,15 @@
 
     <remap from="/realsense_d435/aligned_depth_to_color/fov" to="/twizy_properties/realsense_d435/depth/fov" />
     <node ns="realsense_d435/aligned_depth_to_color" name="front_realsense_range_finder" pkg="twizy_webots" type="range_finder" required="true">
-        <remap from="/image_raw" to="/front/camera/depth/image_rect_raw"/>
-        <remap from="/camera_info" to="/front/camera/depth/camera_info"/>
+        <remap from="/image_raw" to="/camera/depth/image_rect_raw"/>
+        <remap from="/camera_info" to="/camera/depth/camera_info"/>
 
         <param name="device" value="front_realsense_depth_camera" />
         <param name="frame_id" value="front_camera" />
     </node>
     <node ns="realsense_d435/aligned_depth_to_color" name="front_realsense_depth_aliged_color" pkg="twizy_webots" type="camera" required="true">
-        <remap from="/image_raw" to="/front/camera/aligned_depth_to_color/image_raw"/>
-        <remap from="/camera_info" to="/front/camera/aligned_depth_to_color/camera_info"/>
+        <remap from="/image_raw" to="/camera/aligned_depth_to_color/image_raw"/>
+        <remap from="/camera_info" to="/camera/aligned_depth_to_color/camera_info"/>
 
         <param name="device" value="front_realsense_aligned_depth_to_color_camera" />
         <param name="frame_id" value="front_camera" />
