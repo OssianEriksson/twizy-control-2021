@@ -54,6 +54,10 @@
   <exec_depend>rospy</exec_depend>
   <exec_depend>python-utm-pip</exec_depend>
   <exec_depend>python-numpy</exec_depend>
+  <exec_depend>webots_ros</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
 
   <exec_depend>twizy_description</exec_depend>
   <exec_depend>twizy_msgs</exec_depend>

@@ -59,6 +59,8 @@
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>tf2</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>robot_localization</exec_depend>
   <exec_depend>python-sbp-pip</exec_depend> <!-- This one I just made up, it doesn't exist... (yet?) -->
 
 
@@ -69,6 +71,7 @@
   <exec_depend>twizy_msgs</exec_depend>
   <exec_depend>twizy_parking_2020</exec_depend>
   <exec_depend>twizy_msgs</exec_depend>
+  <exec_depend>twizy_webots</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

@@ -1,9 +1,8 @@
 import tf2_ros
 import rospy
 
-from geometry_msgs.msg import Point, PointStamped, Quaternion
+from geometry_msgs.msg import Point, PointStamped, Quaternion, PoseWithCovarianceStamped
 from sensor_msgs.msg import NavSatFix
-from geometry_msgs.msg import PoseWithCovarianceStamped
 
 from tf2_geometry_msgs import do_transform_point
 import utm
