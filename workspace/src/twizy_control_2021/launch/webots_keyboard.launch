@@ -4,7 +4,7 @@
     <arg name="mode" default="realtime" doc="Startup mode" />
     <arg name="no-gui" default="false" doc="Start Webots with minimal GUI" />
 
-    <include file="$(find twizy_bringup)/launch/webots.launch">
+    <include file="$(find twizy_control_2021)/launch/webots.launch">
         <arg name="mode" value="realtime" />
         <arg name="no-gui" value="$(arg no-gui)" />
         <arg name="world" value="$(arg world)" />

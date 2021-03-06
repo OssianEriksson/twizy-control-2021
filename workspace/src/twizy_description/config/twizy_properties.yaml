@@ -28,9 +28,9 @@ gnss:
   reciever_distance: 1  # GNSS recievers are expected to be mounted across from
                         # each other, centered on the car. This is the shortest
                         # and the horizontal distance between the recievers
-  position_covariance: [0.01, 0,    0,     # GNSS covariance matrix (m^2)
-                        0,    0.01, 0,
-                        0,    0,    0.01]
+  position_covariance: [0.0001, 0,      0,       # GNSS covariance matrix (m^2)
+                        0,      0.0001, 0,       # Used for simulation only
+                        0,      0,      0.0001]
 
 wheel:
   max_steering_angle: 0.6981317007977318

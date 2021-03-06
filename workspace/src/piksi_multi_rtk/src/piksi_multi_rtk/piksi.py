@@ -7,7 +7,7 @@ from sbp.client import Handler, Framer
 from sbp.navigation import SBP_MSG_POS_LLH
 
 
-def _publish_navsatfix(pub, msg):
+def _publish_navsatfix(pub, msg, frame_id):
     """
     Converts a MSG_POS_LLH SBP message to a NavSatFix message and publishes
     it on the provided publisher pub. Most of this code is borrowed from 
@@ -73,7 +73,7 @@ def _publish_navsatfix(pub, msg):
     # http://github.com/ethz-asl/ethz_piksi_ros/tree/master/piksi_multi_rtk_ros
     navsatfix = NavSatFix()
     navsatfix.header.stamp = rospy.Time.now()
-    navsatfix.header.frame_id = 'gps'
+    navsatfix.header.frame_id = frame_id
     navsatfix.position_covariance_type = NavSatFix.COVARIANCE_TYPE_APPROXIMATED
     navsatfix.status.service = NavSatStatus.SERVICE_GPS
     navsatfix.latitude = msg.lat
@@ -102,6 +102,7 @@ def main():
     # http://github.com/ethz-asl/ethz_piksi_ros/tree/master/piksi_multi_rtk_ros
     host = rospy.get_param('~tcp_addr', '192.168.0.222')
     port = rospy.get_param('~tcp_port', 55555)
+    frame_id = rospy.get_param('~navsatfix_frame_id', 'gps')
 
     # Start listening for GNSS data on a TCP socket with a ROS-param-provided
     # host and port. This code is almost copy-pasted from examples of the sbp
@@ -112,7 +113,7 @@ def main():
                 # Filter on SBP_MSG_POS_LLH-messages (LLH stands for
                 # Longitude Latitude Height)
                 for msg, metadata in source.filter(SBP_MSG_POS_LLH):
-                    _publish_navsatfix(pub, msg)
+                    _publish_navsatfix(pub, msg, frame_id)
 
                     if rospy.is_shutdown():
                         break

@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import twizy_control_2021.random_llh
+
+if __name__ == '__main__':
+    twizy_control_2021.random_llh.main()

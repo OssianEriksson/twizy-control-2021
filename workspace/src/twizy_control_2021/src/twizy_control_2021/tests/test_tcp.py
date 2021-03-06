@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import argparse
 
 import os
@@ -21,7 +19,7 @@ from sbp.navigation import MsgPosLLH
 
 from collections import namedtuple
 
-PKG = 'twizy_localization'
+PKG = 'twizy_control_2021'
 NAME = 'test_tcp'
 DESCRIPTION = 'Test GNSS publisher against 2020\'s GNSS publisher'
 
@@ -393,7 +391,8 @@ class TestTCP(unittest.TestCase):
                                 'the catkin workspace?').format(PKG))
 
         # Launch GPS code from 2020's parallel parking
-        launch_path = os.path.join(pkg_path, 'launch', 'old_gnss.launch')
+        launch_path = os.path.join(
+            pkg_path, 'tests', 'include', 'old_gnss.launch')
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         args = ['host_l:=127.0.0.1', 'port_l:={}'.format(port),
@@ -431,10 +430,10 @@ class TestTCP(unittest.TestCase):
         for i in range(0, messages_to_send):
             tow = int(round((rospy.get_time() - t) * 1000))
             lat = (180.0 * i) / messages_to_send - 90  # At least of lon or lat
-                                                       # needs to be unique so
-                                                       # we can safely filter
-                                                       # duplicate messages
-                                                       # later
+            # needs to be unique so
+            # we can safely filter
+            # duplicate messages
+            # later
             lon = random.uniform(-180, 180)
             height = random.uniform(-10000, 10000)
             h_accuracy = random.randint(0, 10000)
@@ -545,7 +544,3 @@ def main():
 
     # Start tests
     rostest.rosrun(PKG, NAME, TestTCP)
-
-
-if __name__ == '__main__':
-    main()

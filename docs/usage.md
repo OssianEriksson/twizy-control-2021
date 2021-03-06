@@ -9,7 +9,7 @@
   - [Recommended Reading](#recommended-reading)
 - [Running](#running)
   - [Running Individual ROS nodes](#running-individual-ros-nodes)
-  - [Running Project Stacks or Subsystems](#running-project-stacks-or-subsystems)
+  - [Running Project Stacks](#running-project-stacks)
 
 # Building
 
@@ -64,9 +64,8 @@ rostest <package_name> <test_name> [--text]
 
 To view running instructions for inidividual ROS nodes please see the package specific README:s located in [/workspace/src](/workspace/src).
 
-## Running Project Stacks or Subsystems
+## Running Project Stacks
 
 Please refer to [Starting and System Details](README.md#starting-and-system-details).
 
-All launch files which are relevant to the end user are stored in the [twizy_bringup](/workspace/src/twizy_bringup) package.
-
+All ROS launch files of importance to the end user are placed in the main package specific to that project, for example [twizy_control_2021](/workspace/src/twizy_control_2021) for files relating to [Autonomous Renault Twizy - Autonomous Path Planning](projects/2021/autonomous_path_planning.md).

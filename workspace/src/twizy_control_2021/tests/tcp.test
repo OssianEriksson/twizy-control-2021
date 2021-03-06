@@ -1,0 +1,3 @@
+<launch>
+    <test test-name="compare_to_2020" pkg="twizy_control_2021" type="test_tcp"/>
+</launch>

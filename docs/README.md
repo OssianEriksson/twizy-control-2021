@@ -21,7 +21,7 @@ To get to know the projects and this repo you should start by looking at
 
 For general information on usage you can read
 
-- [Usage Instructions](usage.md) – information on how to run the various systems and subsystems
+- [Usage Instructions](usage.md) – information on how to run the various systems and nodes
 
 For specific usage instructions please see [Starting and System Details](#starting-and-system-details).
 
@@ -41,11 +41,7 @@ For information on simulation of the Twizy for testing and evaulation purposes s
 
 - [Simulation Using Webots](webots.md) – Real time simulation using [webots](https://cyberbotics.com/)
 
-For information on general purpose subsystems, please see
-
-- [Subsystem Details](subsystems) – List of documented subsystems
-
-For complete project documentations, e.g. complete systems put together as bachelor's thesis projects or other complete systems, see
+For complete project and integration documentations, e.g. complete systems put together as bachelor's thesis projects, see
 
 - [Project Details](projects) – List of documented projects
 

@@ -9,12 +9,8 @@
   - [Published Topics](#published-topics)
 - [Interfacing With the Webots ROS Controller](#interfacing-with-the-webots-ros-controller)
   - [Control Node](#control-node)
-- [Launch Files](#launch-files)
-  - [webots](#webots)
-  - [webots_keyboard](#webots_keyboard)
 - [System Details](#system-details)
-  - [Launch File](#launch-file)
-    - [The Code Explained](#the-code-explained)
+  - [The Code Explained](#the-code-explained)
 
 # Introduction
 
@@ -76,87 +72,12 @@ Other nodes mentioned previously which interface with the webots ROS controller 
 This node is instead specific to the Twizy, and uses parameters which you are strongly recommended to set from [twizy_description/config/twizy_properties.yaml](/workspace/src/twizy_description/config/twizy_properties.yaml).
 This node mainly takes care of sending driving control messages to the simulation.
 
-# Launch Files
-
-## webots
-
-Start the webots simulation of the Twizy.
-
-### Nodes <!-- omit in toc -->
-
-[control](/workspace/src/twizy_webots#control)
-
-[camera](/workspace/src/twizy_webots#camera)
-
-&emsp;One instance started for front RealSense camera (color image)
-
-[range_finder](/workspace/src/twizy_webots#range_finder)
-
-&emsp;One instance started for front RealSense camera (depth image)
-
-[gps](/workspace/src/twizy_webots#gps)
-
-&emsp;One instance started for the Twizy's left GNSS reciever and one for the right
-
-### Arguments <!-- omit in toc -->
-
-`world` (`str`, default: "$(find twizy_webots)/worlds/flat.wbt")
-
-&emsp;Path to the world to load
-
-`mode` (`str`, default: "realtime")
-
-&emsp;Webots startup mode
-
-`no-gui` (`bool`, default: false)
-
-&emsp;Start Webots with minimal GUI
-
-### Starting <!-- omit in toc -->
-
-```sh
-roslaunch twizy_bringup webots.launch
-```
-
-## webots_keyboard
-
-Start the webots simulation with a keyboard controller to drive the Twizy around.
-
-### Included Launch Files <!-- omit in toc -->
-
-[webots.launch](#webots)
-
-### Nodes <!-- omit in toc -->
-
-[local_keyboard](/workspace/src/twizy_control#local_keyboard)
-
-### Arguments <!-- omit in toc -->
-
-`world` (`str`, default: "$(find twizy_webots)/worlds/flat.wbt")
-
-&emsp;Path to the world to load
-
-`mode` (`str`, default: "realtime")
-
-&emsp;Webots startup mode
-
-`no-gui` (`bool`, default: false)
-
-&emsp;Start Webots with minimal GUI
-
-### Starting <!-- omit in toc -->
-
-```sh
-roslaunch twizy_bringup webwebots_keyboardots.launch
-```
+Starting instructions are specific for each [project](projects/2021/autonomous_path_planning.md).
 
 # System Details
 
-This section describes what happens when you start the [webots.launch](#webots) launch file, which is the main launch file for webots.
-
-## Launch File
-
-The contents of the launch file is as follows:
+This section describes what happens when you start [twizy_control_20201/launch/webots.launch](projects/2021/autonomous_path_planning.md#webots), as an example of what such a launch file might look like.
+At the time of writing, the contents of the launch file is as follows:
 ```xml
 <?xml version="1.0"?>
 <launch>
@@ -204,7 +125,7 @@ The contents of the launch file is as follows:
 </launch>
 ```
 
-### The Code Explained
+## The Code Explained
 
 The line
 ```xml

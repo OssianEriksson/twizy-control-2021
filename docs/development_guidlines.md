@@ -71,7 +71,7 @@ The goal is for all code in this repository to be very well documented.
 Documenting too early can be dangerous if you then later restructure a big part of the project, but try to keep up with documentation atleast of the stable parts of your system.
 
 Different kinds of documentation goes in different places.
-Broader system and subsystem (how multiple ROS nodes and or packages work together) should be documented in [projects](projects) (for entire ROS graphs, closed systems) and [subsystems](sybsystems) (a few ROS nodes working togehter which dont form a closed system) respectively.
+Broader system and subsystem (how multiple ROS nodes and or packages work together) should be documented in [projects](projects).
 Individual ROS packages should be documented in their individual README:s, found in the corresponding folder in the workspace.
 
 The documentation of packages tries to mirror what is commonly seen on the ROS wiki.
@@ -100,7 +100,7 @@ We mostly use the [Apace 2.0 Licence](https://www.apache.org/licenses/LICENSE-2.
 
 Some general tips:
 
-- Put launch files in [twizy_bringup](/workspace/src/twizy_bringup)
+- Put launch files in your respective project's main package, for example [twizy_control_2021](/workspace/src/twizy_control_2021) for launch files relating to [Autonomous Renault Twizy - Autonomous Path Planning](projects/2021/autonomous_path_planning.md)
 - Put message files in [twizy_msgs](/workspace/src/twizy_msgs)
 - Put files and information related to the properties of the twizy (physical or simulated) in [twizy_description](/workspace/src/twizy_description)
 - Make sure dependicies in `package.xml` file is kept up to date.

@@ -29,12 +29,12 @@
     <param name="piksi_multi_rtk/position_covariance_type" type="int" value="3" />
     <rosparam param="/gps_reference">[57.671667, 11.980833, 0]</rosparam>
     <node ns="piksi_multi_rtk" name="left_gnss" pkg="twizy_webots" type="gps" required="true">
-        <remap from="/navsatfix" to="/gnss/left/navsatfix_best_fix"/>
+        <remap from="/navsatfix" to="/gnss/fix"/>
 
         <param name="device" value="left_gnss" />
     </node>
     <node ns="piksi_multi_rtk" name="right_gnss" pkg="twizy_webots" type="gps" required="true">
-        <remap from="/navsatfix" to="/gnss/right/navsatfix_best_fix"/>
+        <remap from="/navsatfix" to="/gnss/fix"/>
 
         <param name="device" value="right_gnss" />
     </node>

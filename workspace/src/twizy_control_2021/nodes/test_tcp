@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import twizy_control_2021.tests.test_tcp
+
+if __name__ == '__main__':
+    twizy_control_2021.tests.test_tcp.main()

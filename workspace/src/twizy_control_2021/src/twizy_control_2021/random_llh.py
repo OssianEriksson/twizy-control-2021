@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import argparse
 
 import socket
@@ -113,7 +111,3 @@ def main():
             disconnect(client)
 
         rate.sleep()
-
-
-if __name__ == '__main__':
-    main()

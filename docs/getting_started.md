@@ -91,7 +91,8 @@ Below is a list of some directories of interest.
 You can browse the repo on [Github](https://github.com/OssianEriksson/twizy-control-2021) or on your local file system if you have first [cloned the repo](#cloning-the-repo).
 
 - Documentation can be found in [docs](/docs)
-- ROS-packages can be found in the [src](/workspace/src) sub-directory of the [catkin workspace](/workspace). This includes all of the production code but also packages used for testing production code, e.g. [2020's parallel parking](/workspace/src/twizy_parking_2020). 
+- ROS-packages can be found in the [src](/workspace/src) sub-directory of the [catkin workspace](/workspace).
+  This includes all of the production code but also packages used for testing production code. 
 - Radom, personal, poorly documented experiments for learning the tools used in projects here can be found in [playground](/playground).
 
 ## Noteworthy ROS Packages
@@ -99,9 +100,9 @@ You can browse the repo on [Github](https://github.com/OssianEriksson/twizy-cont
 There are norms in ROS for some common packages which have conterparts in many different ROS projects.
 Examples of such packages included in this repo are:
 
-- All ROS launch files of importance to the end user are placed in the [twizy_bringup](/workspace/src/twizy_bringup) package.
+- All ROS launch files of importance to the end user are placed in the project main package, for example [twizy_control_2021](/workspace/src/twizy_control_2021) for files relating to [Autonomous Renault Twizy - Autonomous Path Planning](projects/2021/autonomous_path_planning.md).
   This is important when creating your own launch files or if you want to browse available ones.
-  If the launch files have related documentation, it can probably be found in either [subsytems](subsystems) or [projects](projects).
+  If the launch files have related documentation, it can probably be found in [projects](projects).
 - All ROS message files are located in the [twizy_msgs](/workspace/src/twizy_msgs) package.
   This is so that other packages in the workspace can depend on this package to use the custom message files defined here.
 - Config files and descriptions of the twizy, its components and properties, are located in [twizy_description](/workspace/src/twizy_description).

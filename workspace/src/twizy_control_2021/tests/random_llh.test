@@ -1,0 +1,34 @@
+<launch>
+    <node name="random_llh_l" pkg="twizy_control_2021" type="random_llh" args="--port 55556" />
+    <node name="random_llh_r" pkg="twizy_control_2021" type="random_llh" args="--port 55557" />
+
+    <node name="piksi_left" pkg="piksi_multi_rtk" type="piksi">
+        <remap from="~navsatfix_best_fix" to="/gnss/fix" />
+
+        <param name="tcp_addr" value="127.0.0.1" />
+        <param name="tcp_port" value="55556" />
+        <param name="navsatfix_frame_id" value="left_gnss" />
+    </node>
+
+    <node name="piksi_right" pkg="piksi_multi_rtk" type="piksi" ns="gnss">
+        <remap from="~navsatfix_best_fix" to="/gnss/fix" />
+
+        <param name="tcp_addr" value="127.0.0.1" />
+        <param name="tcp_port" value="55557" />
+        <param name="navsatfix_frame_id" value="right_gnss" />
+    </node>
+
+    <include file="$(find twizy_control_2021)/launch/static_transforms.launch" />
+
+    <node name="twizy_localization" pkg="twizy_localization" type="gnss_pose">
+        <param name="center_link" value="base_link" />
+        <param name="frequency" value="20.0" />
+    </node>
+
+    <test test-name="hztest_test" name="hztest1" pkg="rostest" type="hztest">
+        <param name="topic" value="/gnss/pose" />
+        <param name="hz" value="20.0" />
+        <param name="hzerror" value="1.0" />
+        <param name="test_duration" value="5.0" />
+    </test>
+</launch>

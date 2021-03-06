@@ -159,7 +159,7 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  nodes/dual_gnss
+  nodes/gnss_pose
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -202,12 +202,4 @@ catkin_install_python(PROGRAMS
 # endif()
 
 ## Add folders to be run by python nosetests
-catkin_add_nosetests(src/twizy_localization/tests/test_dual_gnss.py)
-
-if(CATKIN_ENABLE_TESTING)
-  find_package(catkin REQUIRED COMPONENTS rostest)
-  add_rostest(tests/tcp.test)
-  add_rostest(tests/random_llh.test)
-endif()
-
-
+catkin_add_nosetests(src/twizy_localization/tests/test_gnss_pose.py)

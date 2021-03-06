@@ -1,6 +1,0 @@
-#!/usr/bin/env python
-
-import twizy_localization.dual_gnss
-
-if __name__ == '__main__':
-    twizy_localization.dual_gnss.main()
