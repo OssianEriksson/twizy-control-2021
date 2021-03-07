@@ -33,8 +33,7 @@ Very similar to piksi node from [ethz_piksi_ros](https://github.com/ethz-asl/eth
 
 `~navsatfix_best_fix` ([sensor_msgs/NavSatFix](https://docs.ros.org/en/api/sensor_msgs/html/msg/NavSatFix.html))
 
-&emsp;Positioning data from GNSS reciever. 
-      LLH stands for Latitude Longitude Height.
+&emsp;Positioning data from GNSS reciever. LLH stands for Latitude Longitude Height.
 
 ### Parameters
 

@@ -6,3 +6,7 @@ It is a pure utility package for other packages to depend on and should not cont
 # ROS Message Types
 
 [CarControl](msg/CarControl.msg)
+
+[BoundingBox](msg/BoundingBox.msg)
+
+[BoundingBoxes](msg/BoundingBoxes.msg)

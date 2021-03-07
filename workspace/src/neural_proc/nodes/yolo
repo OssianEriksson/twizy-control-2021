@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import neural_proc.yolo
+
+if __name__ == '__main__':
+    neural_proc.yolo.main()

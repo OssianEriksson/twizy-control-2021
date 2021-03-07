@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="nodelet" type="nodelet" args="standalone image_proc/resize" name="front_image_resizer" required="true">
+        <param name="use_scale" type="bool" value="false" />
+        <param name="width" type="int" value="24" />
+        <param name="height" type="int" value="12" />
+        <!-- Linear -->
+        <param name="interpolation" type="int" value="1" />
+
+        <remap from="image" to="/camera/depth/image_rect_raw"/>
+        <remap from="camera_info" to="/camera/depth/camera_info"/>
+
+        <remap from="~image" to="/camera/depth/resized/image_rect_raw"/>
+        <remap from="~camera_info" to="/camera/depth/resized/camera_info"/>
+    </node>
+
+    <node name="yolo" pkg="neural_proc" type="yolo" required="true">
+        <remap from="image" to="/camera/aligned_depth_to_color/image_raw" />
+        <remap from="bounding_boxes" to="/neural/aligned_depth_to_color/bounding_boxes" />
+    </node>
+</launch>
