@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import twizy_navigation.class_mapper
+
+if __name__ == '__main__':
+    twizy_navigation.class_mapper.main()
