@@ -5,10 +5,12 @@ from geometry_msgs.msg import Point, PointStamped, Quaternion, PoseWithCovarianc
 from sensor_msgs.msg import NavSatFix
 
 from tf2_geometry_msgs import do_transform_point
+from tf.transformations import quaternion_from_matrix
+
+import threading
 import utm
 import numpy as np
 from numpy import cos, sin, pi, sqrt
-from tf.transformations import quaternion_from_matrix
 
 
 def align_vectors(a, b, weights):
@@ -143,6 +145,7 @@ def main():
     timeout = rospy.get_param('~timeout', 0.5)
     map_frame = rospy.get_param('~map_frame', 'map')
     differential = rospy.get_param('~differential', False)
+    inputs = rospy.get_param('~inputs')
 
     timeout = rospy.Duration(timeout)
 
@@ -150,23 +153,27 @@ def main():
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
 
-    navsatfixes = {}  # dict of NavSatFix messages to include in computation
+    navsatfixes_locked = {}  # Thread synchronized dict of NavSatFix messages
+                             # to include in computation
+
+    lock = threading.Lock()
 
     def cb_navsatfix(navsatfix):
         """
         Callback for NavSatFix messages. Adds the incoming message to the
         navsatfixes dict with its frame_id as key
         """
-
-        navsatfixes[navsatfix.header.frame_id] = navsatfix
+        with lock:
+            navsatfixes_locked[navsatfix.header.frame_id] = navsatfix
 
     # Subscribe to incoming NavSatFix messages
-    rospy.Subscriber('/gnss/fix', NavSatFix,
-                     callback=cb_navsatfix, queue_size=1)
+    for topic in inputs:
+        rospy.Subscriber(topic, NavSatFix,
+                        callback=cb_navsatfix, queue_size=1)
 
     # Publisher for estimated pose from GNSS data
     pub_pose = rospy.Publisher(
-        '/gnss/pose', PoseWithCovarianceStamped, queue_size=1)
+        'pose', PoseWithCovarianceStamped, queue_size=1)
 
     # Initialize pose which is to be published later
     pose = PoseWithCovarianceStamped()
@@ -179,10 +186,14 @@ def main():
     while not rospy.is_shutdown():
         rate.sleep()
 
-        # Remove NavSatFix messages from the buffer if they are too old
-        for frame_id, navsatfix in navsatfixes.items():
-            if navsatfix.header.stamp + timeout < rospy.Time.now():
-                navsatfixes.pop(frame_id)
+        with lock:
+            # Remove NavSatFix messages from the buffer if they are too old
+            for frame_id, navsatfix in navsatfixes_locked.items():
+                if navsatfix.header.stamp + timeout < rospy.Time.now():
+                    navsatfixes_locked.pop(frame_id)
+            
+            # Create working copy of navsatfixes_locked dict
+            navsatfixes = navsatfixes_locked.copy()
 
         n_navsats = len(navsatfixes)
 

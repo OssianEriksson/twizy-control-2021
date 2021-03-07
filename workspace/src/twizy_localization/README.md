@@ -38,16 +38,21 @@ It looks for the transform that transforms this local data to the global referen
 
 ### Published Topics
 
-`/gnss/pose` ([geometry_msgs/PoseWithCovarianceStamped](http://docs.ros.org/en/melodic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html))
+`pose` ([geometry_msgs/PoseWithCovarianceStamped](http://docs.ros.org/en/melodic/api/geometry_msgs/html/msg/PoseWithCovarianceStamped.html))
 
 &emsp;Estimate of the Twizy's current pose
 
 ### Subscribed Topics
-`/gnss/fix` ([sensor_msgs/NavSatFix](https://docs.ros.org/en/api/sensor_msgs/html/msg/NavSatFix.html))
+`[inputs]` ([sensor_msgs/NavSatFix](https://docs.ros.org/en/api/sensor_msgs/html/msg/NavSatFix.html))
 
-&emsp;Topic to read GNSS data from. The messages contain a header with a `frame_id` field which is used to link that message to a specific link in the tf tree
+&emsp;Multiple topics to read GNSS data from. The messages contain a header with a `frame_id` field which is used to link that message to a specific link in the tf tree. Which topics are subscribed to is controlled by the `~inputs` parameter
 
 ### Parameters
+
+
+`~inputs` (`yaml`, required)
+
+&emsp;Name of topics to subscribed to in a YAML sequence, for example \[/gnss/sensor1/navsatfix, /gnss/sensor2/navsatfix\]
 
 `~center_link` (`str`, required)
 
@@ -55,7 +60,7 @@ It looks for the transform that transforms this local data to the global referen
 
 `~map_frame` (`str`, default: "map")
 
-&emsp;`frame_id` of published messages on `/gnss/fix`
+&emsp;`frame_id` of published messages on `/pose/`
 
 `~frequency` (`float`, default: 30.0)
 

@@ -29,27 +29,27 @@
     <param name="piksi_multi_rtk/position_covariance_type" type="int" value="3" />
     <rosparam param="/gps_reference">[57.671667, 11.980833, 0]</rosparam>
     <node ns="piksi_multi_rtk" name="left_gnss" pkg="twizy_webots" type="gps" required="true">
-        <remap from="/navsatfix" to="/gnss/fix"/>
+        <remap from="/navsatfix" to="/gnss/left/fix"/>
 
         <param name="device" value="left_gnss" />
     </node>
     <node ns="piksi_multi_rtk" name="right_gnss" pkg="twizy_webots" type="gps" required="true">
-        <remap from="/navsatfix" to="/gnss/fix"/>
+        <remap from="/navsatfix" to="/gnss/right/fix"/>
 
         <param name="device" value="right_gnss" />
     </node>
 
     <remap from="/realsense_d435/aligned_depth_to_color/fov" to="/twizy_properties/realsense_d435/depth/fov" />
     <node ns="realsense_d435/aligned_depth_to_color" name="front_realsense_range_finder" pkg="twizy_webots" type="range_finder" required="true">
-        <remap from="/image_raw" to="/camera/depth/image_rect_raw"/>
-        <remap from="/camera_info" to="/camera/depth/camera_info"/>
+        <remap from="/image_raw" to="/camera/front/depth/image_rect_raw"/>
+        <remap from="/camera_info" to="/camera/front/depth/camera_info"/>
 
         <param name="device" value="front_realsense_depth_camera" />
         <param name="frame_id" value="front_camera" />
     </node>
     <node ns="realsense_d435/aligned_depth_to_color" name="front_realsense_depth_aliged_color" pkg="twizy_webots" type="camera" required="true">
-        <remap from="/image_raw" to="/camera/aligned_depth_to_color/image_raw"/>
-        <remap from="/camera_info" to="/camera/aligned_depth_to_color/camera_info"/>
+        <remap from="/image_raw" to="/camera/front/aligned_depth_to_color/image_raw"/>
+        <remap from="/camera_info" to="/camera/front/aligned_depth_to_color/camera_info"/>
 
         <param name="device" value="front_realsense_aligned_depth_to_color_camera" />
         <param name="frame_id" value="front_camera" />
