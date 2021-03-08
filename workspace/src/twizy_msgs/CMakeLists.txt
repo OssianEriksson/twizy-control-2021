@@ -9,6 +9,7 @@ project(twizy_msgs)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   std_msgs
+  nav_msgs
   message_generation
 )
 
@@ -51,6 +52,7 @@ add_message_files(
   CarControl.msg
   BoundingBox.msg
   BoundingBoxes.msg
+  MapWithClasses.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -71,6 +73,7 @@ add_message_files(
 generate_messages(
   DEPENDENCIES
   std_msgs  # Or other packages containing msgs
+  nav_msgs
 )
 
 ################################################

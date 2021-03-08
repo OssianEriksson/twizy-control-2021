@@ -9,7 +9,7 @@ def main():
     bbs = BoundingBoxes()
 
     def cb_image(img):
-        bbs.image_header = img.header
+        bbs.header = img.header
         bbs.bounding_boxes = []
 
         # if len(bbs.bounding_boxes) > 0:

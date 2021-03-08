@@ -19,7 +19,7 @@ realsense_d435:
   depth:
     width: 640  # (Pixels)
     height: 480  # (Pixels)
-    fov: 1 # 1.5707963267948966
+    fov: 1.5707963267948966
     max_range: 10  # Max distance camera can see
 
 gnss:

@@ -54,6 +54,12 @@
   <exec_depend>rospy</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>twizy_msgs</exec_depend>
+  <exec_depend>message_filters</exec_depend>
+  <exec_depend>python-numpy</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>tf</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

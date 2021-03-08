@@ -71,8 +71,7 @@ def main(image_topic):
         cy = img.height * 0.5
 
         # Set matricies according to CameraInfo definition at
-        # http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/
-        # CameraInfo.html
+        # http://docs.ros.org/en/api/sensor_msgs/html/msg/CameraInfo.html
         camerainfo.K = [f,  0, cx,
                         0,  f, cy,
                         0,  0,  1]

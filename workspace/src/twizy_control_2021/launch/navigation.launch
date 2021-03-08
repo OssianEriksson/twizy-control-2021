@@ -1,4 +1,21 @@
 <?xml version="1.0"?>
 <launch>
-    
+    <node pkg="nodelet" type="nodelet" args="standalone image_proc/resize" name="front_image_resizer" required="true">
+        <param name="use_scale" type="bool" value="false" />
+        <param name="width" type="int" value="24" />
+        <param name="height" type="int" value="12" />
+        <!-- Linear -->
+        <param name="interpolation" type="int" value="1" />
+
+        <remap from="image" to="/camera/front/depth/image_rect_raw"/>
+        <remap from="camera_info" to="/camera/front/depth/camera_info"/>
+
+        <remap from="~image" to="/camera/front/depth/resized/image_rect_raw"/>
+        <remap from="~camera_info" to="/camera/front/depth/resized/camera_info"/>
+    </node>
+
+    <node pkg="twizy_navigation" type="class_mapper" name="class_mapper" required="true">
+        <rosparam param="inputs">[{bounding_boxes: /neural/aligned_depth_to_color/bounding_boxes, depth_image: /camera/front/depth/resized/image_rect_raw, camera_info: /camera/front/depth/resized/camera_info}]</rosparam>
+        <param name="base_link" value="ground_centered" />
+    </node>
 </launch>
