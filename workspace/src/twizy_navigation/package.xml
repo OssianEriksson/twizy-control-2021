@@ -60,6 +60,8 @@
   <exec_depend>tf</exec_depend>
   <exec_depend>cv_bridge</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>tf2_geometry_msgs</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

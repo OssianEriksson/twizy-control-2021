@@ -1,6 +1,14 @@
 Header header 
 
-nav_msgs/MapMetaData info
+float32 resolution
+
+uint32 width
+
+uint32 height
+
+float32 x
+
+float32 y
 
 string[] class_names
 

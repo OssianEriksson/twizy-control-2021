@@ -64,12 +64,9 @@ def main():
 
     map_msg = MapWithClasses()
     map_msg.header.frame_id = fixed_frame
-    map_msg.info.map_load_time = rospy.Time.now()
-    map_msg.info.resolution = grid_resolution
-    map_msg.info.width = grid_dim
-    map_msg.info.height = grid_dim
-    map_msg.info.origin.orientation = Quaternion(0, 0, 0, 1)
-    map_msg.info.origin.position.z = 0.0
+    map_msg.resolution = grid_resolution
+    map_msg.width = grid_dim
+    map_msg.height = grid_dim
     map_msg.class_names = class_names
 
     bridge = CvBridge()
@@ -175,8 +172,8 @@ def main():
     while not rospy.is_shutdown():
         with lock:
             map_msg.header.stamp = rospy.Time.now()
-            map_msg.info.origin.position.x = xy[0]
-            map_msg.info.origin.position.y = xy[1]
+            map_msg.x = xy[0]
+            map_msg.y = xy[1]
             map_msg.classes = np.argmax(grid[1:]).flatten().tolist()
             map_msg.class_probability = np.max(
                 grid[1:]).flatten().astype(np.uint8).tolist()

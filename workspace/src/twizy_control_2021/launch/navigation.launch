@@ -15,7 +15,13 @@
     </node>
 
     <node pkg="twizy_navigation" type="class_mapper" name="class_mapper" required="true">
+        <remap from="map_with_classes" to="/nav/map_with_classes" />
+        
         <rosparam param="inputs">[{bounding_boxes: /neural/aligned_depth_to_color/bounding_boxes, depth_image: /camera/front/depth/resized/image_rect_raw, camera_info: /camera/front/depth/resized/camera_info}]</rosparam>
         <param name="base_link" value="ground_centered" />
+    </node>
+
+    <node pkg="twizy_navigation" type="class_path_planner" name="class_path_planner" required="true">
+        <remap from="map_with_classes" to="/nav/map_with_classes" />
     </node>
 </launch>
