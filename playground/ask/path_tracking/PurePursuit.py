@@ -6,10 +6,12 @@ matplotlib.use('TkAgg')
 
 # Parameters
 k = 0.1    # look forward gain
-Lfc = 0.5  # [m] look-ahead distance
+Lfc = 1.5  # [m] look-ahead distance (Must be over 1)
 Kp = 2     # speed proportional gain
 dt = 0.1   # [s] time tick
 WB = 1.686  # [m] wheel base of vehicle
+target_speed = 10/3.6  # [m/s] Target speed
+max_time = 250  # [s] max simulation time
 
 show_animation = True
 
@@ -26,6 +28,7 @@ class State:
         self.v = v  # Current velocity
         self.front_x = self.x + ((WB / 2) * math.cos(self.yaw))  # x position of the front axle
         self.front_y = self.y + ((WB / 2) * math.sin(self.yaw))  # y position of the front axle
+        self.target_speed = target_speed
 
     def update_from_gps(self, gps_data, v):
         """
@@ -48,10 +51,19 @@ class State:
         :param delta: Float with the current steering angle (in radians?)
         """
         # Limiting the vehicles steering angle to a maximum of 0.7 radians (= 40 degrees)
+        slow = False
         if delta > 0.7:
+            self.target_speed = target_speed * pow(abs(0.7/delta), 3)
             delta = 0.7
+            slow = True
+        else:
+            self.target_speed = target_speed
         if delta < -0.7:
+            self.target_speed = target_speed * pow(abs(0.7/delta), 3)
             delta = -0.7
+        elif not slow:
+            self.target_speed = target_speed
+
         self.x += self.v * math.cos(self.yaw) * dt
         self.y += self.v * math.sin(self.yaw) * dt
         self.yaw += self.v / WB * math.tan(delta) * dt
@@ -133,7 +145,7 @@ class TargetCourse:
 
         return gen
 
-    def set_path(self, a, b, c, gps_x, gps_y, yaw):
+    def set_path(self, gps_x, gps_y, yaw):
         """
         The method that makes the path, here its made from scratch and resembles a tan^-1 curve. This is simply for
         testing purposes and to implement a real path one would simply just have to import a Path file and assign
@@ -142,10 +154,30 @@ class TargetCourse:
         """
         front_x = gps_x - ((WB / 2) * math.cos(yaw))
         front_y = gps_y - ((WB / 2) * math.sin(yaw))
+        str_coordinates = []
+        with open('XY_path.txt', 'r') as coordinates_file:
+            for coordinates_line in coordinates_file:
+                # Line for line extracting the numerical coordinates from unwanted characters
+                str_coordinates.append(coordinates_line.strip("{}\n").split(","))
+        str_coordinates.pop(0)
+        str_coordinates = str_coordinates[:len(str_coordinates) - 300]
+        a = []
+        b = []
+        for element in str_coordinates:
+            if len(element) == 4:
+                b.append(front_y + float(element[3].strip('"'))/2)
+            else:
+                b.append((front_x + int(element[3].strip('"')) + float(element[4].strip('"')) / 100000)/2)
+            a.append((front_y + int(element[1].strip('"')) + float(element[2].strip('"')) / 100000)/2)
 
-        self.cx = np.arange(front_y, front_x + 20 - 1, 0.1)
-        #  self.cy = [2 for x in self.cx]
-        self.cy = [front_y + a * np.arctan((c/b + 3)) + a*np.arctan((1 / b)*((x-front_x) - 3 * b - c)) for x in self.cx]
+        self.cx = a
+        self.cy = b
+
+        # Old code for tan curve
+        # self.cx = np.arange(front_y, front_x + 20 - 1, 0.1)
+        # self.cy = [2 for x in self.cx]
+        # self.cy = [front_y + a * np.arctan((c/b + 3)) + a*np.arctan((1 / b)*((x-front_x) - 3 * b - c)) for x in self.cx]
+
         return self.cx, self.cy
 
     def search_target_index(self, state):
@@ -155,27 +187,12 @@ class TargetCourse:
         :param state: State object containing the current stare of the vehicle
         :return: Index of the lookahead point and the distance to that point
         """
-
-        # To speed up nearest point search, doing it at only first time.
-        if self.old_nearest_point_index is None:
-            # search nearest point index
-            dx = [state.front_x - icx for icx in self.cx]
-            dy = [state.front_y - icy for icy in self.cy]
-            d = np.hypot(dx, dy)
-            ind = np.argmin(d)
-            self.old_nearest_point_index = ind
-        else:
-            ind = self.old_nearest_point_index
-            distance_this_index = state.calc_distance(self.cx[ind],
-                                                      self.cy[ind])
-            while True:
-                distance_next_index = state.calc_distance(self.cx[ind + 1],
-                                                          self.cy[ind + 1])
-                if distance_this_index < distance_next_index:
-                    break
-                ind = ind + 1 if (ind + 1) < len(self.cx) else ind
-                distance_this_index = distance_next_index
-            self.old_nearest_point_index = ind
+        # search nearest point index
+        dx = [state.front_x - icx for icx in self.cx]
+        dy = [state.front_y - icy for icy in self.cy]
+        d = np.hypot(dx, dy)
+        ind = np.argmin(d)
+        self.old_nearest_point_index = ind
 
         look_forward = Lfc  # Update look ahead distance, (+ k*state.v to make it proportional to speed)
 
@@ -211,12 +228,11 @@ def pure_pursuit_steer_control(state, trajectory, pind):
         ind = len(trajectory.cx) - 1
 
     alpha = math.atan2(ty - state.front_y, tx - state.front_x) - state.yaw
-
     delta = math.atan2(2.0 * WB * math.sin(alpha) / look_forward, 1.0)
     return delta, ind
 
 
-def plot_arrow(x, y, yaw, length=1.0, width=0.5, fc="black", ec="k"):
+def plot_arrow(x, y, yaw, length=1.6, width=0.5, fc="black", ec="k"):
     """
     Plots an arrow from the vehicles middle and pointing in its current yaw
     """
@@ -234,20 +250,13 @@ def main():
     """
     The main function to be run
     """
-    #  Variables that make up the tan^-1 curve
-    a = 3.8960
-    b = 0.6765
-    c = 2
     #  Target course
     path = TargetCourse()
 
-    cx, cy = path.set_path(a, b, c, 6, 5, 3.14)  # Here 6 and 5 decide the paths start location, x = 6, y = 5
-    target_speed = 5 / 3.6  # [m/s]
-
-    max_time = 100.0  # max simulation time
+    cx, cy = path.set_path(6, 5, 3.14)  # Here 6 and 5 decide the paths start location, x = 6, y = 5
 
     # Initial state of the vehicle
-    state = State(x=5, y=5, yaw=0.0, v=0.0)
+    state = State(x=path.cx[0], y=path.cy[0], yaw=0.0, v=0.0)
 
     last_index = len(cx) - 1
     time = 0.0
@@ -260,7 +269,7 @@ def main():
 
         # Calculate control input
 
-        ai = proportional_control(target_speed, state.v)
+        ai = proportional_control(state.target_speed, state.v)
         di, target_index = pure_pursuit_steer_control(
             state, target_course, target_index)
 
