@@ -12,9 +12,9 @@ yolo.load_weights("yolov4-tiny.weights", weights_type="yolo")
 yolo.summary(summary_type="yolo")
 yolo.summary()
 
-#yolo.inference(media_path="download.jpeg")
+##yolo.inference(media_path="download.jpeg")
 
-#yolo.inference(media_path="road.mp4", is_image=False)
+##yolo.inference(media_path="road.mp4", is_image=False)
 
 #To find camera sources available, run ls -ltrh /dev/video*
 
