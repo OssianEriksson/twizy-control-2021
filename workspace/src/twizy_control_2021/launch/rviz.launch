@@ -5,5 +5,7 @@
    
     <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
     
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true">
+        <remap from="/move_base_simple/goal" to="/nav/goal" />
+    </node>
 </launch>

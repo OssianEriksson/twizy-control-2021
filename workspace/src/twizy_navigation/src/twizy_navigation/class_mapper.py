@@ -175,9 +175,10 @@ def main():
             map_msg.x = xy[0]
             map_msg.y = xy[1]
             map_msg.classes = np.argmax(grid[1:]).flatten().tolist()
-            map_msg.class_probability = np.max(
-                grid[1:]).flatten().astype(np.uint8).tolist()
-            map_msg.occupance_probability = grid[0].flatten().astype(np.uint8).tolist()
+            map_msg.class_probability = grid[1:].max(
+                axis=0).flatten().astype(np.uint8).tolist()
+            map_msg.occupance_probability = grid[0].flatten().astype(
+                np.uint8).tolist()
 
             pub_map.publish(map_msg)
 
